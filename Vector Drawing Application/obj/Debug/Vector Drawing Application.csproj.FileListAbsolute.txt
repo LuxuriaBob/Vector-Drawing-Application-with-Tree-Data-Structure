@@ -7,3 +7,4 @@ C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Applicat
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector Drawing Application.csproj.CoreCompileInputs.cache
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector Drawing Application.exe
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector Drawing Application.pdb
+C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector_Drawing_Application.Vector_Drawing_Application.resources

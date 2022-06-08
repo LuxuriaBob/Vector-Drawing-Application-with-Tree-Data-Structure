@@ -18,13 +18,4 @@
     <Height>108</Height>
     <Childs />
   </GraphRect>
-  <GraphRect>
-    <StartPoint>
-      <X>218</X>
-      <Y>345</Y>
-    </StartPoint>
-    <Width>180</Width>
-    <Height>54</Height>
-    <Childs />
-  </GraphRect>
 </ArrayOfGraphRect>

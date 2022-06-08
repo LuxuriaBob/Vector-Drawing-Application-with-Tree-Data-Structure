@@ -22,9 +22,6 @@ namespace Vector_Drawing_Application
         bool draw = false;
         bool select = false;
 
-        Point startlocation;    //rectangles' top left coordinates
-        Point endlocation;      //rectangles' bottom right coordinates
-
         public Vector_Drawing_Application()
         {
             this.DoubleBuffered = true; //reduces flicker
@@ -45,18 +42,14 @@ namespace Vector_Drawing_Application
             KeyPreview = true;  //necessary for keyboard input
         }
 
-        public List<GraphRect> Rects = new List<GraphRect>();   // main rects list
-        public List<GraphRect> tempRects = new List<GraphRect>();   //temperary rects list for undo-draw method
-
-        public List<int> ChildCounts = new List<int>();
-
         GraphRect SelectedRect = null;  //nothing is selected for default
-        GraphRect LastSelectedRect = null;
         MoveInfo Moving = null; //move info for selected rect
+
         MoveInfo secondMoving = null;   //stores moving for undo-move method
         Point secondE;  //stores coordinates for undo-move
 
-        string lastButton = null;   //stores last pressed button
+        Point startlocation;    //rectangles' top left coordinates
+        Point endlocation;      //rectangles' bottom right coordinates
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -79,7 +72,6 @@ namespace Vector_Drawing_Application
                         HeightRect = SelectedRect.Height,
                         StartMoveMousePoint = e.Location
                     };
-                    Console.WriteLine("move tuşuna basıldı");
                     secondMoving = Moving;      //stores Moving for undo method
                     secondE = e.Location;   //stores mouse coordinates for undo method
                 }
@@ -111,16 +103,6 @@ namespace Vector_Drawing_Application
                 RefreshRectSelection(e.Location);
             }
         }
-
-        private void DrawShape(Point startlocation, Point endlocation)
-        {
-            int startPointX = endlocation.X < startlocation.X ? endlocation.X : startlocation.X;    //determines x coordinate of top left corner by determining which is smaller
-            int startPointY = endlocation.Y < startlocation.Y ? endlocation.Y : startlocation.Y;    //determines y coordinate of top left corner by determining which is smaller
-            GraphRect rectangle = new GraphRect(startPointX, startPointY,
-    Math.Abs(startlocation.X - endlocation.X), Math.Abs(startlocation.Y - endlocation.Y), SelectedRect); //width and height is difference of coordinates
-
-            Rects.Add(rectangle);   //adds to Rects list
-        }
     
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -128,7 +110,7 @@ namespace Vector_Drawing_Application
             {
                 endlocation = e.Location;   //stores mouse location for first coordinates
                 draw = false;
-                DrawShape(startlocation, endlocation);
+                CreateRectangle(startlocation, endlocation);
                 Refresh();
             }
             else if (move)
@@ -139,8 +121,20 @@ namespace Vector_Drawing_Application
                     Moving = null;
                 }
                 RefreshRectSelection(e.Location);
-
             }
+        }
+
+        public List<GraphRect> Rects = new List<GraphRect>();   // main rects list
+
+        private void CreateRectangle(Point startlocation, Point endlocation)
+        {
+            int startPointX = endlocation.X < startlocation.X ? endlocation.X : startlocation.X;    //determines x coordinate of top left corner by determining which is smaller
+            int startPointY = endlocation.Y < startlocation.Y ? endlocation.Y : startlocation.Y;    //determines y coordinate of top left corner by determining which is smaller
+            int rectWidth = Math.Abs(startlocation.X - endlocation.X);  //width and height is difference of coordinates
+            int rectHeight = Math.Abs(startlocation.Y - endlocation.Y);
+
+            GraphRect rectangle = new GraphRect(startPointX, startPointY, rectWidth, rectHeight, SelectedRect, colorPicker.Color);
+            Rects.Add(rectangle);   //adds to Rects list
         }
 
         static GraphRect FindRectByPoint(List<GraphRect> rects, Point p)
@@ -162,6 +156,8 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
+        GraphRect LastSelectedRect = null;
 
         private void RefreshRectSelection(Point point)
         {
@@ -195,11 +191,25 @@ namespace Vector_Drawing_Application
 
             foreach (var rect in Rects)
             {
-                var color = rect == SelectedRect ? Color.Blue : Color.Black;    //SelectedRect is blue, others are black
+                var color = rect == SelectedRect ? Color.Blue : rect.getColour(rect);    //SelectedRect is blue, others are colors selected from trackbar
                 var pen = new Pen(color, 10);   //Black pen, size 10
-                e.Graphics.DrawRectangle(pen, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //draws rectangle in Rects list
+                if(!FillColorCheckBox.Checked)
+                {
+                    e.Graphics.DrawRectangle(pen, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //draws rectangle in Rects list
+                } else {
+                    e.Graphics.FillRectangle(pen.Brush, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //draws rectangle in Rects list
+                }
             }
         }
+
+        ColorDialog colorPicker = new ColorDialog();
+
+        private void ColorPickerButton_Click(object sender, EventArgs e)
+        {
+            colorPicker.ShowDialog();
+        }
+
+        string lastButton = null;   //stores last pressed button
 
         private void DrawButton_Click(object sender, EventArgs e)
         {
@@ -207,6 +217,7 @@ namespace Vector_Drawing_Application
             select = false;
             move = false;
             draw = true;    //makes draw true
+            
         }
 
         private void SelectButton_Click(object sender, EventArgs e)
@@ -224,6 +235,8 @@ namespace Vector_Drawing_Application
             select = false;
             move = true;    //makes move true
         }
+
+        public List<GraphRect> tempRects = new List<GraphRect>();   //temperary rects list for undo-draw method
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
@@ -316,10 +329,16 @@ namespace Vector_Drawing_Application
         }
 
         XmlSerializer serialiser = new XmlSerializer(typeof(List<GraphRect>));
-        string path = @"C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\bin\Debug\output1.xml";
+
+        string defaultpath = @"C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\bin\Debug\output0.xml";
+        int count = 0;
+        string path;
 
         private void WriteText()
         {
+            path = defaultpath.Remove(defaultpath.Length - 5);
+            path += count.ToString();
+            path += ".xml";
             XmlSerializer writer = new XmlSerializer(typeof(List<GraphRect>));
             FileStream file = File.Create(path);
             writer.Serialize(file, Rects);
@@ -342,16 +361,21 @@ namespace Vector_Drawing_Application
             draw = false;
             select = false;
             move = false;
-
+            
             Console.WriteLine("savebutton click");
             WriteText();
             Console.WriteLine(Rects.Count);
         }
 
+        private void SaveAsButton_Click(object sender, EventArgs e)
+        {
+            count += 1;
+            WriteText();
+        }
+
         private void LoadButton_Click(object sender, EventArgs e)
         {
             Console.WriteLine("loadbutton click");
-            Console.WriteLine(Rects.Count);
             ReadText();
             Console.WriteLine(Rects.Count);
         }

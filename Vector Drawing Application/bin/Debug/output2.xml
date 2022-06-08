@@ -27,4 +27,13 @@
     <Height>54</Height>
     <Childs />
   </GraphRect>
+  <GraphRect>
+    <StartPoint>
+      <X>73</X>
+      <Y>326</Y>
+    </StartPoint>
+    <Width>97</Width>
+    <Height>89</Height>
+    <Childs />
+  </GraphRect>
 </ArrayOfGraphRect>

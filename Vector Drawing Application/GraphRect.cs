@@ -17,15 +17,17 @@ namespace Vector_Drawing_Application
         public PointF StartPoint;
         public float Width;
         public float Height;
+        Color colour;
         GraphRect Parent;
 
         public List<GraphRect> Childs = new List<GraphRect>();
 
-        public GraphRect(float X1, float Y1, float Width, float Height, GraphRect parent)
+        public GraphRect(float X1, float Y1, float Width, float Height, GraphRect parent, Color Colour)
         {
             this.StartPoint = new PointF(X1, Y1);
             this.Width = Width;
             this.Height = Height;
+            this.colour = Colour;
             this.Parent = parent;
             if (this.Parent != null)
                 Parent.Childs.Add(this);
@@ -59,6 +61,11 @@ namespace Vector_Drawing_Application
             }
             else
                 return;
+        }
+
+        public Color getColour(GraphRect rect)
+        {
+            return rect.colour;
         }
 
         public void deleteRects(List<GraphRect> Rect)
