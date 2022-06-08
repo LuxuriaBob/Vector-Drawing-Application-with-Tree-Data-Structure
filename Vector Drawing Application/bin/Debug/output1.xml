@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<ArrayOfGraphRect xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GraphRect>
+    <StartPoint>
+      <X>144</X>
+      <Y>136</Y>
+    </StartPoint>
+    <Width>151</Width>
+    <Height>128</Height>
+    <Childs>
+      <GraphRect>
+        <StartPoint>
+          <X>248</X>
+          <Y>224</Y>
+        </StartPoint>
+        <Width>218</Width>
+        <Height>162</Height>
+        <Childs />
+      </GraphRect>
+    </Childs>
+  </GraphRect>
+  <GraphRect>
+    <StartPoint>
+      <X>248</X>
+      <Y>224</Y>
+    </StartPoint>
+    <Width>218</Width>
+    <Height>162</Height>
+    <Childs />
+  </GraphRect>
+</ArrayOfGraphRect>
