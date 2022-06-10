@@ -7,7 +7,6 @@ using System.Drawing;
 
 namespace Vector_Drawing_Application
 {
-    [Serializable]
     public class GraphRect
     {
         public GraphRect()
@@ -17,23 +16,29 @@ namespace Vector_Drawing_Application
         public PointF StartPoint;
         public float Width;
         public float Height;
-        Color colour;
+        public Color colour;
+        public int Fill;
+        public int ParentId;
+        public int Id;
         GraphRect Parent;
 
         public List<GraphRect> Childs = new List<GraphRect>();
 
-        public GraphRect(float X1, float Y1, float Width, float Height, GraphRect parent, Color Colour)
+        public GraphRect(GraphRect parent, float X1, float Y1, float Width, float Height, /*Color Colour, int Fill,*/int id)
         {
             this.StartPoint = new PointF(X1, Y1);
             this.Width = Width;
             this.Height = Height;
-            this.colour = Colour;
+        //    this.colour = Colour;
+         //   this.Fill = Fill;
+         //   this.ParentId = Id;
+            this.Id = id;
             this.Parent = parent;
             if (this.Parent != null)
                 Parent.Childs.Add(this);
         }
 
-        public void setX(float x)
+        public void SetX(float x)
         {
             float temp = StartPoint.X;
             StartPoint.X = x;
@@ -41,14 +46,14 @@ namespace Vector_Drawing_Application
             {
                 foreach (GraphRect child in Childs)
                 {
-                    child.setX(child.StartPoint.X - (temp - x));
+                    child.SetX(child.StartPoint.X - (temp - x));
                 }
             }
             else
                 return;
         }
 
-        public void setY(float y)
+        public void SetY(float y)
         {
             float temp = StartPoint.Y;
             StartPoint.Y = y;
@@ -56,26 +61,46 @@ namespace Vector_Drawing_Application
             {
                 foreach (GraphRect child in Childs)
                 {
-                    child.setY(child.StartPoint.Y - (temp - y));
+                    child.SetY(child.StartPoint.Y - (temp - y));
                 }
             }
             else
                 return;
         }
 
-        public Color getColour(GraphRect rect)
+        public void SetID(int id)
+        {
+            Id = id;
+        }
+
+        public Color GetColour(GraphRect rect)
         {
             return rect.colour;
         }
 
-        public void deleteRects(List<GraphRect> Rect)
+        public int GetFill(GraphRect rect)
+        {
+            return rect.Fill;
+        }
+
+        public int GetId()
+        {
+            return Id;
+        }
+
+        public List<GraphRect> getChilds()
+        {
+            return Childs;
+        }
+
+        public void DeleteRects(List<GraphRect> Rect)
         {
             if (Childs.Count() > 0)
             {
                 foreach (GraphRect child in Childs)
                 {
                     Rect.Remove(child);
-                    child.deleteRects(Rect);
+                    child.DeleteRects(Rect);
                 }
             }
             else

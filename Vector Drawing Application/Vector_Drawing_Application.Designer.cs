@@ -39,6 +39,7 @@
             this.ColorPickerButton = new System.Windows.Forms.Button();
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
             this.SaveAsButton = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // MoveButton
@@ -134,7 +135,7 @@
             // FillColorCheckBox
             // 
             this.FillColorCheckBox.AutoSize = true;
-            this.FillColorCheckBox.Location = new System.Drawing.Point(545, 250);
+            this.FillColorCheckBox.Location = new System.Drawing.Point(545, 240);
             this.FillColorCheckBox.Name = "FillColorCheckBox";
             this.FillColorCheckBox.Size = new System.Drawing.Size(65, 17);
             this.FillColorCheckBox.TabIndex = 4;
@@ -192,5 +193,6 @@
     private System.Windows.Forms.Button ColorPickerButton;
     private System.Windows.Forms.CheckBox FillColorCheckBox;
         private System.Windows.Forms.Button SaveAsButton;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
