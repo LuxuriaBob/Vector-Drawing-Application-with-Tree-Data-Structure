@@ -8,11 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Xml.Serialization;
 using System.IO;
-using System.Xml;
-using System.Xml.Linq;
-using System.Runtime.Serialization;
 
 namespace Vector_Drawing_Application
 {
@@ -31,12 +27,6 @@ namespace Vector_Drawing_Application
             this.MouseDown += new MouseEventHandler(Form1_MouseDown);
             this.MouseUp += new MouseEventHandler(Form1_MouseUp);
 
-            /*  example Rect object
-            this.Rects = new List<GraphRect>()
-            {
-            new GraphRect (100, 100, 100, 300, null)
-            };
-            */
             InitializeComponent();
             KeyPreview = true;  //necessary for keyboard input
         }
@@ -107,7 +97,6 @@ namespace Vector_Drawing_Application
                 endlocation = e.Location;   //stores mouse location for first coordinates
                 draw = false;
                 CreateRectangle(startlocation, endlocation);
-                Console.WriteLine(Rects.Count);
                 Refresh();
             }
             else if (move)
@@ -139,30 +128,34 @@ namespace Vector_Drawing_Application
 
             if (SelectedRect == null)
             {
-                //int temp = -1;
-
                 if (FillColorCheckBox.Checked)
                 {
-                    //int fill = 1;
-                    GraphRect rectangle = new GraphRect(SelectedRect, startPointX, startPointY, rectWidth, rectHeight, /*colorPicker.Color, fill,*/ Rects.Count + 1);
+                    int fill = 1;
+                    GraphRect rectangle = new GraphRect(SelectedRect, Rects.Count + 1, startPointX, startPointY, rectWidth, rectHeight, 
+                        fill, trackBar1.Value, colorPicker.Color);
                     Rects.Add(rectangle);   //adds to Rects list
                 }
                 else
                 {
-                    //int fill = 0;
-                    GraphRect rectangle = new GraphRect(SelectedRect, startPointX, startPointY, rectWidth, rectHeight, /*colorPicker.Color, fill,*/ Rects.Count + 1);
+                    int fill = 0;
+                    GraphRect rectangle = new GraphRect(SelectedRect, Rects.Count + 1, startPointX, startPointY, rectWidth, rectHeight, 
+                        fill, trackBar1.Value, colorPicker.Color);
                     Rects.Add(rectangle);   //adds to Rects list
                 }
             }
                 
             else if (FillColorCheckBox.Checked)
             {
-                //int fill = 1;
-                GraphRect rectangle = new GraphRect(SelectedRect, startPointX, startPointY, rectWidth, rectHeight, /*colorPicker.Color, fill,*/ Rects.Count + 1);
+                int fill = 1;
+                GraphRect rectangle = new GraphRect(SelectedRect, Rects.Count + 1, startPointX, startPointY, rectWidth, rectHeight, 
+                    fill, trackBar1.Value, colorPicker.Color);
                 Rects.Add(rectangle);   //adds to Rects list
-            } else {
-                //int fill = 0;
-                GraphRect rectangle = new GraphRect(SelectedRect, startPointX, startPointY, rectWidth, rectHeight, /*colorPicker.Color, fill,*/ Rects.Count + 1);
+            }
+            else
+            {
+                int fill = 0;
+                GraphRect rectangle = new GraphRect(SelectedRect, Rects.Count + 1, startPointX, startPointY, rectWidth, rectHeight, 
+                    fill, trackBar1.Value, colorPicker.Color);
                 Rects.Add(rectangle);   //adds to Rects list
             }
         }
@@ -174,10 +167,11 @@ namespace Vector_Drawing_Application
 
             foreach (var rect in Rects)
             {
-                var color = rect == SelectedRect ? Color.Blue : Color.Black;    //rect.GetColour(rect)SelectedRect is blue, others are colors selected from trackbar
-                var pen = new Pen(color, 10);   //selected colour, size 10
+                var color = rect == SelectedRect ? Color.Blue : rect.GetColour();    //rect.GetColour(rect)SelectedRect is blue, others are colors selected from trackbar
+                var size = trackBar1.Value;
+                var pen = new Pen(color, rect.size);   //selected colour, rectangle's size  rect.colour
 
-                if(rect.GetFill(rect) == 0)
+                if(rect.GetFill() == 0)
                 {
                     e.Graphics.DrawRectangle(pen, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //draws rectangle in Rects list
                 } else {
@@ -286,6 +280,8 @@ namespace Vector_Drawing_Application
             Refresh();
         }
 
+        Graphics K = null;
+
         private void UndoButton_Click(object sender, EventArgs e)
         {
             MakeAllFalse(ref draw, ref select, ref move);
@@ -299,9 +295,9 @@ namespace Vector_Drawing_Application
                 case "select":
                     if (LastSelectedRect != null)
                     {
-                        var pen = new Pen(Color.Black, 11);
-                        Graphics t = this.CreateGraphics();
-                        t.DrawRectangle(pen, LastSelectedRect.StartPoint.X, LastSelectedRect.StartPoint.Y, LastSelectedRect.Width, LastSelectedRect.Height);
+                        var pen = new Pen(LastSelectedRect.colour, LastSelectedRect.size);
+                        K = this.CreateGraphics();
+                        K.DrawRectangle(pen, LastSelectedRect.StartPoint.X, LastSelectedRect.StartPoint.Y, LastSelectedRect.Width, LastSelectedRect.Height);
                     }
                     break;
                 case "move":
@@ -357,37 +353,34 @@ namespace Vector_Drawing_Application
             z = true;
         }
 
-        XmlSerializer serialiser = new XmlSerializer(typeof(List<GraphRect>));
-
-        string defaultpath = @"C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\bin\Debug\output0.xml";
-        int count = 0;
-        string path;
-
-        private void WriteText()
+        private void SaveMem(StreamWriter writer, GraphRect rect)
         {
-            path = defaultpath.Remove(defaultpath.Length - 5);
-            path += count.ToString();
-            path += ".xml";
-            XmlSerializer writer = new XmlSerializer(typeof(List<GraphRect>));
-            FileStream file = File.Create(path);
-            writer.Serialize(file, Rects);
-            file.Close();
+            writer.WriteLine(rect.ToString());
+            if (rect.getChilds().Count() > 0)
+            {
+                foreach (GraphRect child in rect.getChilds())
+                    SaveMem(writer, child);
+            }
         }
 
-        private void ReadText()
-        {
-            XmlSerializer reader = new XmlSerializer(typeof(List<GraphRect>));
-            StreamReader file = new StreamReader(path);
-            List<GraphRect> deserializedList = (List<GraphRect>)reader.Deserialize(file);
-            Rects = deserializedList.ToList();
-            file.Close();
-            Refresh();
-            Console.WriteLine(deserializedList.Capacity);
-        }
+        public static string partialpath;
+        public static string fileName;
 
-        public static string newpath = @"C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\bin\Debug\";
-        public static string fileName = "output0.txt";
-        public string fullPath = newpath + fileName;
+        private void Serialization()
+        {
+            string fullPath = partialpath + fileName;
+            using (StreamWriter writer = new StreamWriter(fullPath))
+            {
+                for (int i = 0; i < Rects.Count; i++)
+                {
+                    string line = Rects[i].GetParentId()  + " " + Rects[i].Id + " " + Rects[i].StartPoint.X + " " 
+                        + Rects[i].StartPoint.Y + " " + Rects[i].Width + " " + Rects[i].Height + " " + Rects[i].Fill + " " 
+                        + Rects[i].size + " " + Rects[i].colour.ToArgb();
+                    writer.Write(line + "\n");
+                }
+                writer.Close();
+            }
+        }
 
         private GraphRect GetParent(int p)
         {
@@ -399,33 +392,9 @@ namespace Vector_Drawing_Application
             return null;
         }
 
-        private void SaveMem(StreamWriter writer, GraphRect rect)
-        {
-            writer.WriteLine(rect.ToString());
-            if (rect.getChilds().Count() > 0)
-            {
-                foreach (GraphRect child in rect.getChilds())
-                    SaveMem(writer, child);
-            }
-        }
-        
-        private void Serialization()
-        {
-            using (StreamWriter writer = new StreamWriter(fullPath))
-            {
-                for (int i = 0; i < Rects.Count; i++)
-                {
-                    string line = Rects[i].ParentId  + " " + Rects[i].Id + " " + Rects[i].StartPoint.X + " " + Rects[i].StartPoint.Y + " " + Rects[i].Width + " " + Rects[i].Height;
-                    writer.Write(line + "\n");
-                }
-                writer.Close();
-            }
-        }
-
-        Graphics K = null;
-
         private void Deserialization()
         {
+            string fullPath = partialpath + fileName;
             string[] lines = File.ReadAllLines(fullPath);
 
             K = this.CreateGraphics();
@@ -442,10 +411,12 @@ namespace Vector_Drawing_Application
             {
                 string[] a = lines[i].Split(' ');
                 if (int.Parse(a[0]) == 0)
-                    rect = new GraphRect(null, float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]), float.Parse(a[5]), int.Parse(a[1]));
+                    rect = new GraphRect(null, int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]), float.Parse(a[5]), 
+                        int.Parse(a[6]), int.Parse(a[7]), Color.FromArgb(int.Parse(a[8])));
                 else
                 {
-                    rect = new GraphRect(GetParent(int.Parse(a[0])), int.Parse(a[2]), int.Parse(a[3]), int.Parse(a[4]), int.Parse(a[5]), int.Parse(a[1]));
+                    rect = new GraphRect(GetParent(int.Parse(a[0])), int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]), 
+                        float.Parse(a[5]), int.Parse(a[6]), int.Parse(a[7]), Color.FromArgb(int.Parse(a[8])));
                 }
                 Rects.Add(rect);
             }
@@ -455,25 +426,25 @@ namespace Vector_Drawing_Application
         private void SaveButton_Click(object sender, EventArgs e)
         {
             MakeAllFalse(ref draw, ref select, ref move);
-
-            Console.WriteLine("savebutton click");
-            //WriteText();
+            fileName = $"\\{textBox1.Text}.txt";
+            Console.WriteLine(partialpath + fileName);
             Serialization();
-            Console.WriteLine(Rects.Count);
         }
 
-        private void SaveAsButton_Click(object sender, EventArgs e)
+        FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+        private void ChoosePathButton_Click(object sender, EventArgs e)
         {
-            count += 1;
-            WriteText();
+            MakeAllFalse(ref draw, ref select, ref move);
+            fbd.ShowDialog();
+            partialpath = fbd.SelectedPath;
+            Console.WriteLine(partialpath);
+            
         }
 
         private void LoadButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("loadbutton click");
-            //ReadText();
             Deserialization();
-            Console.WriteLine(Rects.Count);
         }
     }
 }

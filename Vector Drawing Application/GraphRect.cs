@@ -20,18 +20,19 @@ namespace Vector_Drawing_Application
         public int Fill;
         public int ParentId;
         public int Id;
+        public int size;
         GraphRect Parent;
 
         public List<GraphRect> Childs = new List<GraphRect>();
 
-        public GraphRect(GraphRect parent, float X1, float Y1, float Width, float Height, /*Color Colour, int Fill,*/int id)
+        public GraphRect(GraphRect parent, int id, float X1, float Y1, float Width, float Height, int Fill, int Size, Color Colour)
         {
             this.StartPoint = new PointF(X1, Y1);
             this.Width = Width;
             this.Height = Height;
-        //    this.colour = Colour;
-         //   this.Fill = Fill;
-         //   this.ParentId = Id;
+            this.colour = Colour;
+            this.Fill = Fill;
+            this.size = Size;
             this.Id = id;
             this.Parent = parent;
             if (this.Parent != null)
@@ -73,14 +74,9 @@ namespace Vector_Drawing_Application
             Id = id;
         }
 
-        public Color GetColour(GraphRect rect)
+        public int GetFill()
         {
-            return rect.colour;
-        }
-
-        public int GetFill(GraphRect rect)
-        {
-            return rect.Fill;
+            return Fill;
         }
 
         public int GetId()
@@ -88,9 +84,23 @@ namespace Vector_Drawing_Application
             return Id;
         }
 
+        public int GetParentId()
+        {
+            if(Parent == null)
+            {
+                return 0;
+            }
+            return Parent.Id;
+        }
+
         public List<GraphRect> getChilds()
         {
             return Childs;
+        }
+
+        public Color GetColour()
+        {
+            return colour;
         }
 
         public void DeleteRects(List<GraphRect> Rect)

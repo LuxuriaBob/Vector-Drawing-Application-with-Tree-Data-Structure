@@ -28,6 +28,8 @@
     /// </summary>
     private void InitializeComponent()
     {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Vector_Drawing_Application));
             this.MoveButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
             this.DrawButton = new System.Windows.Forms.Button();
@@ -37,146 +39,190 @@
             this.SaveButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
             this.ColorPickerButton = new System.Windows.Forms.Button();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
-            this.SaveAsButton = new System.Windows.Forms.Button();
+            this.ChoosePathButton = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // MoveButton
             // 
-            this.MoveButton.Location = new System.Drawing.Point(181, -1);
+            this.MoveButton.Image = ((System.Drawing.Image)(resources.GetObject("MoveButton.Image")));
+            this.MoveButton.Location = new System.Drawing.Point(173, 0);
             this.MoveButton.Name = "MoveButton";
-            this.MoveButton.Size = new System.Drawing.Size(92, 45);
+            this.MoveButton.Size = new System.Drawing.Size(45, 45);
             this.MoveButton.TabIndex = 0;
-            this.MoveButton.Text = "Move";
             this.MoveButton.UseVisualStyleBackColor = true;
             this.MoveButton.Click += new System.EventHandler(this.MoveButton_Click);
             // 
             // ClearButton
             // 
-            this.ClearButton.Location = new System.Drawing.Point(363, -1);
+            this.ClearButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearButton.Image")));
+            this.ClearButton.Location = new System.Drawing.Point(261, 0);
             this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(92, 45);
+            this.ClearButton.Size = new System.Drawing.Size(45, 45);
             this.ClearButton.TabIndex = 1;
-            this.ClearButton.Text = "Clear";
             this.ClearButton.UseVisualStyleBackColor = true;
             this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // DrawButton
             // 
-            this.DrawButton.Location = new System.Drawing.Point(-1, -1);
+            this.DrawButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.DrawButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawButton.Image")));
+            this.DrawButton.Location = new System.Drawing.Point(0, 0);
             this.DrawButton.Name = "DrawButton";
-            this.DrawButton.Size = new System.Drawing.Size(92, 45);
+            this.DrawButton.Size = new System.Drawing.Size(45, 45);
             this.DrawButton.TabIndex = 2;
-            this.DrawButton.Text = "Draw";
             this.DrawButton.UseVisualStyleBackColor = true;
             this.DrawButton.Click += new System.EventHandler(this.DrawButton_Click);
             // 
             // SelectButton
             // 
-            this.SelectButton.Location = new System.Drawing.Point(90, -1);
+            this.SelectButton.Image = ((System.Drawing.Image)(resources.GetObject("SelectButton.Image")));
+            this.SelectButton.Location = new System.Drawing.Point(129, 0);
             this.SelectButton.Name = "SelectButton";
-            this.SelectButton.Size = new System.Drawing.Size(92, 45);
+            this.SelectButton.Size = new System.Drawing.Size(45, 45);
             this.SelectButton.TabIndex = 3;
-            this.SelectButton.Text = "Select";
             this.SelectButton.UseVisualStyleBackColor = true;
             this.SelectButton.Click += new System.EventHandler(this.SelectButton_Click);
             // 
             // DeleteButton
             // 
-            this.DeleteButton.Location = new System.Drawing.Point(272, -1);
+            this.DeleteButton.Image = ((System.Drawing.Image)(resources.GetObject("DeleteButton.Image")));
+            this.DeleteButton.Location = new System.Drawing.Point(217, 0);
             this.DeleteButton.Name = "DeleteButton";
-            this.DeleteButton.Size = new System.Drawing.Size(92, 45);
+            this.DeleteButton.Size = new System.Drawing.Size(45, 45);
             this.DeleteButton.TabIndex = 4;
-            this.DeleteButton.Text = "Delete";
             this.DeleteButton.UseVisualStyleBackColor = true;
             this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
             // UndoButton
             // 
-            this.UndoButton.Location = new System.Drawing.Point(454, -1);
+            this.UndoButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoButton.Image")));
+            this.UndoButton.Location = new System.Drawing.Point(305, 0);
             this.UndoButton.Name = "UndoButton";
-            this.UndoButton.Size = new System.Drawing.Size(92, 45);
+            this.UndoButton.Size = new System.Drawing.Size(45, 45);
             this.UndoButton.TabIndex = 5;
-            this.UndoButton.Text = "Undo";
             this.UndoButton.UseVisualStyleBackColor = true;
             this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(545, 88);
+            this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
+            this.SaveButton.Location = new System.Drawing.Point(474, 0);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(92, 45);
+            this.SaveButton.Size = new System.Drawing.Size(45, 45);
             this.SaveButton.TabIndex = 6;
-            this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // LoadButton
             // 
-            this.LoadButton.Location = new System.Drawing.Point(545, 176);
+            this.LoadButton.Image = ((System.Drawing.Image)(resources.GetObject("LoadButton.Image")));
+            this.LoadButton.Location = new System.Drawing.Point(609, 0);
             this.LoadButton.Name = "LoadButton";
-            this.LoadButton.Size = new System.Drawing.Size(92, 45);
+            this.LoadButton.Size = new System.Drawing.Size(45, 45);
             this.LoadButton.TabIndex = 7;
-            this.LoadButton.Text = "Load";
             this.LoadButton.UseVisualStyleBackColor = true;
             this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
             // 
             // ColorPickerButton
             // 
-            this.ColorPickerButton.Location = new System.Drawing.Point(545, -1);
+            this.ColorPickerButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorPickerButton.Image")));
+            this.ColorPickerButton.Location = new System.Drawing.Point(349, 0);
             this.ColorPickerButton.Name = "ColorPickerButton";
-            this.ColorPickerButton.Size = new System.Drawing.Size(92, 90);
+            this.ColorPickerButton.Size = new System.Drawing.Size(45, 45);
             this.ColorPickerButton.TabIndex = 1;
-            this.ColorPickerButton.Text = "Color Picker";
             this.ColorPickerButton.UseVisualStyleBackColor = true;
             this.ColorPickerButton.Click += new System.EventHandler(this.ColorPickerButton_Click);
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(43, 16);
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(81, 45);
+            this.trackBar1.TabIndex = 3;
+            this.trackBar1.Value = 1;
             // 
             // FillColorCheckBox
             // 
             this.FillColorCheckBox.AutoSize = true;
-            this.FillColorCheckBox.Location = new System.Drawing.Point(545, 240);
+            this.FillColorCheckBox.Location = new System.Drawing.Point(50, 2);
             this.FillColorCheckBox.Name = "FillColorCheckBox";
             this.FillColorCheckBox.Size = new System.Drawing.Size(65, 17);
             this.FillColorCheckBox.TabIndex = 4;
             this.FillColorCheckBox.Text = "Fill Color";
             this.FillColorCheckBox.UseVisualStyleBackColor = true;
             // 
-            // SaveAsButton
+            // ChoosePathButton
             // 
-            this.SaveAsButton.Location = new System.Drawing.Point(545, 132);
-            this.SaveAsButton.Name = "SaveAsButton";
-            this.SaveAsButton.Size = new System.Drawing.Size(92, 45);
-            this.SaveAsButton.TabIndex = 8;
-            this.SaveAsButton.Text = "Save As";
-            this.SaveAsButton.UseVisualStyleBackColor = true;
-            this.SaveAsButton.Click += new System.EventHandler(this.SaveAsButton_Click);
+            this.ChoosePathButton.Location = new System.Drawing.Point(518, 0);
+            this.ChoosePathButton.Name = "ChoosePathButton";
+            this.ChoosePathButton.Size = new System.Drawing.Size(92, 45);
+            this.ChoosePathButton.TabIndex = 8;
+            this.ChoosePathButton.Text = "Choose Path";
+            this.ChoosePathButton.UseVisualStyleBackColor = true;
+            this.ChoosePathButton.Click += new System.EventHandler(this.ChoosePathButton_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.LoadButton);
+            this.panel1.Controls.Add(this.DrawButton);
+            this.panel1.Controls.Add(this.ChoosePathButton);
+            this.panel1.Controls.Add(this.trackBar1);
+            this.panel1.Controls.Add(this.SelectButton);
+            this.panel1.Controls.Add(this.FillColorCheckBox);
+            this.panel1.Controls.Add(this.MoveButton);
+            this.panel1.Controls.Add(this.SaveButton);
+            this.panel1.Controls.Add(this.DeleteButton);
+            this.panel1.Controls.Add(this.ColorPickerButton);
+            this.panel1.Controls.Add(this.UndoButton);
+            this.panel1.Controls.Add(this.ClearButton);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(851, 46);
+            this.panel1.TabIndex = 10;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(394, 12);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(79, 20);
+            this.textBox1.TabIndex = 12;
             // 
             // Vector_Drawing_Application
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 450);
-            this.Controls.Add(this.SaveAsButton);
-            this.Controls.Add(this.FillColorCheckBox);
-            this.Controls.Add(this.LoadButton);
-            this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.UndoButton);
-            this.Controls.Add(this.DeleteButton);
-            this.Controls.Add(this.SelectButton);
-            this.Controls.Add(this.DrawButton);
-            this.Controls.Add(this.ClearButton);
-            this.Controls.Add(this.MoveButton);
-            this.Controls.Add(this.ColorPickerButton);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(851, 522);
+            this.Controls.Add(this.panel1);
             this.Name = "Vector_Drawing_Application";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "Form1";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
     }
 
@@ -191,8 +237,13 @@
     private System.Windows.Forms.Button SaveButton;
     private System.Windows.Forms.Button LoadButton;
     private System.Windows.Forms.Button ColorPickerButton;
+    private System.Windows.Forms.TrackBar trackBar1;
     private System.Windows.Forms.CheckBox FillColorCheckBox;
-        private System.Windows.Forms.Button SaveAsButton;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+    private System.Windows.Forms.Button ChoosePathButton;
+    private System.ComponentModel.BackgroundWorker backgroundWorker1;
+    private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
