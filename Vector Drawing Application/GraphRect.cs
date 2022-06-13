@@ -69,16 +69,6 @@ namespace Vector_Drawing_Application
                 return;
         }
 
-        public void SetID(int id)
-        {
-            Id = id;
-        }
-
-        public int GetFill()
-        {
-            return Fill;
-        }
-
         public int GetId()
         {
             return Id;
@@ -91,11 +81,6 @@ namespace Vector_Drawing_Application
                 return 0;
             }
             return Parent.Id;
-        }
-
-        public List<GraphRect> getChilds()
-        {
-            return Childs;
         }
 
         public Color GetColour()

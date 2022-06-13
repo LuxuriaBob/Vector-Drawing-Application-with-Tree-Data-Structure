@@ -28,7 +28,6 @@
     /// </summary>
     private void InitializeComponent()
     {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Vector_Drawing_Application));
             this.MoveButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
@@ -41,18 +40,15 @@
             this.ColorPickerButton = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
-            this.ChoosePathButton = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // MoveButton
             // 
+            this.MoveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MoveButton.BackgroundImage")));
             this.MoveButton.Image = ((System.Drawing.Image)(resources.GetObject("MoveButton.Image")));
             this.MoveButton.Location = new System.Drawing.Point(173, 0);
             this.MoveButton.Name = "MoveButton";
@@ -63,27 +59,31 @@
             // 
             // ClearButton
             // 
+            this.ClearButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ClearButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ClearButton.BackgroundImage")));
             this.ClearButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearButton.Image")));
             this.ClearButton.Location = new System.Drawing.Point(261, 0);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(45, 45);
             this.ClearButton.TabIndex = 1;
-            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.UseVisualStyleBackColor = false;
             this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // DrawButton
             // 
-            this.DrawButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.DrawButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.DrawButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DrawButton.BackgroundImage")));
             this.DrawButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawButton.Image")));
             this.DrawButton.Location = new System.Drawing.Point(0, 0);
             this.DrawButton.Name = "DrawButton";
             this.DrawButton.Size = new System.Drawing.Size(45, 45);
             this.DrawButton.TabIndex = 2;
-            this.DrawButton.UseVisualStyleBackColor = true;
+            this.DrawButton.UseVisualStyleBackColor = false;
             this.DrawButton.Click += new System.EventHandler(this.DrawButton_Click);
             // 
             // SelectButton
             // 
+            this.SelectButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SelectButton.BackgroundImage")));
             this.SelectButton.Image = ((System.Drawing.Image)(resources.GetObject("SelectButton.Image")));
             this.SelectButton.Location = new System.Drawing.Point(129, 0);
             this.SelectButton.Name = "SelectButton";
@@ -94,6 +94,7 @@
             // 
             // DeleteButton
             // 
+            this.DeleteButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeleteButton.BackgroundImage")));
             this.DeleteButton.Image = ((System.Drawing.Image)(resources.GetObject("DeleteButton.Image")));
             this.DeleteButton.Location = new System.Drawing.Point(217, 0);
             this.DeleteButton.Name = "DeleteButton";
@@ -104,6 +105,7 @@
             // 
             // UndoButton
             // 
+            this.UndoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UndoButton.BackgroundImage")));
             this.UndoButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoButton.Image")));
             this.UndoButton.Location = new System.Drawing.Point(305, 0);
             this.UndoButton.Name = "UndoButton";
@@ -114,8 +116,9 @@
             // 
             // SaveButton
             // 
+            this.SaveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SaveButton.BackgroundImage")));
             this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
-            this.SaveButton.Location = new System.Drawing.Point(474, 0);
+            this.SaveButton.Location = new System.Drawing.Point(393, 0);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(45, 45);
             this.SaveButton.TabIndex = 6;
@@ -124,8 +127,9 @@
             // 
             // LoadButton
             // 
+            this.LoadButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LoadButton.BackgroundImage")));
             this.LoadButton.Image = ((System.Drawing.Image)(resources.GetObject("LoadButton.Image")));
-            this.LoadButton.Location = new System.Drawing.Point(609, 0);
+            this.LoadButton.Location = new System.Drawing.Point(437, 0);
             this.LoadButton.Name = "LoadButton";
             this.LoadButton.Size = new System.Drawing.Size(45, 45);
             this.LoadButton.TabIndex = 7;
@@ -134,6 +138,7 @@
             // 
             // ColorPickerButton
             // 
+            this.ColorPickerButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ColorPickerButton.BackgroundImage")));
             this.ColorPickerButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorPickerButton.Image")));
             this.ColorPickerButton.Location = new System.Drawing.Point(349, 0);
             this.ColorPickerButton.Name = "ColorPickerButton";
@@ -161,27 +166,10 @@
             this.FillColorCheckBox.Text = "Fill Color";
             this.FillColorCheckBox.UseVisualStyleBackColor = true;
             // 
-            // ChoosePathButton
-            // 
-            this.ChoosePathButton.Location = new System.Drawing.Point(518, 0);
-            this.ChoosePathButton.Name = "ChoosePathButton";
-            this.ChoosePathButton.Size = new System.Drawing.Size(92, 45);
-            this.ChoosePathButton.TabIndex = 8;
-            this.ChoosePathButton.Text = "Choose Path";
-            this.ChoosePathButton.UseVisualStyleBackColor = true;
-            this.ChoosePathButton.Click += new System.EventHandler(this.ChoosePathButton_Click);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.LoadButton);
             this.panel1.Controls.Add(this.DrawButton);
-            this.panel1.Controls.Add(this.ChoosePathButton);
             this.panel1.Controls.Add(this.trackBar1);
             this.panel1.Controls.Add(this.SelectButton);
             this.panel1.Controls.Add(this.FillColorCheckBox);
@@ -197,13 +185,6 @@
             this.panel1.Size = new System.Drawing.Size(851, 46);
             this.panel1.TabIndex = 10;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(394, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(79, 20);
-            this.textBox1.TabIndex = 12;
-            // 
             // Vector_Drawing_Application
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -211,6 +192,7 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(851, 522);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Vector_Drawing_Application";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "Form1";
@@ -239,11 +221,7 @@
     private System.Windows.Forms.Button ColorPickerButton;
     private System.Windows.Forms.TrackBar trackBar1;
     private System.Windows.Forms.CheckBox FillColorCheckBox;
-    private System.Windows.Forms.Button ChoosePathButton;
     private System.ComponentModel.BackgroundWorker backgroundWorker1;
-    private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox1;
+    private System.Windows.Forms.Panel panel1;
     }
 }

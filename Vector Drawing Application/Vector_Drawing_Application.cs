@@ -171,9 +171,10 @@ namespace Vector_Drawing_Application
                 var size = trackBar1.Value;
                 var pen = new Pen(color, rect.size);   //selected colour, rectangle's size  rect.colour
 
-                if(rect.GetFill() == 0)
+                if (rect.Fill == 0)
                 {
                     e.Graphics.DrawRectangle(pen, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //draws rectangle in Rects list
+                    
                 } else {
                     e.Graphics.FillRectangle(pen.Brush, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //fills rectangle in Rects list
                 }
@@ -187,7 +188,6 @@ namespace Vector_Drawing_Application
             foreach (var rect in rects)
             {
                 //draws each rectangle on small region around current point p and check pixel in point p 
-
                 using (var g = Graphics.FromImage(buffer))  //draws a rectangle by using Point p which is mouse location
                 {
                     g.Clear(Color.Black);
@@ -215,19 +215,32 @@ namespace Vector_Drawing_Application
                 }
                 if (Moving != null)
                     this.Invalidate();
-
-                this.Cursor =
-                    Moving != null ? Cursors.Hand :
-                    SelectedRect != null ? Cursors.SizeAll : Cursors.Default;
             }
             else if (move)
             {
-                if (Moving != null)
-                    this.Invalidate();
+                this.Cursor =
+                    Moving != null ? Cursors.SizeAll : Cursors.Default; //Indicator for showing a shape is moving
+                this.Invalidate();      
             }
         }
 
         string lastButton = null;   //stores last pressed button
+
+        private void MakeAllFalse(ref bool x, ref bool y, ref bool z)
+        {
+            //make every parameter false
+            x = false;
+            y = false;
+            z = false;
+        }
+
+        private void MakeOneTrue(ref bool x, ref bool y, ref bool z)
+        {
+            //make last parameter true
+            x = false;
+            y = false;
+            z = true;
+        }
 
         private void DrawButton_Click(object sender, EventArgs e)
         {
@@ -303,8 +316,10 @@ namespace Vector_Drawing_Application
                 case "move":
                     if (secondMoving != null)
                     {
-                        secondMoving.Rect.SetX(secondMoving.StartMoveMousePoint.X + secondMoving.StartRectPoint.X - secondE.X); //sets x coordinate to first location
-                        secondMoving.Rect.SetY(secondMoving.StartMoveMousePoint.Y + secondMoving.StartRectPoint.Y - secondE.Y); //sets y coordinate to first location
+                        //sets x coordinate to first location
+                        secondMoving.Rect.SetX(secondMoving.StartMoveMousePoint.X + secondMoving.StartRectPoint.X - secondE.X);
+                        //sets y coordinate to first location
+                        secondMoving.Rect.SetY(secondMoving.StartMoveMousePoint.Y + secondMoving.StartRectPoint.Y - secondE.Y); 
                         Refresh();
                     }
                     break;
@@ -337,44 +352,24 @@ namespace Vector_Drawing_Application
                 UndoButton.PerformClick();
         }
 
-        private void MakeAllFalse(ref bool x, ref bool y, ref bool z)
+        private void WriteToText()
         {
-            //make every parameter false
-            x = false;
-            y = false;
-            z = false;
-        }
-
-        private void MakeOneTrue(ref bool x, ref bool y, ref bool z)
-        {
-            //make last parameter true
-            x = false;
-            y = false;
-            z = true;
-        }
-
-        private void SaveMem(StreamWriter writer, GraphRect rect)
-        {
-            writer.WriteLine(rect.ToString());
-            if (rect.getChilds().Count() > 0)
+            SaveFileDialog save = new SaveFileDialog
             {
-                foreach (GraphRect child in rect.getChilds())
-                    SaveMem(writer, child);
-            }
-        }
-
-        public static string partialpath;
-        public static string fileName;
-
-        private void Serialization()
-        {
-            string fullPath = partialpath + fileName;
-            using (StreamWriter writer = new StreamWriter(fullPath))
+                OverwritePrompt = true, //shows a warning when there is a file with the same name
+                CreatePrompt = false,
+                Title = "Vector Drawing Application Files",
+                DefaultExt = "txt",
+                Filter = "txt Files (*.txt)|*.txt|All Files(*.*)|*.*"   //Filters txt files
+            };
+            if (save.ShowDialog() == DialogResult.OK)
             {
+                StreamWriter writer = new StreamWriter(save.FileName);
                 for (int i = 0; i < Rects.Count; i++)
                 {
-                    string line = Rects[i].GetParentId()  + " " + Rects[i].Id + " " + Rects[i].StartPoint.X + " " 
-                        + Rects[i].StartPoint.Y + " " + Rects[i].Width + " " + Rects[i].Height + " " + Rects[i].Fill + " " 
+                    //writes GraphRect constructor's parameters
+                    string line = Rects[i].GetParentId() + " " + Rects[i].Id + " " + Rects[i].StartPoint.X + " "
+                        + Rects[i].StartPoint.Y + " " + Rects[i].Width + " " + Rects[i].Height + " " + Rects[i].Fill + " "
                         + Rects[i].size + " " + Rects[i].colour.ToArgb();
                     writer.Write(line + "\n");
                 }
@@ -392,59 +387,56 @@ namespace Vector_Drawing_Application
             return null;
         }
 
-        private void Deserialization()
+        private void ReadFromText()
         {
-            string fullPath = partialpath + fileName;
-            string[] lines = File.ReadAllLines(fullPath);
-
-            K = this.CreateGraphics();
-            Refresh();
-            Rects.Clear();
-
-            if (lines.Length == 0)
+            OpenFileDialog file = new OpenFileDialog
             {
-                return;
-            }
+                Filter = "txt Files (*.txt)|*.txt|All Files(*.*)|*.*",
+                FilterIndex = 2,
+                RestoreDirectory = true,    //opens the last selected directory
+                CheckFileExists = false,
+                Title = "Choose a Vector Drawing Application File"
+            };
 
-            GraphRect rect;
-            for (int i = 0; i < lines.Length; i++)
+            if (file.ShowDialog() == DialogResult.OK)
             {
-                string[] a = lines[i].Split(' ');
-                if (int.Parse(a[0]) == 0)
-                    rect = new GraphRect(null, int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]), float.Parse(a[5]), 
-                        int.Parse(a[6]), int.Parse(a[7]), Color.FromArgb(int.Parse(a[8])));
-                else
+                string path = file.FileName;
+                string[] lines = File.ReadAllLines(path);
+
+                if (lines.Length == 0)
                 {
-                    rect = new GraphRect(GetParent(int.Parse(a[0])), int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]), 
-                        float.Parse(a[5]), int.Parse(a[6]), int.Parse(a[7]), Color.FromArgb(int.Parse(a[8])));
+                    return;
                 }
-                Rects.Add(rect);
+
+                GraphRect rect;
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string[] a = lines[i].Split(' ');
+                    //if rectangle doesn't have a parent GraphRect constructor makes parent parameter null
+                    if (int.Parse(a[0]) == 0)
+                        rect = new GraphRect(null, int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]), float.Parse(a[5]),
+                            int.Parse(a[6]), int.Parse(a[7]), Color.FromArgb(int.Parse(a[8])));
+                    else
+                    {
+                        //GraphRect initializes parent with GetParen() method
+                        rect = new GraphRect(GetParent(int.Parse(a[0])), int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]),
+                            float.Parse(a[5]), int.Parse(a[6]), int.Parse(a[7]), Color.FromArgb(int.Parse(a[8])));
+                    }
+                    Rects.Add(rect);
+                }
+                Refresh();
             }
-            Refresh();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
             MakeAllFalse(ref draw, ref select, ref move);
-            fileName = $"\\{textBox1.Text}.txt";
-            Console.WriteLine(partialpath + fileName);
-            Serialization();
-        }
-
-        FolderBrowserDialog fbd = new FolderBrowserDialog();
-
-        private void ChoosePathButton_Click(object sender, EventArgs e)
-        {
-            MakeAllFalse(ref draw, ref select, ref move);
-            fbd.ShowDialog();
-            partialpath = fbd.SelectedPath;
-            Console.WriteLine(partialpath);
-            
+            WriteToText();
         }
 
         private void LoadButton_Click(object sender, EventArgs e)
         {
-            Deserialization();
+            ReadFromText();
         }
     }
 }
