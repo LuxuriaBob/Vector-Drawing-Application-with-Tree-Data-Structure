@@ -53,7 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphRect.cs" />
-    <Compile Include="MoveInfo.cs" />
+    <Compile Include="RectMoveInfo.cs" />
+    <Compile Include="GraphSquare.cs" />
+    <Compile Include="SquareMoveInfo.cs" />
     <Compile Include="Vector_Drawing_Application.cs">
       <SubType>Form</SubType>
     </Compile>
