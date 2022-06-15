@@ -52,10 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GraphRect.cs" />
-    <Compile Include="RectMoveInfo.cs" />
-    <Compile Include="GraphSquare.cs" />
-    <Compile Include="SquareMoveInfo.cs" />
+    <Compile Include="ShapeMoveInfo\CircleMoveInfo.cs" />
+    <Compile Include="GraphShape\GraphCircle.cs" />
+    <Compile Include="GraphShape\GraphLine.cs" />
+    <Compile Include="GraphShape\GraphRect.cs" />
+    <Compile Include="ShapeMoveInfo\LineMoveInfo.cs" />
+    <Compile Include="ShapeMoveInfo\RectMoveInfo.cs" />
+    <Compile Include="GraphShape\GraphSquare.cs" />
+    <Compile Include="ShapeMoveInfo\SquareMoveInfo.cs" />
     <Compile Include="Vector_Drawing_Application.cs">
       <SubType>Form</SubType>
     </Compile>

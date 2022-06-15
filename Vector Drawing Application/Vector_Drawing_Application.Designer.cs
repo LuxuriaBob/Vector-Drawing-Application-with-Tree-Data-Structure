@@ -43,8 +43,10 @@
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CircleButton = new System.Windows.Forms.Button();
             this.SquareButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.LineButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -53,7 +55,7 @@
             // 
             this.MoveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MoveButton.BackgroundImage")));
             this.MoveButton.Image = ((System.Drawing.Image)(resources.GetObject("MoveButton.Image")));
-            this.MoveButton.Location = new System.Drawing.Point(211, 0);
+            this.MoveButton.Location = new System.Drawing.Point(299, 0);
             this.MoveButton.Name = "MoveButton";
             this.MoveButton.Size = new System.Drawing.Size(45, 45);
             this.MoveButton.TabIndex = 0;
@@ -66,7 +68,7 @@
             this.ClearButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClearButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ClearButton.BackgroundImage")));
             this.ClearButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearButton.Image")));
-            this.ClearButton.Location = new System.Drawing.Point(297, 0);
+            this.ClearButton.Location = new System.Drawing.Point(385, 0);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(45, 45);
             this.ClearButton.TabIndex = 1;
@@ -85,13 +87,13 @@
             this.RectangleButton.TabIndex = 2;
             this.toolTip1.SetToolTip(this.RectangleButton, "Draw Rectangle");
             this.RectangleButton.UseVisualStyleBackColor = false;
-            this.RectangleButton.Click += new System.EventHandler(this.DrawButton_Click);
+            this.RectangleButton.Click += new System.EventHandler(this.RectButton_Click);
             // 
             // SelectButton
             // 
             this.SelectButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SelectButton.BackgroundImage")));
             this.SelectButton.Image = ((System.Drawing.Image)(resources.GetObject("SelectButton.Image")));
-            this.SelectButton.Location = new System.Drawing.Point(168, 0);
+            this.SelectButton.Location = new System.Drawing.Point(256, 0);
             this.SelectButton.Name = "SelectButton";
             this.SelectButton.Size = new System.Drawing.Size(45, 45);
             this.SelectButton.TabIndex = 3;
@@ -103,7 +105,7 @@
             // 
             this.DeleteButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeleteButton.BackgroundImage")));
             this.DeleteButton.Image = ((System.Drawing.Image)(resources.GetObject("DeleteButton.Image")));
-            this.DeleteButton.Location = new System.Drawing.Point(254, 0);
+            this.DeleteButton.Location = new System.Drawing.Point(342, 0);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(45, 45);
             this.DeleteButton.TabIndex = 4;
@@ -115,7 +117,7 @@
             // 
             this.UndoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UndoButton.BackgroundImage")));
             this.UndoButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoButton.Image")));
-            this.UndoButton.Location = new System.Drawing.Point(341, 0);
+            this.UndoButton.Location = new System.Drawing.Point(429, 0);
             this.UndoButton.Name = "UndoButton";
             this.UndoButton.Size = new System.Drawing.Size(45, 45);
             this.UndoButton.TabIndex = 5;
@@ -127,7 +129,7 @@
             // 
             this.SaveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SaveButton.BackgroundImage")));
             this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
-            this.SaveButton.Location = new System.Drawing.Point(429, 0);
+            this.SaveButton.Location = new System.Drawing.Point(517, 0);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(45, 45);
             this.SaveButton.TabIndex = 6;
@@ -139,7 +141,7 @@
             // 
             this.LoadButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LoadButton.BackgroundImage")));
             this.LoadButton.Image = ((System.Drawing.Image)(resources.GetObject("LoadButton.Image")));
-            this.LoadButton.Location = new System.Drawing.Point(473, 0);
+            this.LoadButton.Location = new System.Drawing.Point(561, 0);
             this.LoadButton.Name = "LoadButton";
             this.LoadButton.Size = new System.Drawing.Size(45, 45);
             this.LoadButton.TabIndex = 7;
@@ -151,7 +153,7 @@
             // 
             this.ColorPickerButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ColorPickerButton.BackgroundImage")));
             this.ColorPickerButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorPickerButton.Image")));
-            this.ColorPickerButton.Location = new System.Drawing.Point(385, 0);
+            this.ColorPickerButton.Location = new System.Drawing.Point(473, 0);
             this.ColorPickerButton.Name = "ColorPickerButton";
             this.ColorPickerButton.Size = new System.Drawing.Size(45, 45);
             this.ColorPickerButton.TabIndex = 1;
@@ -161,7 +163,7 @@
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(88, 18);
+            this.trackBar1.Location = new System.Drawing.Point(176, 18);
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(81, 45);
@@ -172,7 +174,7 @@
             // FillColorCheckBox
             // 
             this.FillColorCheckBox.AutoSize = true;
-            this.FillColorCheckBox.Location = new System.Drawing.Point(96, 2);
+            this.FillColorCheckBox.Location = new System.Drawing.Point(184, 3);
             this.FillColorCheckBox.Name = "FillColorCheckBox";
             this.FillColorCheckBox.Size = new System.Drawing.Size(65, 17);
             this.FillColorCheckBox.TabIndex = 4;
@@ -181,6 +183,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.LineButton);
+            this.panel1.Controls.Add(this.CircleButton);
             this.panel1.Controls.Add(this.SquareButton);
             this.panel1.Controls.Add(this.LoadButton);
             this.panel1.Controls.Add(this.RectangleButton);
@@ -197,6 +201,19 @@
             this.panel1.Size = new System.Drawing.Size(851, 46);
             this.panel1.TabIndex = 10;
             // 
+            // CircleButton
+            // 
+            this.CircleButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.CircleButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CircleButton.BackgroundImage")));
+            this.CircleButton.Image = ((System.Drawing.Image)(resources.GetObject("CircleButton.Image")));
+            this.CircleButton.Location = new System.Drawing.Point(88, 0);
+            this.CircleButton.Name = "CircleButton";
+            this.CircleButton.Size = new System.Drawing.Size(45, 45);
+            this.CircleButton.TabIndex = 11;
+            this.toolTip1.SetToolTip(this.CircleButton, "Draw Circle");
+            this.CircleButton.UseVisualStyleBackColor = false;
+            this.CircleButton.Click += new System.EventHandler(this.CircleButton_Click);
+            // 
             // SquareButton
             // 
             this.SquareButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -209,6 +226,19 @@
             this.toolTip1.SetToolTip(this.SquareButton, "Draw Square");
             this.SquareButton.UseVisualStyleBackColor = false;
             this.SquareButton.Click += new System.EventHandler(this.SquareButton_Click);
+            // 
+            // LineButton
+            // 
+            this.LineButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.LineButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LineButton.BackgroundImage")));
+            this.LineButton.Image = ((System.Drawing.Image)(resources.GetObject("LineButton.Image")));
+            this.LineButton.Location = new System.Drawing.Point(132, 0);
+            this.LineButton.Name = "LineButton";
+            this.LineButton.Size = new System.Drawing.Size(45, 45);
+            this.LineButton.TabIndex = 12;
+            this.toolTip1.SetToolTip(this.LineButton, "Draw Line");
+            this.LineButton.UseVisualStyleBackColor = false;
+            this.LineButton.Click += new System.EventHandler(this.LineButton_Click);
             // 
             // Vector_Drawing_Application
             // 
@@ -253,5 +283,7 @@
     private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button SquareButton;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button CircleButton;
+        private System.Windows.Forms.Button LineButton;
     }
 }

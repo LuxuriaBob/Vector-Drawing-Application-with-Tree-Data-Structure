@@ -14,8 +14,11 @@ namespace Vector_Drawing_Application
 {
     public partial class Vector_Drawing_Application : Form
     {
-        bool drawRect = false;  //default values are false
+        //default values are false
+        bool drawRect = false;  
         bool drawSquare = false;
+        bool drawCircle = false;
+        bool drawLine = false;
         bool move = false;  
         bool select = false;
 
@@ -34,15 +37,25 @@ namespace Vector_Drawing_Application
 
         GraphRect SelectedRect = null;  //nothing is selected for default
         GraphSquare SelectedSquare = null;
+        GraphCircle SelectedCircle = null;
+        GraphLine SelectedLine = null;
 
         RectMoveInfo RectMoving = null; //move info for selected rect
         SquareMoveInfo SquareMoving = null; //move info for selected square
+        CircleMoveInfo CircleMoving = null; //move info for selected circle
+        LineMoveInfo LineMoving = null; //move info for selected line
 
         RectMoveInfo RectSecondMoving = null;   //stores rect-moving for undo-move method
         Point secondRectE;  //stores rect-coordinates for undo-move
 
         SquareMoveInfo SquareSecondMoving = null;   //storessquare moving for undo-move method
         Point secondSquareE;  //stores square-coordinates for undo-move
+
+        CircleMoveInfo CircleSecondMoving = null;   //stores circle moving for undo-move method
+        Point secondCircleE;  //stores circle-coordinates for undo-move
+
+        LineMoveInfo LineSecondMoving = null;   //stores line moving for undo-move method
+        Point secondLineE;  //stores line-coordinates for undo-move
 
         Point startlocation;    //shape's top left coordinates
         Point endlocation;      //shape's bottom right coordinates
@@ -54,6 +67,14 @@ namespace Vector_Drawing_Application
                 startlocation = e.Location; //stores mouse location for first coordinates
             }
             else if (drawSquare)
+            {
+                startlocation = e.Location;
+            }
+            else if (drawCircle)
+            {
+                startlocation = e.Location;
+            }
+            else if (drawLine)
             {
                 startlocation = e.Location;
             }
@@ -80,7 +101,7 @@ namespace Vector_Drawing_Application
                 if (this.SelectedSquare != null && SquareMoving == null)
                 {
                     this.Capture = true;
-                    SquareMoving = new SquareMoveInfo   //sets Moving class properties for moving rect
+                    SquareMoving = new SquareMoveInfo   //sets Moving class properties for moving square
                     {
                         Square = this.SelectedSquare,
                         StartSquarePoint = SelectedSquare.StartPoint,
@@ -90,6 +111,37 @@ namespace Vector_Drawing_Application
                     SquareSecondMoving = SquareMoving;      //stores Moving for undo method
                     secondSquareE = e.Location;   //stores mouse coordinates for undo method
                 }
+
+                RefreshCircleSelection(e.Location);
+                if (this.SelectedCircle != null && CircleMoving == null)
+                {
+                    this.Capture = true;
+                    CircleMoving = new CircleMoveInfo   //sets Moving class properties for moving circle
+                    {
+                        Circle = this.SelectedCircle,
+                        StartCirclePoint = SelectedCircle.Center,
+                        CirclePerimeter = SelectedCircle.Radius,
+                        StartMoveMousePoint = e.Location
+                    };
+                    CircleSecondMoving = CircleMoving;      //stores Moving for undo method
+                    secondCircleE = e.Location;   //stores mouse coordinates for undo method
+                }
+                
+                RefreshLineSelection(e.Location);
+                if (this.SelectedLine != null && LineMoving == null)
+                {
+                    this.Capture = true;
+                    LineMoving = new LineMoveInfo   //sets Moving class properties for moving line
+                    {
+                        Line = this.SelectedLine,
+                        StartLinePoint = SelectedLine.StartPoint,
+                        EndLinePoint = SelectedLine.EndPoint,
+                        StartMoveMousePoint = e.Location
+                    };
+                    LineSecondMoving = LineMoving;      //stores Moving for undo method
+                    secondLineE = e.Location;   //stores mouse coordinates for undo method
+                }
+                
             }
             else if (select)
             {
@@ -98,8 +150,13 @@ namespace Vector_Drawing_Application
                 
                 SquareHitTest(Squares, e.Location);
                 RefreshSquareSelection(e.Location);
+
+                CircleHitTest(Circles, e.Location);
+                RefreshCircleSelection(e.Location);
                 
-                this.Cursor = Cursors.Arrow;
+                LineHitTest(Lines, e.Location);
+                RefreshLineSelection(e.Location);
+                
                 Refresh();
             }
         }
@@ -114,22 +171,47 @@ namespace Vector_Drawing_Application
             {
                 endlocation = e.Location;
             }
+            else if (drawCircle)
+            {
+                endlocation = e.Location;
+            }
+            else if (drawLine)
+            {
+                endlocation = e.Location;
+            }
             else if (move)
             {
+                this.Cursor = Cursors.SizeAll;
+
                 if (RectMoving != null)
                 {
                     RectMoving.Rect.SetX(RectMoving.StartRectPoint.X + e.X - RectMoving.StartMoveMousePoint.X); //sets x coordinate of a moving rect
                     RectMoving.Rect.SetY(RectMoving.StartRectPoint.Y + e.Y - RectMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving rect
                 }
-                this.Cursor = Cursors.SizeAll;
                 RefreshRectSelection(e.Location);
 
                 if (SquareMoving != null)
                 {
-                    SquareMoving.Square.SetX(SquareMoving.StartSquarePoint.X + e.X - SquareMoving.StartMoveMousePoint.X); //sets x coordinate of a moving rect
-                    SquareMoving.Square.SetY(SquareMoving.StartSquarePoint.Y + e.Y - SquareMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving rect
+                    SquareMoving.Square.SetX(SquareMoving.StartSquarePoint.X + e.X - SquareMoving.StartMoveMousePoint.X); //sets x coordinate of a moving square
+                    SquareMoving.Square.SetY(SquareMoving.StartSquarePoint.Y + e.Y - SquareMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving square
                 }
                 RefreshSquareSelection(e.Location);
+
+                if (CircleMoving != null)
+                {
+                    CircleMoving.Circle.SetX(CircleMoving.StartCirclePoint.X + e.X - CircleMoving.StartMoveMousePoint.X); //sets x coordinate of a moving circle
+                    CircleMoving.Circle.SetY(CircleMoving.StartCirclePoint.Y + e.Y - CircleMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving circle
+                }
+                RefreshCircleSelection(e.Location);
+                
+                if (LineMoving != null)
+                {
+                    LineMoving.Line.SetX1(LineMoving.StartLinePoint.X + e.X - LineMoving.StartMoveMousePoint.X); //sets x coordinate of a moving line
+                    LineMoving.Line.SetY1(LineMoving.StartLinePoint.Y + e.Y - LineMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving line
+                    LineMoving.Line.SetX2(LineMoving.EndLinePoint.X + e.X - LineMoving.StartMoveMousePoint.X); //sets x coordinate of a moving line
+                    LineMoving.Line.SetY2(LineMoving.EndLinePoint.Y + e.Y - LineMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving line
+                }
+                RefreshLineSelection(e.Location);
             }
         }
     
@@ -137,16 +219,30 @@ namespace Vector_Drawing_Application
         {
             if (drawRect)
             {
-                endlocation = e.Location;   //stores mouse location for first coordinates
+                endlocation = e.Location;   //stores mouse location for last coordinates
                 drawRect = false;
                 CreateRectangle(startlocation, endlocation);
                 Refresh();
             }
             else if (drawSquare)
             {
-                endlocation = e.Location;   //stores mouse location for first coordinates
+                endlocation = e.Location;   //stores mouse location for last coordinates
                 drawSquare = false;
                 CreateSquare(startlocation, endlocation);
+                Refresh();
+            }
+            else if (drawCircle)
+            {
+                endlocation = e.Location;   //stores mouse location for last coordinates
+                drawCircle = false;
+                CreateCircle(startlocation, endlocation);
+                Refresh();
+            }
+            else if (drawLine)
+            {
+                endlocation = e.Location;   //stores mouse location for last coordinates
+                drawLine = false;
+                CreateLine(startlocation, endlocation);
                 Refresh();
             }
             else if (move)
@@ -161,15 +257,29 @@ namespace Vector_Drawing_Application
                     this.Capture = false;
                     SquareMoving = null;
                 }
+                else if (CircleMoving != null)
+                {
+                    this.Capture = false;
+                    CircleMoving = null;
+                }
+                else if (LineMoving != null)
+                {
+                    this.Capture = false;
+                    LineMoving = null;
+                }
                 RefreshRectSelection(e.Location);
                 RefreshSquareSelection(e.Location);
+                RefreshCircleSelection(e.Location);
+                RefreshLineSelection(e.Location);
             }
+            this.Cursor = Cursors.Arrow;
         }
 
         ColorDialog colorPicker = new ColorDialog();
 
         private void ColorPickerButton_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.Arrow;
             colorPicker.ShowDialog();
         }
 
@@ -241,7 +351,6 @@ namespace Vector_Drawing_Application
                     Squares.Add(square);   //adds to Rects list
                 }
             }
-
             else if (FillColorCheckBox.Checked)
             {
                 int fill = 1;
@@ -257,6 +366,63 @@ namespace Vector_Drawing_Application
                 Squares.Add(square);   //adds to Rects list
             }
         }
+        
+        public List<GraphCircle> Circles = new List<GraphCircle>();   // main Circles list
+
+        private void CreateCircle(Point startlocation, Point endlocation)
+        {
+            int CenterX = startlocation.X;
+            int CenterY = startlocation.Y;
+            int xDiff = Math.Abs(startlocation.X - endlocation.X);
+            int yDiff = Math.Abs(startlocation.Y - endlocation.Y);
+            float radius = (float)Math.Sqrt((xDiff * xDiff) + (yDiff * yDiff));
+          
+            if (SelectedCircle == null)
+            {
+                if (FillColorCheckBox.Checked)
+                {
+                    int fill = 1;
+                    GraphCircle circle = new GraphCircle(SelectedCircle, Circles.Count + 1, CenterX, CenterY, radius,
+                        fill, trackBar1.Value, colorPicker.Color);
+                    Circles.Add(circle);   //adds to Circles list
+                }
+                else
+                {
+                    int fill = 0;
+                    GraphCircle circle = new GraphCircle(SelectedCircle, Circles.Count + 1, CenterX, CenterY, radius,
+                        fill, trackBar1.Value, colorPicker.Color);
+                    Circles.Add(circle);   //adds to Circles list
+                }
+            }
+            else if (FillColorCheckBox.Checked)
+            {
+                int fill = 1;
+                GraphCircle circle = new GraphCircle(SelectedCircle, Circles.Count + 1, CenterX, CenterY, radius,
+                        fill, trackBar1.Value, colorPicker.Color);
+                Circles.Add(circle);   //adds to Circles list
+            }
+            else
+            {
+                int fill = 0;
+                GraphCircle circle = new GraphCircle(SelectedCircle, Circles.Count + 1, CenterX, CenterY, radius,
+                        fill, trackBar1.Value, colorPicker.Color);
+                Circles.Add(circle);   //adds to Circles list
+            }
+        }
+        
+        public List<GraphLine> Lines = new List<GraphLine>();   // main Lines list
+
+        private void CreateLine(Point startlocation, Point endlocation)
+        {
+            int StartPositionX = startlocation.X;
+            int StartPositionY = startlocation.Y;
+            int EndPositionX = endlocation.X;
+            int EndPositionY = endlocation.Y;
+
+            GraphLine Line = new GraphLine(SelectedLine, Lines.Count + 1, StartPositionX, StartPositionY, EndPositionX, EndPositionY,
+            trackBar1.Value, colorPicker.Color);
+            Lines.Add(Line);   //adds to Lines list
+        }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
@@ -265,33 +431,60 @@ namespace Vector_Drawing_Application
 
             foreach (var rect in Rects)
             {
-                var color = rect == SelectedRect ? Color.Blue : rect.GetColour();    //rect.GetColour(square)SelectedSquare is blue, others are colors selected from trackbar
+                var color = rect == SelectedRect ? Color.Blue : rect.GetColour();    //rect.GetColour(square)SelectedSquare is blue, others are colors selected from colorpicker
                 var size = trackBar1.Value;
-                var pen = new Pen(color, rect.size);   //selected colour, square's size  rect.colour
+                var pen = new Pen(color, rect.size);   //selected colour, rect's size
 
                 if (rect.Fill == 0)
                 {
-                    e.Graphics.DrawRectangle(pen, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //draws square in Rects list
+                    e.Graphics.DrawRectangle(pen, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //draws square in Squares list
 
                 } else {
-                    e.Graphics.FillRectangle(pen.Brush, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //fills square in Rects list
+                    e.Graphics.FillRectangle(pen.Brush, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //fills square in Squares list
                 }
             }
 
             foreach (var square in Squares)
             {
-                var color = square == SelectedSquare ? Color.Blue : square.GetColour();    //square.GetColour(rect)SelectedSquare is blue, others are colors selected from trackbar
+                var color = square == SelectedSquare ? Color.Blue : square.GetColour();    //square.GetColour(rect)SelectedSquare is blue, others are colors selected from colorpicker
                 var size = trackBar1.Value;
                 var pen = new Pen(color, square.size);   //selected colour, square's size
 
                 if (square.Fill == 0)
                 {
-                    e.Graphics.DrawRectangle(pen, square.StartPoint.X, square.StartPoint.Y, square.Side, square.Side);   //draws square in Rects list
+                    e.Graphics.DrawRectangle(pen, square.StartPoint.X, square.StartPoint.Y, square.Side, square.Side);   //draws square in Squares list
                 }
                 else
                 {
-                    e.Graphics.FillRectangle(pen.Brush, square.StartPoint.X, square.StartPoint.Y, square.Side, square.Side);   //fills square in Rects list
+                    e.Graphics.FillRectangle(pen.Brush, square.StartPoint.X, square.StartPoint.Y, square.Side, square.Side);   //fills square in Squares list
                 }
+            }
+            
+            foreach (var circle in Circles)
+            {
+                var color = circle == SelectedCircle ? Color.Blue : circle.GetColour();    //circle.GetColour(rect)SelectedCircle is blue, others are colors selected from colorpicker
+                var size = trackBar1.Value;
+                var pen = new Pen(color, circle.size);   //selected colour, circle's size
+
+                if (circle.Fill == 0)
+                {
+                    e.Graphics.DrawEllipse(pen, circle.Center.X - circle.Radius, circle.Center.Y - circle.Radius, circle.Radius + circle.Radius, 
+                        circle.Radius + circle.Radius);   //draws circle in Circles list
+                }
+                else
+                {
+                    e.Graphics.FillEllipse(pen.Brush, circle.Center.X - circle.Radius, circle.Center.Y - circle.Radius, circle.Radius + circle.Radius, 
+                        circle.Radius + circle.Radius);   //fills square in Rects list
+                }
+            }
+
+            foreach (var line in Lines)
+            {
+                var color = line == SelectedLine ? Color.Blue : line.GetColour();    //line.GetColour(rect) SelectedLine is blue, others are colors selected from colorpicker
+                var size = trackBar1.Value;
+                var pen = new Pen(color, line.size);   //selected colour, circle's size
+
+                e.Graphics.DrawLine(pen, line.StartPoint, line.EndPoint);   //draws circle in Circles list
             }
         }
 
@@ -320,8 +513,8 @@ namespace Vector_Drawing_Application
             var buffer = new Bitmap(size * 2, size * 2);
             foreach (var square in squares)
             {
-                //draws each rectangle on small region around current point p and check pixel in point p 
-                using (var g = Graphics.FromImage(buffer))  //draws a rectangle by using Point p which is mouse location
+                //draws each Square on small region around current point p and check pixel in point p 
+                using (var g = Graphics.FromImage(buffer))  //draws a Square by using Point p which is mouse location
                 {
                     g.Clear(Color.Black);
                     g.DrawRectangle(new Pen(Color.Green, 10), square.StartPoint.X - p.X + size, square.StartPoint.Y - p.Y + size, square.Side, square.Side);
@@ -329,6 +522,46 @@ namespace Vector_Drawing_Application
 
                 if (buffer.GetPixel(size, size).ToArgb() != Color.Black.ToArgb())   //checks whether mouse is on a black pixel
                     return square;
+            }
+            return null;
+        }
+        
+        static GraphCircle CircleHitTest(List<GraphCircle> circles, Point p)
+        {
+            var size = 10;
+            var buffer = new Bitmap(size * 2, size * 2);
+            foreach (var circle in circles)
+            {
+                //draws each Circle on small region around current point p and check pixel in point p 
+                using (var g = Graphics.FromImage(buffer))  //draws a Circle by using Point p which is mouse location
+                {
+                    g.Clear(Color.Black);
+                    g.DrawEllipse(new Pen(Color.Green, 10), circle.Center.X - circle.Radius - p.X + size, circle.Center.Y - circle.Radius - p.Y + size, 
+                        circle.Radius + circle.Radius, circle.Radius + circle.Radius);
+                }
+
+                if (buffer.GetPixel(size, size).ToArgb() != Color.Black.ToArgb())   //checks whether mouse is on a black pixel
+                    return circle;
+            }
+            return null;
+        }
+
+        static GraphLine LineHitTest(List<GraphLine> lines, Point p)
+        {
+            var size = 10;
+            var buffer = new Bitmap(size * 2, size * 2);
+            foreach (var line in lines)
+            {
+                //draws each Line on small region around current point p and check pixel in point p 
+                using (var g = Graphics.FromImage(buffer))  //draws a Circle by using Point p which is mouse location
+                {
+                    g.Clear(Color.Black);
+                    g.DrawLine(new Pen(Color.Green, 10), line.StartPoint.X - p.X + size, line.StartPoint.Y - p.Y + size,
+                        line.EndPoint.X - p.X + size, line.EndPoint.Y - p.Y + size);
+                }
+
+                if (buffer.GetPixel(size, size).ToArgb() != Color.Black.ToArgb())   //checks whether mouse is on a black pixel
+                    return line;
             }
             return null;
         }
@@ -349,10 +582,7 @@ namespace Vector_Drawing_Application
                 if (RectMoving != null)
                     this.Invalidate();
             }
-            else if (move)
-            {
-                this.Invalidate();      
-            }
+            this.Invalidate();
         }
 
         GraphSquare LastSelectedSquare = null;
@@ -371,66 +601,152 @@ namespace Vector_Drawing_Application
                 if (SquareMoving != null)
                     this.Invalidate();
             }
-            else if (move)
+            this.Invalidate();
+        }
+        
+        GraphCircle LastSelectedCircle = null;
+
+        private void RefreshCircleSelection(Point point)
+        {
+            if (select)
             {
-                this.Invalidate();
+                var selectedCircle = CircleHitTest(Circles, point);
+                if (selectedCircle != this.SelectedCircle)
+                {
+                    this.SelectedCircle = selectedCircle;
+                    LastSelectedCircle = selectedCircle;    //stores selectedCircle for undo-select method
+                    this.Invalidate();
+                }
+                if (CircleMoving != null)
+                    this.Invalidate();
             }
+            this.Invalidate();
+        }
+
+        GraphLine LastSelectedLine = null;
+
+        private void RefreshLineSelection(Point point)
+        {
+            if (select)
+            {
+                var selectedLine = LineHitTest(Lines, point);
+                if (selectedLine != this.SelectedLine)
+                {
+                    this.SelectedLine = selectedLine;
+                    LastSelectedLine = selectedLine;    //stores selectedLine for undo-select method
+                    this.Invalidate();
+                }
+                if (LineMoving != null)
+                    this.Invalidate();
+            }
+            this.Invalidate();
         }
 
         string lastButton = null;   //stores last pressed button
 
-        private void MakeAllFalse(ref bool v, ref bool x, ref bool y, ref bool z)
+        private void MakeAllFalse(ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
         {
             //make every parameter false
+            u = false;
             v = false;
+            w = false;
             x = false;
             y = false;
             z = false;
         }
 
-        private void MakeOneTrue(ref bool v, ref bool x, ref bool y, ref bool z)
+        private void MakeLastTrue(ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
         {
             //make last parameter true
+            u = false;
             v = false;
+            w = false;
             x = false;
             y = false;
             z = true;
         }
 
-        private void DrawButton_Click(object sender, EventArgs e)
+        private void MakeSelectionNull(ref GraphRect selectedRect, ref GraphSquare selectedSquare, ref GraphCircle selectedCircle, ref GraphLine selectedLine)
+        {
+            selectedRect = null;
+            selectedSquare = null;
+            selectedCircle = null;
+            selectedLine = null;
+        }
+
+        private void MakeMovingNull(ref RectMoveInfo RectMoving, ref SquareMoveInfo SquareMoving, ref CircleMoveInfo CircleMoving, ref LineMoveInfo LiveMoving)
+        {
+            RectMoving = null;
+            SquareMoving = null;
+            CircleMoving = null;
+            LineMoving = null;
+        }
+
+        private void MakeListsEmpty(ref List<GraphRect> Rects, ref List<GraphSquare> Squares, ref List<GraphCircle> Circles, ref List<GraphLine> Lines)
+        {
+            Rects.Clear();
+            Squares.Clear();
+            Circles.Clear();
+            Lines.Clear();
+        }
+
+        private void RectButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawRect";
-            MakeOneTrue(ref drawSquare, ref select, ref move, ref drawRect);
+            this.Cursor = Cursors.Arrow;
+            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawLine, ref select, ref move, ref drawRect);
         }
 
         private void SquareButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawSquare";
-            MakeOneTrue(ref drawRect, ref select, ref move, ref drawSquare);
+            this.Cursor = Cursors.Arrow;
+            MakeLastTrue(ref drawRect, ref drawCircle, ref drawLine, ref select, ref move, ref drawSquare);
+        }
+
+        private void CircleButton_Click(object sender, EventArgs e)
+        {
+            lastButton = "drawCircle";
+            this.Cursor = Cursors.Arrow;
+            MakeLastTrue(ref drawSquare, ref drawRect, ref drawLine, ref select, ref move, ref drawCircle);
+        }
+
+        private void LineButton_Click(object sender, EventArgs e)
+        {
+            lastButton = "drawLine";
+            this.Cursor = Cursors.Arrow;
+            MakeLastTrue(ref drawSquare, ref drawRect, ref drawCircle, ref select, ref move, ref drawLine);
         }
 
         private void SelectButton_Click(object sender, EventArgs e)
         {
             lastButton = "select";
-            MakeOneTrue(ref drawRect, ref drawSquare, ref move, ref select);
+            this.Cursor = Cursors.Arrow;
+            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawRect, ref drawLine, ref move, ref select);
         }
 
         private void MoveButton_Click(object sender, EventArgs e)
         {
             lastButton = "move";
-            MakeOneTrue(ref drawRect, ref drawSquare, ref select, ref move);
+            this.Cursor = Cursors.SizeAll;
+            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawLine, ref select, ref drawRect, ref move);
         }
 
         public List<GraphRect> tempRects = new List<GraphRect>();   //temperary rects list for undo-draw method
         public List<GraphSquare> tempSquares = new List<GraphSquare>();   //temperary rects list for undo-draw method
+        public List<GraphCircle> tempCircles = new List<GraphCircle>();   //temperary circles list for undo-draw method
+        public List<GraphLine> tempLines = new List<GraphLine>();   //temperary lines list for undo-draw method
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             lastButton = "delete";
-            MakeAllFalse(ref drawRect, ref drawSquare, ref select, ref move);
+            this.Cursor = Cursors.Arrow;
+            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref select, ref move);
 
             tempRects = Rects.ToList(); //stores Rects list in tempRects for undo method
             tempSquares = Squares.ToList(); //stores Squares list in tempSquares for undo method
+            tempCircles = Circles.ToList(); //stores Circles list in tempCircles for undo method
+            tempLines = Lines.ToList(); //stores Lines list in tempLines for undo method
 
             if (Rects.Count != 0)   //Exception for empty list
             {
@@ -443,10 +759,28 @@ namespace Vector_Drawing_Application
 
             if (Squares.Count != 0)   //Exception for empty list
             {
-                if (Squares.Contains(SelectedSquare))    //delete selected rect if Rects list contains
+                if (Squares.Contains(SelectedSquare))    //delete selected square if Squares list contains
                 {
                     SelectedSquare.DeleteSquares(Squares);
                     Squares.Remove(SelectedSquare);
+                }
+            }
+
+            if (Circles.Count != 0)   //Exception for empty list
+            {
+                if (Circles.Contains(SelectedCircle))    //delete selected vircle if Circles list contains
+                {
+                    SelectedCircle.DeleteCircles(Circles);
+                    Circles.Remove(SelectedCircle);
+                }
+            }
+
+            if (Lines.Count != 0)   //Exception for empty list
+            {
+                if (Lines.Contains(SelectedLine))    //delete selected vircle if Circles list contains
+                {
+                    SelectedLine.DeleteLines(Lines);
+                    Lines.Remove(SelectedLine);
                 }
             }
 
@@ -456,17 +790,12 @@ namespace Vector_Drawing_Application
         private void ClearButton_Click(object sender, EventArgs e)
         {
             lastButton = "clear";
-            MakeAllFalse(ref drawRect, ref drawSquare, ref select, ref move);
-
-            this.SelectedRect = null;
-            RectMoving = null;
-
-            this.SelectedSquare = null;
-            SquareMoving = null;
+            this.Cursor = Cursors.Arrow;
+            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref select, ref move);
+            MakeSelectionNull(ref this.SelectedRect, ref this.SelectedSquare, ref this.SelectedCircle, ref this.SelectedLine);
+            MakeMovingNull(ref RectMoving, ref SquareMoving, ref CircleMoving, ref LineMoving);
+            MakeListsEmpty(ref Rects, ref Squares, ref Circles, ref Lines);
             this.Capture = false;
-
-            Rects.Clear();  //Clear Rects list
-            Squares.Clear(); //Clear Squares list
             Refresh();
         }
 
@@ -474,7 +803,8 @@ namespace Vector_Drawing_Application
 
         private void UndoButton_Click(object sender, EventArgs e)
         {
-            MakeAllFalse(ref drawRect, ref drawSquare, ref select, ref move);
+            this.Cursor = Cursors.Arrow;
+            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref select, ref move);
 
             switch (lastButton)
             {
@@ -492,6 +822,20 @@ namespace Vector_Drawing_Application
                     }
                     Refresh();
                     break;
+                case "drawCircle":
+                    if (Circles.Count > 0)
+                    {
+                        Circles.RemoveAt(Circles.Count - 1);    //removes last drawn circle in Circles list
+                    }
+                    Refresh();
+                    break;
+                case "drawLine":
+                    if (Lines.Count > 0)
+                    {
+                        Lines.RemoveAt(Lines.Count - 1);    //removes last drawn line in Lines list
+                    }
+                    Refresh();
+                    break;
                 case "select":
                     if (LastSelectedRect != null)
                     {
@@ -504,6 +848,19 @@ namespace Vector_Drawing_Application
                         var pen = new Pen(LastSelectedSquare.colour, LastSelectedSquare.size);
                         K = this.CreateGraphics();
                         K.DrawRectangle(pen, LastSelectedSquare.StartPoint.X, LastSelectedSquare.StartPoint.Y, LastSelectedSquare.Side, LastSelectedSquare.Side);
+                    }
+                    if (LastSelectedCircle != null)
+                    {
+                        var pen = new Pen(LastSelectedCircle.colour, LastSelectedCircle.size);
+                        K = this.CreateGraphics();
+                        K.DrawEllipse(pen, LastSelectedCircle.Center.X - LastSelectedCircle.Radius, LastSelectedCircle.Center.Y - LastSelectedCircle.Radius,
+                        LastSelectedCircle.Radius + LastSelectedCircle.Radius, LastSelectedCircle.Radius + LastSelectedCircle.Radius);
+                    }
+                    if (LastSelectedLine != null)
+                    {
+                        var pen = new Pen(LastSelectedLine.colour, LastSelectedLine.size);
+                        K = this.CreateGraphics();
+                        K.DrawLine(pen, LastSelectedLine.StartPoint.X, LastSelectedLine.StartPoint.Y, LastSelectedLine.EndPoint.X, LastSelectedLine.EndPoint.Y);
                     }
                     break;
                 case "move":
@@ -525,10 +882,34 @@ namespace Vector_Drawing_Application
                         SquareSecondMoving = null;
                         Refresh();
                     }
+                    else if (CircleSecondMoving != null)
+                    {
+                        //sets x coordinate to first location
+                        CircleSecondMoving.Circle.SetX(CircleSecondMoving.StartMoveMousePoint.X + CircleSecondMoving.StartCirclePoint.X - secondCircleE.X);
+                        //sets y coordinate to first location
+                        CircleSecondMoving.Circle.SetY(CircleSecondMoving.StartMoveMousePoint.Y + CircleSecondMoving.StartCirclePoint.Y - secondCircleE.Y);
+                        CircleSecondMoving = null;
+                        Refresh();
+                    }
+                    else if (LineSecondMoving != null)
+                    {
+                        //sets x1 coordinate to first location
+                        LineSecondMoving.Line.SetX1(LineSecondMoving.StartMoveMousePoint.X + LineSecondMoving.StartLinePoint.X - secondLineE.X);
+                        //sets y1 coordinate to first location
+                        LineSecondMoving.Line.SetY1(LineSecondMoving.StartMoveMousePoint.Y + LineSecondMoving.StartLinePoint.Y - secondLineE.Y);
+                        //sets x2 coordinate to first location
+                        LineSecondMoving.Line.SetX2(LineSecondMoving.StartMoveMousePoint.X + LineSecondMoving.EndLinePoint.X - secondLineE.X);
+                        //sets y2 coordinate to first location
+                        LineSecondMoving.Line.SetY2(LineSecondMoving.StartMoveMousePoint.Y + LineSecondMoving.EndLinePoint.Y - secondLineE.Y);
+                        LineSecondMoving = null;
+                        Refresh();
+                    }
                     break;
                 case "delete":
                     Rects = tempRects.ToList(); //sends all tempRects elements to Rects list
                     Squares = tempSquares.ToList(); //sends all tempSquares elements to Squares list
+                    Circles = tempCircles.ToList(); //sends all tempCircles elements to Circles list
+                    Lines = tempLines.ToList(); //sends all tempLines elements to Lines list
                     Refresh();
                     break;
                 case "clear":
@@ -540,12 +921,16 @@ namespace Vector_Drawing_Application
             }
         }
 
-        private void Form1_KeyUp(object sender, KeyEventArgs e) //instead of pressing buttons, using keys are easier
+        private void Form1_KeyUp(object sender, KeyEventArgs e) //using keys are easier than pressing buttons
         {
-            if (e.KeyCode == Keys.D)
+            if (e.KeyValue == 49)   // 1 in keyboard
                 RectangleButton.PerformClick();
-            if (e.KeyCode == Keys.R)
+            if (e.KeyValue == 50)   // 2 in keyboard
                 SquareButton.PerformClick();
+            if (e.KeyValue == 51)   // 3 in keyboard
+                CircleButton.PerformClick();
+            if (e.KeyValue == 52)   // 4 in keyboard
+                LineButton.PerformClick();
             if (e.KeyCode == Keys.S)
                 SelectButton.PerformClick();
             if (e.KeyCode == Keys.M)
@@ -554,7 +939,7 @@ namespace Vector_Drawing_Application
                 ClearButton.PerformClick();
             if (e.KeyCode == Keys.E)
                 DeleteButton.PerformClick();
-            if (e.KeyCode == Keys.Z)
+            if (e.KeyCode == Keys.Z && e.Control)
                 UndoButton.PerformClick();
         }
 
@@ -589,6 +974,24 @@ namespace Vector_Drawing_Application
                         + " " + Squares[i].colour.ToArgb();
                     writer.Write(squareLine + "\n");
                 }
+                writer.Write("Circles\n");
+                for (int i = 0; i < Circles.Count; i++)
+                {
+                    //writes GraphCircle constructor's parameters
+                    string circleLine = Circles[i].GetParentId() + " " + Circles[i].Id + " " + Circles[i].Center.X + " "
+                        + Circles[i].Center.Y + " " + Circles[i].Radius + " " + Circles[i].Fill + " " + Circles[i].size
+                        + " " + Circles[i].colour.ToArgb();
+                    writer.Write(circleLine + "\n");
+                }
+                writer.Write("Lines\n");
+                for (int i = 0; i < Lines.Count; i++)
+                {
+                    //writes GraphLine constructor's parameters
+                    string lineLine = Lines[i].GetParentId() + " " + Lines[i].Id + " " + Lines[i].StartPoint.X + " "
+                        + Lines[i].StartPoint.Y + " " + Lines[i].EndPoint.X + " " + Lines[i].EndPoint.Y + " " + Lines[i].size
+                        + " " + Lines[i].colour.ToArgb();
+                    writer.Write(lineLine + "\n");
+                }
                 writer.Close();
             }
         }
@@ -597,7 +1000,7 @@ namespace Vector_Drawing_Application
         {
             for (int i = 0; i < Rects.Count; i++)
             {
-                if (Rects[i].GetId() == p)
+                if (Rects[i].Id == p)
                     return Rects[i];
             }
             return null;
@@ -607,13 +1010,34 @@ namespace Vector_Drawing_Application
         {
             for (int i = 0; i < Squares.Count; i++)
             {
-                if (Squares[i].GetId() == p)
+                if (Squares[i].Id == p)
                     return Squares[i];
             }
             return null;
         }
 
+        private GraphCircle GetCircleParent(int p)
+        {
+            for (int i = 0; i < Circles.Count; i++)
+            {
+                if (Circles[i].Id == p)
+                    return Circles[i];
+            }
+            return null;
+        }
+
+        private GraphLine GetLineParent(int p)
+        {
+            for (int i = 0; i < Lines.Count; i++)
+            {
+                if (Lines[i].Id == p)
+                    return Lines[i];
+            }
+            return null;
+        }
+
         string lastFilePath;
+        int k, l, m;
 
         private void ReadFromText()
         {
@@ -640,13 +1064,34 @@ namespace Vector_Drawing_Application
 
                 GraphRect rect;
                 GraphSquare square;
+                GraphCircle circle;
+                GraphLine line;
+
+                for (int index = 0; index < lines.Length; index++)
+                {
+                    if (lines[index].Equals("Squares"))
+                    {
+                        k = index;
+                    }
+
+                    if (lines[index].Equals("Circles"))
+                    {
+                        l = index;
+                    }
+
+                    if (lines[index].Equals("Lines"))
+                    {
+                        m = index;
+                    }
+                }
 
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string[] a = lines[i].Split(' ');
 
-                    if(a.Length == 9)
+                    if (a.Length == 9 && i < k)
                     {
+                        
                         //if rectangle doesn't have a parent GraphRect constructor makes parent parameter null
                         if (int.Parse(a[0]) == 0)
                         {
@@ -662,7 +1107,7 @@ namespace Vector_Drawing_Application
                         Rects.Add(rect);
                     }
 
-                    if (a.Length == 8)
+                    if (a.Length == 8 && i > k && i < l)
                     {
                         if (int.Parse(a[0]) == 0)
                         {
@@ -676,20 +1121,52 @@ namespace Vector_Drawing_Application
                         }
                         Squares.Add(square);
                     }
+                    
+                    if (a.Length == 8 && i > l && i < m)
+                    {
+                        if (int.Parse(a[0]) == 0)
+                        {
+                            circle = new GraphCircle(null, int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]), int.Parse(a[5]),
+                                int.Parse(a[6]), Color.FromArgb(int.Parse(a[7])));
+                        }
+                        else
+                        {
+                            circle = new GraphCircle(GetCircleParent(int.Parse(a[0])), int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]),
+                                int.Parse(a[5]), int.Parse(a[6]), Color.FromArgb(int.Parse(a[7])));
+                        }
+                        Circles.Add(circle);
+                    }
+
+                    if (a.Length == 8 && i > m)
+                    {
+                        if (int.Parse(a[0]) == 0)
+                        {
+                            line = new GraphLine(null, int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]), int.Parse(a[5]),
+                                int.Parse(a[6]), Color.FromArgb(int.Parse(a[7])));
+                        }
+                        else
+                        {
+                            line = new GraphLine(GetLineParent(int.Parse(a[0])), int.Parse(a[1]), float.Parse(a[2]), float.Parse(a[3]), float.Parse(a[4]),
+                                int.Parse(a[5]), int.Parse(a[6]), Color.FromArgb(int.Parse(a[7])));
+                        }
+                        Lines.Add(line);
+                    }
                 }
             }
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.Arrow;
             WriteToText();
         }
 
         private void LoadButton_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.Arrow;
             ReadFromText();
             Refresh();
-            Console.WriteLine("rects + square = "+ Rects.Count + Squares.Count);
+            Console.WriteLine("rects + square + circle + line = "+ Rects.Count + Squares.Count + Circles.Count + Lines.Count);
         }
 
         private void Vector_Drawing_Application_FormClosing(object sender, FormClosingEventArgs e)
@@ -698,9 +1175,9 @@ namespace Vector_Drawing_Application
             {
                 OpenFileDialog file = new OpenFileDialog();
                 string[] alines = File.ReadAllLines(lastFilePath);
-                int shapeCount = alines.Count() - 2; //need to increase when new shapelists are added
+                int shapeCount = alines.Count() - 4; //need to increase when new shapelists are added
 
-                if (shapeCount != Rects.Count + Squares.Count)
+                if (shapeCount != Rects.Count + Squares.Count + Circles.Count + Lines.Count)
                 {
                     Console.WriteLine("shapecount" + shapeCount);
                     if (MessageBox.Show("Do you want to save your changes?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
