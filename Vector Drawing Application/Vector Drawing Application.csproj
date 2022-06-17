@@ -52,6 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphShape\GraphPolygon.cs" />
+    <Compile Include="ShapeMoveInfo\PolygonMoveInfo.cs" />
     <Compile Include="ShapeMoveInfo\CircleMoveInfo.cs" />
     <Compile Include="GraphShape\GraphCircle.cs" />
     <Compile Include="GraphShape\GraphLine.cs" />

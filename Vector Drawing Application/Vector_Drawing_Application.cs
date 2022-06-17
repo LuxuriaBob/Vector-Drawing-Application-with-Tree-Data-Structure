@@ -19,6 +19,7 @@ namespace Vector_Drawing_Application
         bool drawSquare = false;
         bool drawCircle = false;
         bool drawLine = false;
+        bool drawPolygon = false;
         bool move = false;  
         bool select = false;
 
@@ -39,11 +40,13 @@ namespace Vector_Drawing_Application
         GraphSquare SelectedSquare = null;
         GraphCircle SelectedCircle = null;
         GraphLine SelectedLine = null;
-
+        GraphPolygon SelectedPolygon = null;
+        
         RectMoveInfo RectMoving = null; //move info for selected rect
         SquareMoveInfo SquareMoving = null; //move info for selected square
         CircleMoveInfo CircleMoving = null; //move info for selected circle
         LineMoveInfo LineMoving = null; //move info for selected line
+        PolygonMoveInfo PolygonMoving = null;//move info for selected polygon
 
         RectMoveInfo RectSecondMoving = null;   //stores rect-moving for undo-move method
         Point secondRectE;  //stores rect-coordinates for undo-move
@@ -56,6 +59,9 @@ namespace Vector_Drawing_Application
 
         LineMoveInfo LineSecondMoving = null;   //stores line moving for undo-move method
         Point secondLineE;  //stores line-coordinates for undo-move
+
+        PolygonMoveInfo PolygonSecondMoving = null;   //stores Polygon moving for undo-move method
+        Point secondPolygonE;  //stores Polygon-coordinates for undo-move
 
         Point startlocation;    //shape's top left coordinates
         Point endlocation;      //shape's bottom right coordinates
@@ -141,7 +147,20 @@ namespace Vector_Drawing_Application
                     LineSecondMoving = LineMoving;      //stores Moving for undo method
                     secondLineE = e.Location;   //stores mouse coordinates for undo method
                 }
-                
+
+                RefreshPolygonSelection(e.Location);
+                if (this.SelectedPolygon != null && PolygonMoving == null)
+                {
+                    this.Capture = true;
+                    PolygonMoving = new PolygonMoveInfo   //sets Moving class properties for moving Polygon
+                    {
+                        Polygon = this.SelectedPolygon,
+                        PolygonPoints = SelectedPolygon.CurvePoints,
+                        StartMoveMousePoint = e.Location
+                    };
+                    PolygonSecondMoving = PolygonMoving;      //stores Moving for undo method
+                    secondPolygonE = e.Location;   //stores mouse coordinates for undo method
+                }
             }
             else if (select)
             {
@@ -156,7 +175,10 @@ namespace Vector_Drawing_Application
                 
                 LineHitTest(Lines, e.Location);
                 RefreshLineSelection(e.Location);
-                
+
+                PolygonHitTest(Polygons, e.Location);
+                RefreshPolygonSelection(e.Location);
+
                 Refresh();
             }
         }
@@ -187,6 +209,8 @@ namespace Vector_Drawing_Application
                 {
                     RectMoving.Rect.SetX(RectMoving.StartRectPoint.X + e.X - RectMoving.StartMoveMousePoint.X); //sets x coordinate of a moving rect
                     RectMoving.Rect.SetY(RectMoving.StartRectPoint.Y + e.Y - RectMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving rect
+                    Console.WriteLine(RectMoving.Rect.StartPoint.X);
+                    Console.WriteLine(RectMoving.Rect.StartPoint.Y);
                 }
                 RefreshRectSelection(e.Location);
 
@@ -212,6 +236,27 @@ namespace Vector_Drawing_Application
                     LineMoving.Line.SetY2(LineMoving.EndLinePoint.Y + e.Y - LineMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving line
                 }
                 RefreshLineSelection(e.Location);
+                
+                if (PolygonMoving != null)
+                {
+                    /*
+                    for (int i = 0; i < PolygonMoving.Polygon.CurvePoints.Count(); i++)
+                    {
+                       
+                    }
+                    */
+                    for (int i = 0; i < PolygonMoving.Polygon.CurvePoints.Count(); i++)
+                    {
+                        PolygonMoving.Polygon.SetX(PolygonMoving.PolygonPoints[i].X + e.X - PolygonMoving.StartMoveMousePoint.X); //sets x coordinate of a moving Polygon
+                        PolygonMoving.Polygon.SetY(PolygonMoving.PolygonPoints[i].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving Polygon
+                        Refresh();
+                    }
+                    
+                    Console.WriteLine(SelectedPolygon.CurvePoints[0].X);
+                    Console.WriteLine(SelectedPolygon.CurvePoints[0].Y);
+                    
+                }
+                RefreshPolygonSelection(e.Location);
             }
         }
     
@@ -267,12 +312,55 @@ namespace Vector_Drawing_Application
                     this.Capture = false;
                     LineMoving = null;
                 }
+                else if (PolygonMoving != null)
+                {
+                    this.Capture = false;
+                    PolygonMoving = null;
+                }
                 RefreshRectSelection(e.Location);
                 RefreshSquareSelection(e.Location);
                 RefreshCircleSelection(e.Location);
                 RefreshLineSelection(e.Location);
+                RefreshPolygonSelection(e.Location);
             }
-            this.Cursor = Cursors.Arrow;
+        }
+
+        public List<GraphPolygon> Polygons = new List<GraphPolygon>();   // main Polygons list
+        public List<PointF> polygonPoints = new List<PointF>();
+
+        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (drawPolygon)
+            {
+                switch (e.Button)
+                {
+                    case MouseButtons.Left:
+                        //get points for polygon
+                        polygonPoints.Add((new PointF(e.X, e.Y)));
+                        break;
+                    case MouseButtons.Right:
+                        //finish polygon
+                        if (polygonPoints.Count() > 2)
+                        {
+                            if (FillColorCheckBox.Checked)
+                            {
+                                int fill = 1;
+                                GraphPolygon polygon = new GraphPolygon(SelectedPolygon, Polygons.Count + 1, polygonPoints.ToArray(), fill, trackBar1.Value, colorPicker.Color);
+                                Polygons.Add(polygon);   //adds to Polygons list
+                            }
+                            else
+                            {
+                                int fill = 0;
+                                GraphPolygon polygon = new GraphPolygon(SelectedPolygon, Polygons.Count + 1, polygonPoints.ToArray(), fill, trackBar1.Value, colorPicker.Color);
+                                Polygons.Add(polygon);   //adds to Polygons list
+                            }
+                            drawPolygon = false;
+                            polygonPoints.Clear();
+                        }
+                        break;       
+                }
+            }
+            Refresh();
         }
 
         ColorDialog colorPicker = new ColorDialog();
@@ -291,26 +379,8 @@ namespace Vector_Drawing_Application
             int startPointY = endlocation.Y < startlocation.Y ? endlocation.Y : startlocation.Y;    //determines y coordinate of top left corner by determining which is smaller
             int rectWidth = Math.Abs(startlocation.X - endlocation.X);  //width and height is difference of coordinates
             int rectHeight = Math.Abs(startlocation.Y - endlocation.Y);
-
-            if (SelectedRect == null)
-            {
-                if (FillColorCheckBox.Checked)
-                {
-                    int fill = 1;
-                    GraphRect rectangle = new GraphRect(SelectedRect, Rects.Count + 1, startPointX, startPointY, rectWidth, rectHeight, 
-                        fill, trackBar1.Value, colorPicker.Color);
-                    Rects.Add(rectangle);   //adds to Rects list
-                }
-                else
-                {
-                    int fill = 0;
-                    GraphRect rectangle = new GraphRect(SelectedRect, Rects.Count + 1, startPointX, startPointY, rectWidth, rectHeight, 
-                        fill, trackBar1.Value, colorPicker.Color);
-                    Rects.Add(rectangle);   //adds to Rects list
-                }
-            }
                 
-            else if (FillColorCheckBox.Checked)
+            if (FillColorCheckBox.Checked)
             {
                 int fill = 1;
                 GraphRect rectangle = new GraphRect(SelectedRect, Rects.Count + 1, startPointX, startPointY, rectWidth, rectHeight, 
@@ -334,24 +404,7 @@ namespace Vector_Drawing_Application
             int startPointY = endlocation.Y < startlocation.Y ? endlocation.Y : startlocation.Y;    //determines y coordinate of top left corner by determining which is smaller
             int squareSide = Math.Abs(startlocation.Y - endlocation.Y);
 
-            if (SelectedSquare == null)
-            {
-                if (FillColorCheckBox.Checked)
-                {
-                    int fill = 1;
-                    GraphSquare square = new GraphSquare(SelectedSquare, Squares.Count + 1, startPointX, startPointY, squareSide,
-                        fill, trackBar1.Value, colorPicker.Color);
-                    Squares.Add(square);   //adds to Rects list
-                }
-                else
-                {
-                    int fill = 0;
-                    GraphSquare square = new GraphSquare(SelectedSquare, Squares.Count + 1, startPointX, startPointY, squareSide,
-                        fill, trackBar1.Value, colorPicker.Color);
-                    Squares.Add(square);   //adds to Rects list
-                }
-            }
-            else if (FillColorCheckBox.Checked)
+            if (FillColorCheckBox.Checked)
             {
                 int fill = 1;
                 GraphSquare square = new GraphSquare(SelectedSquare, Squares.Count + 1, startPointX, startPointY, squareSide,
@@ -377,24 +430,7 @@ namespace Vector_Drawing_Application
             int yDiff = Math.Abs(startlocation.Y - endlocation.Y);
             float radius = (float)Math.Sqrt((xDiff * xDiff) + (yDiff * yDiff));
           
-            if (SelectedCircle == null)
-            {
-                if (FillColorCheckBox.Checked)
-                {
-                    int fill = 1;
-                    GraphCircle circle = new GraphCircle(SelectedCircle, Circles.Count + 1, CenterX, CenterY, radius,
-                        fill, trackBar1.Value, colorPicker.Color);
-                    Circles.Add(circle);   //adds to Circles list
-                }
-                else
-                {
-                    int fill = 0;
-                    GraphCircle circle = new GraphCircle(SelectedCircle, Circles.Count + 1, CenterX, CenterY, radius,
-                        fill, trackBar1.Value, colorPicker.Color);
-                    Circles.Add(circle);   //adds to Circles list
-                }
-            }
-            else if (FillColorCheckBox.Checked)
+            if (FillColorCheckBox.Checked)
             {
                 int fill = 1;
                 GraphCircle circle = new GraphCircle(SelectedCircle, Circles.Count + 1, CenterX, CenterY, radius,
@@ -419,9 +455,9 @@ namespace Vector_Drawing_Application
             int EndPositionX = endlocation.X;
             int EndPositionY = endlocation.Y;
 
-            GraphLine Line = new GraphLine(SelectedLine, Lines.Count + 1, StartPositionX, StartPositionY, EndPositionX, EndPositionY,
+            GraphLine line = new GraphLine(SelectedLine, Lines.Count + 1, StartPositionX, StartPositionY, EndPositionX, EndPositionY,
             trackBar1.Value, colorPicker.Color);
-            Lines.Add(Line);   //adds to Lines list
+            Lines.Add(line);   //adds to Lines list
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -485,6 +521,22 @@ namespace Vector_Drawing_Application
                 var pen = new Pen(color, line.size);   //selected colour, circle's size
 
                 e.Graphics.DrawLine(pen, line.StartPoint, line.EndPoint);   //draws circle in Circles list
+            }
+
+            foreach (var polygon in Polygons)
+            {
+                var color = polygon == SelectedPolygon ? Color.Blue : polygon.GetColour();    //polygon.GetColour(rect)Selectedpolygon is blue, others are colors selected from colorpicker
+                var size = trackBar1.Value;
+                var pen = new Pen(color, polygon.size);   //selected colour, polygon's size
+
+                if (polygon.Fill == 0)
+                {
+                    e.Graphics.DrawPolygon(pen, polygon.CurvePoints);   //draws polygon in polygons list
+                }
+                else
+                {
+                    e.Graphics.FillPolygon(pen.Brush, polygon.CurvePoints);   //fills polygon in polygons list
+                }
             }
         }
 
@@ -553,7 +605,7 @@ namespace Vector_Drawing_Application
             foreach (var line in lines)
             {
                 //draws each Line on small region around current point p and check pixel in point p 
-                using (var g = Graphics.FromImage(buffer))  //draws a Circle by using Point p which is mouse location
+                using (var g = Graphics.FromImage(buffer))  //draws a Line by using Point p which is mouse location
                 {
                     g.Clear(Color.Black);
                     g.DrawLine(new Pen(Color.Green, 10), line.StartPoint.X - p.X + size, line.StartPoint.Y - p.Y + size,
@@ -565,7 +617,49 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+        
+        static GraphPolygon PolygonHitTest(List<GraphPolygon> polygons, Point p)
+        {
+            var size = 10;
+            var buffer = new Bitmap(size * 2, size * 2);
+            /*
+            PointF point1 = new PointF(polygons.ElementAt(0).CurvePoints[0].X - p.X + size, polygons.ElementAt(0).CurvePoints[0].Y - p.Y + size);
+            PointF point2 = new PointF(polygons.ElementAt(0).CurvePoints[1].X - p.X + size, polygons.ElementAt(0).CurvePoints[1].Y - p.Y + size);
+            PointF point3 = new PointF(polygons.ElementAt(0).CurvePoints[2].X - p.X + size, polygons.ElementAt(0).CurvePoints[2].Y - p.Y + size);
+            PointF[] curvePoints =
+                     {
+                 point1,
+                 point2,
+                 point3,
+             };
+             */
+            PointF[] curvePoints = new PointF[100];
 
+            foreach (var polygon in polygons)
+            {
+                for(int i = 0; i < polygon.CurvePoints.Count(); i++)
+                {
+                    curvePoints[i] = new PointF(polygon.CurvePoints[i].X - p.X + size, 
+                        polygon.CurvePoints[i].Y - p.Y + size);
+                }
+            }
+            
+            foreach (var polygon in polygons)
+            {
+                //draws each polygon on small region around current point p and check pixel in point p 
+                using (var g = Graphics.FromImage(buffer))  //draws a Polygon by using Point p which is mouse location
+                {
+                    g.Clear(Color.Black);
+                    g.DrawPolygon(new Pen(Color.Green, 10), curvePoints);
+                }
+
+                if (buffer.GetPixel(size, size).ToArgb() != Color.Black.ToArgb())   //checks whether mouse is on a black pixel
+                    return polygon;
+                    
+            }
+            return null;
+        }
+        
         GraphRect LastSelectedRect = null;
 
         private void RefreshRectSelection(Point point)
@@ -642,11 +736,31 @@ namespace Vector_Drawing_Application
             this.Invalidate();
         }
 
+        GraphPolygon LastSelectedPolygon = null;
+
+        private void RefreshPolygonSelection(Point point)
+        {
+            if (select)
+            {
+                var selectedPolygon = PolygonHitTest(Polygons, point);
+                if (selectedPolygon != this.SelectedPolygon)
+                {
+                    this.SelectedPolygon = selectedPolygon;
+                    LastSelectedPolygon = selectedPolygon;    //stores selectedPolygon for undo-select method
+                    this.Invalidate();
+                }
+                if (PolygonMoving != null)
+                    this.Invalidate();
+            }
+            this.Invalidate();
+        }
+
         string lastButton = null;   //stores last pressed button
 
-        private void MakeAllFalse(ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
+        private void MakeAllFalse(ref bool t, ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
         {
             //make every parameter false
+            t = false;
             u = false;
             v = false;
             w = false;
@@ -655,9 +769,10 @@ namespace Vector_Drawing_Application
             z = false;
         }
 
-        private void MakeLastTrue(ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
+        private void MakeLastTrue(ref bool t, ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
         {
             //make last parameter true
+            t = false;
             u = false;
             v = false;
             w = false;
@@ -666,87 +781,99 @@ namespace Vector_Drawing_Application
             z = true;
         }
 
-        private void MakeSelectionNull(ref GraphRect selectedRect, ref GraphSquare selectedSquare, ref GraphCircle selectedCircle, ref GraphLine selectedLine)
+        private void MakeSelectionNull(ref GraphRect selectedRect, ref GraphSquare selectedSquare, ref GraphCircle selectedCircle, ref GraphLine selectedLine, ref GraphPolygon selectedPolygon)
         {
             selectedRect = null;
             selectedSquare = null;
             selectedCircle = null;
             selectedLine = null;
+            selectedPolygon = null;
         }
 
-        private void MakeMovingNull(ref RectMoveInfo RectMoving, ref SquareMoveInfo SquareMoving, ref CircleMoveInfo CircleMoving, ref LineMoveInfo LiveMoving)
+        private void MakeMovingNull(ref RectMoveInfo RectMoving, ref SquareMoveInfo SquareMoving, ref CircleMoveInfo CircleMoving, ref LineMoveInfo LiveMoving, ref PolygonMoveInfo PolygonMoving)
         {
             RectMoving = null;
             SquareMoving = null;
             CircleMoving = null;
             LineMoving = null;
+            PolygonMoving = null;
         }
 
-        private void MakeListsEmpty(ref List<GraphRect> Rects, ref List<GraphSquare> Squares, ref List<GraphCircle> Circles, ref List<GraphLine> Lines)
+        private void MakeListsEmpty(ref List<GraphRect> Rects, ref List<GraphSquare> Squares, ref List<GraphCircle> Circles, ref List<GraphLine> Lines, ref List<GraphPolygon> Polygons)
         {
             Rects.Clear();
             Squares.Clear();
             Circles.Clear();
             Lines.Clear();
+            Polygons.Clear();
         }
 
         private void RectButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawRect";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawLine, ref select, ref move, ref drawRect);
+            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move, ref drawRect);
         }
 
         private void SquareButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawSquare";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawRect, ref drawCircle, ref drawLine, ref select, ref move, ref drawSquare);
+            MakeLastTrue(ref drawRect, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move, ref drawSquare);
         }
 
         private void CircleButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawCircle";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawSquare, ref drawRect, ref drawLine, ref select, ref move, ref drawCircle);
+            MakeLastTrue(ref drawSquare, ref drawRect, ref drawLine, ref drawPolygon, ref select, ref move, ref drawCircle);
         }
 
         private void LineButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawLine";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawSquare, ref drawRect, ref drawCircle, ref select, ref move, ref drawLine);
+            MakeLastTrue(ref drawSquare, ref drawRect, ref drawCircle, ref drawPolygon, ref select, ref move, ref drawLine);
+        }
+
+        private void PolygonButton_Click(object sender, EventArgs e)
+        {
+            lastButton = "drawPolygon";
+            this.Cursor = Cursors.Arrow;
+            MakeLastTrue(ref drawSquare, ref drawRect, ref drawCircle, ref drawLine, ref select, ref move, ref drawPolygon);
         }
 
         private void SelectButton_Click(object sender, EventArgs e)
         {
             lastButton = "select";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawRect, ref drawLine, ref move, ref select);
+            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawRect, ref drawLine, ref drawPolygon, ref move, ref select);
         }
 
         private void MoveButton_Click(object sender, EventArgs e)
         {
             lastButton = "move";
             this.Cursor = Cursors.SizeAll;
-            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawLine, ref select, ref drawRect, ref move);
+            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref drawRect, ref move);
         }
 
         public List<GraphRect> tempRects = new List<GraphRect>();   //temperary rects list for undo-draw method
         public List<GraphSquare> tempSquares = new List<GraphSquare>();   //temperary rects list for undo-draw method
         public List<GraphCircle> tempCircles = new List<GraphCircle>();   //temperary circles list for undo-draw method
         public List<GraphLine> tempLines = new List<GraphLine>();   //temperary lines list for undo-draw method
+        public List<GraphPolygon> tempPolygons = new List<GraphPolygon>();  //temperary polygons list for undo-draw method
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             lastButton = "delete";
             this.Cursor = Cursors.Arrow;
-            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref select, ref move);
+            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move);
 
             tempRects = Rects.ToList(); //stores Rects list in tempRects for undo method
             tempSquares = Squares.ToList(); //stores Squares list in tempSquares for undo method
             tempCircles = Circles.ToList(); //stores Circles list in tempCircles for undo method
             tempLines = Lines.ToList(); //stores Lines list in tempLines for undo method
+            tempPolygons = Polygons.ToList(); //stores Polygons list in tempPolygons for undo method
 
             if (Rects.Count != 0)   //Exception for empty list
             {
@@ -777,13 +904,21 @@ namespace Vector_Drawing_Application
 
             if (Lines.Count != 0)   //Exception for empty list
             {
-                if (Lines.Contains(SelectedLine))    //delete selected vircle if Circles list contains
+                if (Lines.Contains(SelectedLine))    //delete selected vircle if Lines list contains
                 {
                     SelectedLine.DeleteLines(Lines);
                     Lines.Remove(SelectedLine);
                 }
             }
 
+            if (Polygons.Count != 0)   //Exception for empty list
+            {
+                if (Polygons.Contains(SelectedPolygon))    //delete selected vircle if Polygons list contains
+                {
+                    SelectedPolygon.DeletePolygons(Polygons);
+                    Polygons.Remove(SelectedPolygon);
+                }
+            }
             Refresh();
         }
 
@@ -791,10 +926,10 @@ namespace Vector_Drawing_Application
         {
             lastButton = "clear";
             this.Cursor = Cursors.Arrow;
-            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref select, ref move);
-            MakeSelectionNull(ref this.SelectedRect, ref this.SelectedSquare, ref this.SelectedCircle, ref this.SelectedLine);
-            MakeMovingNull(ref RectMoving, ref SquareMoving, ref CircleMoving, ref LineMoving);
-            MakeListsEmpty(ref Rects, ref Squares, ref Circles, ref Lines);
+            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move);
+            MakeSelectionNull(ref this.SelectedRect, ref this.SelectedSquare, ref this.SelectedCircle, ref this.SelectedLine, ref this.SelectedPolygon);
+            MakeMovingNull(ref RectMoving, ref SquareMoving, ref CircleMoving, ref LineMoving, ref PolygonMoving);
+            MakeListsEmpty(ref Rects, ref Squares, ref Circles, ref Lines, ref Polygons);
             this.Capture = false;
             Refresh();
         }
@@ -804,7 +939,7 @@ namespace Vector_Drawing_Application
         private void UndoButton_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Arrow;
-            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref select, ref move);
+            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move);
 
             switch (lastButton)
             {
@@ -836,6 +971,13 @@ namespace Vector_Drawing_Application
                     }
                     Refresh();
                     break;
+                case "drawPolygon":
+                    if (Polygons.Count > 0)
+                    {
+                        Polygons.RemoveAt(Polygons.Count - 1);    //removes last drawn polygon in Polygons list
+                    }
+                    Refresh();
+                    break;
                 case "select":
                     if (LastSelectedRect != null)
                     {
@@ -861,6 +1003,12 @@ namespace Vector_Drawing_Application
                         var pen = new Pen(LastSelectedLine.colour, LastSelectedLine.size);
                         K = this.CreateGraphics();
                         K.DrawLine(pen, LastSelectedLine.StartPoint.X, LastSelectedLine.StartPoint.Y, LastSelectedLine.EndPoint.X, LastSelectedLine.EndPoint.Y);
+                    }
+                    if (LastSelectedPolygon != null)
+                    {
+                        var pen = new Pen(LastSelectedPolygon.colour, LastSelectedPolygon.size);
+                        K = this.CreateGraphics();
+                        K.DrawPolygon(pen, LastSelectedPolygon.CurvePoints);
                     }
                     break;
                 case "move":
@@ -910,6 +1058,7 @@ namespace Vector_Drawing_Application
                     Squares = tempSquares.ToList(); //sends all tempSquares elements to Squares list
                     Circles = tempCircles.ToList(); //sends all tempCircles elements to Circles list
                     Lines = tempLines.ToList(); //sends all tempLines elements to Lines list
+                    Polygons = tempPolygons.ToList();//sends all tempPolygons elements to Polygons list
                     Refresh();
                     break;
                 case "clear":
@@ -931,6 +1080,8 @@ namespace Vector_Drawing_Application
                 CircleButton.PerformClick();
             if (e.KeyValue == 52)   // 4 in keyboard
                 LineButton.PerformClick();
+            if (e.KeyValue == 53)   // 5 in keyboard
+                PolygonButton.PerformClick();
             if (e.KeyCode == Keys.S)
                 SelectButton.PerformClick();
             if (e.KeyCode == Keys.M)
@@ -939,8 +1090,10 @@ namespace Vector_Drawing_Application
                 ClearButton.PerformClick();
             if (e.KeyCode == Keys.E)
                 DeleteButton.PerformClick();
-            if (e.KeyCode == Keys.Z && e.Control)
+            if (e.Control && e.KeyCode == Keys.Z)
                 UndoButton.PerformClick();
+            if (e.Control && e.KeyCode == Keys.S)
+                SaveButton.PerformClick();
         }
 
         private void WriteToText()
@@ -992,6 +1145,17 @@ namespace Vector_Drawing_Application
                         + " " + Lines[i].colour.ToArgb();
                     writer.Write(lineLine + "\n");
                 }
+                writer.Write("Polygons\n");
+                /*
+                for (int i = 0; i < Polygons.Count; i++)
+                {
+                    //writes GraphLine constructor's parameters
+                    string lineLine = Lines[i].GetParentId() + " " + Lines[i].Id + " " + Lines[i].StartPoint.X + " "
+                        + Lines[i].StartPoint.Y + " " + Lines[i].EndPoint.X + " " + Lines[i].EndPoint.Y + " " + Lines[i].size
+                        + " " + Lines[i].colour.ToArgb();
+                    writer.Write(lineLine + "\n");
+                }
+                */
                 writer.Close();
             }
         }
@@ -1036,8 +1200,18 @@ namespace Vector_Drawing_Application
             return null;
         }
 
+        private GraphPolygon GetPolygonParent(int p)
+        {
+            for (int i = 0; i < Polygons.Count; i++)
+            {
+                if (Lines[i].Id == p)
+                    return Polygons[i];
+            }
+            return null;
+        }
+
         string lastFilePath;
-        int k, l, m;
+        int k, l, m, n;
 
         private void ReadFromText()
         {
@@ -1066,6 +1240,7 @@ namespace Vector_Drawing_Application
                 GraphSquare square;
                 GraphCircle circle;
                 GraphLine line;
+                GraphPolygon polygon;
 
                 for (int index = 0; index < lines.Length; index++)
                 {
@@ -1082,6 +1257,11 @@ namespace Vector_Drawing_Application
                     if (lines[index].Equals("Lines"))
                     {
                         m = index;
+                    }
+
+                    if (lines[index].Equals("Polygons"))
+                    {
+                        n = index;
                     }
                 }
 
@@ -1159,14 +1339,14 @@ namespace Vector_Drawing_Application
         {
             this.Cursor = Cursors.Arrow;
             WriteToText();
-        }
+        }        
 
         private void LoadButton_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Arrow;
             ReadFromText();
             Refresh();
-            Console.WriteLine("rects + square + circle + line = "+ Rects.Count + Squares.Count + Circles.Count + Lines.Count);
+            Console.WriteLine("rects + squares + circles + lines = polygons"+ Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count);
         }
 
         private void Vector_Drawing_Application_FormClosing(object sender, FormClosingEventArgs e)
@@ -1175,9 +1355,9 @@ namespace Vector_Drawing_Application
             {
                 OpenFileDialog file = new OpenFileDialog();
                 string[] alines = File.ReadAllLines(lastFilePath);
-                int shapeCount = alines.Count() - 4; //need to increase when new shapelists are added
+                int shapeCount = alines.Count() - 5; //need to increase when new shapelists are added
 
-                if (shapeCount != Rects.Count + Squares.Count + Circles.Count + Lines.Count)
+                if (shapeCount != Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count)
                 {
                     Console.WriteLine("shapecount" + shapeCount);
                     if (MessageBox.Show("Do you want to save your changes?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
