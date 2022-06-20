@@ -20,8 +20,9 @@ namespace Vector_Drawing_Application
         bool drawCircle = false;
         bool drawLine = false;
         bool drawPolygon = false;
-        bool move = false;  
         bool select = false;
+        bool move = false;
+        bool stretch = false;
 
         public Vector_Drawing_Application()
         {
@@ -65,6 +66,9 @@ namespace Vector_Drawing_Application
 
         Point startlocation;    //shape's top left coordinates
         Point endlocation;      //shape's bottom right coordinates
+        Point cornerlocation;
+
+        int index = 0;
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -160,6 +164,12 @@ namespace Vector_Drawing_Application
                     };
                     PolygonSecondMoving = PolygonMoving;      //stores Moving for undo method
                     secondPolygonE = e.Location;   //stores mouse coordinates for undo method
+
+                    for (int i = 0; i < PolygonMoving.PolygonPoints.Length; i++)
+                    {
+                        Console.WriteLine($"polygonpoints {i}.X = " + PolygonMoving.PolygonPoints[i].X);
+                        Console.WriteLine($"polygonpoints {i}.Y = " + PolygonMoving.PolygonPoints[i].Y);
+                    }
                 }
             }
             else if (select)
@@ -180,6 +190,24 @@ namespace Vector_Drawing_Application
                 RefreshPolygonSelection(e.Location);
 
                 Refresh();
+            }
+            else if (stretch)
+            {
+                /*
+                cornerlocation = e.Location;
+                RefreshPolygonSelection(e.Location);
+
+                if (this.SelectedPolygon != null && PolygonMoving == null)
+                {
+                    this.Capture = true;
+                    PolygonMoving = new PolygonMoveInfo   //sets Moving class properties for moving Polygon
+                    {
+                        Polygon = this.SelectedPolygon,
+                        PolygonPoints = SelectedPolygon.CurvePoints,
+                        StartMoveMousePoint = e.Location
+                    };
+                }
+                */
             }
         }
 
@@ -207,10 +235,10 @@ namespace Vector_Drawing_Application
 
                 if (RectMoving != null)
                 {
+                    index++;
+                    Console.WriteLine("rect index" + index);
                     RectMoving.Rect.SetX(RectMoving.StartRectPoint.X + e.X - RectMoving.StartMoveMousePoint.X); //sets x coordinate of a moving rect
                     RectMoving.Rect.SetY(RectMoving.StartRectPoint.Y + e.Y - RectMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving rect
-                    Console.WriteLine(RectMoving.Rect.StartPoint.X);
-                    Console.WriteLine(RectMoving.Rect.StartPoint.Y);
                 }
                 RefreshRectSelection(e.Location);
 
@@ -239,27 +267,62 @@ namespace Vector_Drawing_Application
                 
                 if (PolygonMoving != null)
                 {
-                    /*
-                    for (int i = 0; i < PolygonMoving.Polygon.CurvePoints.Count(); i++)
+                    index++;
+                    //PolygonMoving.Polygon.SetX(PolygonMoving.PolygonPoints[0].X + e.X - PolygonMoving.StartMoveMousePoint.X);
+                    //PolygonMoving.Polygon.SetY(PolygonMoving.PolygonPoints[0].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y);
+
+                    PolygonMoving.Polygon.SetX1(PolygonMoving.PolygonPoints[0].X + e.X - PolygonMoving.StartMoveMousePoint.X);
+                    PolygonMoving.Polygon.SetY1(PolygonMoving.PolygonPoints[0].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y);
+                    PolygonMoving.Polygon.SetX2(PolygonMoving.PolygonPoints[1].X + e.X - PolygonMoving.StartMoveMousePoint.X);
+                    PolygonMoving.Polygon.SetY2(PolygonMoving.PolygonPoints[1].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y);
+                    PolygonMoving.Polygon.SetX3(PolygonMoving.PolygonPoints[2].X + e.X - PolygonMoving.StartMoveMousePoint.X);
+                    PolygonMoving.Polygon.SetY3(PolygonMoving.PolygonPoints[2].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y);
+
+                    for (int i = 0; i < PolygonMoving.PolygonPoints.Length; i++)
                     {
-                       
+                        Console.WriteLine($"polygonpoints {i}.X = " + PolygonMoving.PolygonPoints[i].X);
+                        Console.WriteLine($"polygonpoints {i}.Y = " + PolygonMoving.PolygonPoints[i].Y);
+                    }
+                    Console.WriteLine("index "+index);
+                    /*
+                    SizeF StartMoveMouseCoordinate = new SizeF(PolygonMoving.StartMoveMousePoint.X, PolygonMoving.StartMoveMousePoint.Y);
+                    SizeF CurrentMouseCoordinate = new SizeF(e.X, e.Y);
+
+                    for(int i = 0; i<PolygonMoving.PolygonPoints.Length; i++)
+                    {
+                        PolygonMoving.PolygonPoints[i] = PolygonMoving.PolygonPoints[i] + CurrentMouseCoordinate - StartMoveMouseCoordinate;
                     }
                     */
-                    for (int i = 0; i < PolygonMoving.Polygon.CurvePoints.Count(); i++)
-                    {
-                        PolygonMoving.Polygon.SetX(PolygonMoving.PolygonPoints[i].X + e.X - PolygonMoving.StartMoveMousePoint.X); //sets x coordinate of a moving Polygon
-                        PolygonMoving.Polygon.SetY(PolygonMoving.PolygonPoints[i].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving Polygon
-                        Refresh();
-                    }
-                    
-                    Console.WriteLine(SelectedPolygon.CurvePoints[0].X);
-                    Console.WriteLine(SelectedPolygon.CurvePoints[0].Y);
-                    
                 }
                 RefreshPolygonSelection(e.Location);
             }
+            else if (stretch)
+            {
+                /*
+                if (SelectedPolygon != null)
+                {
+                    Console.WriteLine("cornerlocation = "+cornerlocation);
+                    if(cornerlocation.X != 0 && cornerlocation.Y != 0)
+                    {
+                        for (int i = 0; i < SelectedPolygon.CurvePoints.Length; i++)
+                        {
+                            if (cornerlocation.X == SelectedPolygon.CurvePoints[i].X && cornerlocation.Y == SelectedPolygon.CurvePoints[i].Y)
+                            {
+                                index = i;
+                                Console.WriteLine("index = " + index);
+                            }
+                        }
+                        SelectedPolygon.StretchX(e.X, index);
+                        SelectedPolygon.StretchY(e.Y, index);
+                        cornerlocation.X = 0;
+                        cornerlocation.Y = 0;
+                        Refresh();
+                    }
+                }
+                */
+            }
         }
-    
+
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             if (drawRect)
@@ -322,6 +385,14 @@ namespace Vector_Drawing_Application
                 RefreshCircleSelection(e.Location);
                 RefreshLineSelection(e.Location);
                 RefreshPolygonSelection(e.Location);
+            }
+            else if(stretch)
+            {
+                if (PolygonMoving != null)
+                {
+                    this.Capture = false;
+                    PolygonMoving = null;
+                }
             }
         }
 
@@ -622,17 +693,6 @@ namespace Vector_Drawing_Application
         {
             var size = 10;
             var buffer = new Bitmap(size * 2, size * 2);
-            /*
-            PointF point1 = new PointF(polygons.ElementAt(0).CurvePoints[0].X - p.X + size, polygons.ElementAt(0).CurvePoints[0].Y - p.Y + size);
-            PointF point2 = new PointF(polygons.ElementAt(0).CurvePoints[1].X - p.X + size, polygons.ElementAt(0).CurvePoints[1].Y - p.Y + size);
-            PointF point3 = new PointF(polygons.ElementAt(0).CurvePoints[2].X - p.X + size, polygons.ElementAt(0).CurvePoints[2].Y - p.Y + size);
-            PointF[] curvePoints =
-                     {
-                 point1,
-                 point2,
-                 point3,
-             };
-             */
             PointF[] curvePoints = new PointF[100];
 
             foreach (var polygon in polygons)
@@ -757,9 +817,10 @@ namespace Vector_Drawing_Application
 
         string lastButton = null;   //stores last pressed button
 
-        private void MakeAllFalse(ref bool t, ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
+        private void MakeAllFalse(ref bool s, ref bool t, ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
         {
             //make every parameter false
+            s = false;
             t = false;
             u = false;
             v = false;
@@ -769,9 +830,10 @@ namespace Vector_Drawing_Application
             z = false;
         }
 
-        private void MakeLastTrue(ref bool t, ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
+        private void MakeLastTrue(ref bool s, ref bool t, ref bool u, ref bool v, ref bool w, ref bool x, ref bool y, ref bool z)
         {
             //make last parameter true
+            s = false;
             t = false;
             u = false;
             v = false;
@@ -812,49 +874,56 @@ namespace Vector_Drawing_Application
         {
             lastButton = "drawRect";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move, ref drawRect);
+            MakeLastTrue(ref stretch, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move, ref drawRect);
         }
 
         private void SquareButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawSquare";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawRect, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move, ref drawSquare);
+            MakeLastTrue(ref stretch, ref drawRect, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move, ref drawSquare);
         }
 
         private void CircleButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawCircle";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawSquare, ref drawRect, ref drawLine, ref drawPolygon, ref select, ref move, ref drawCircle);
+            MakeLastTrue(ref stretch, ref drawSquare, ref drawRect, ref drawLine, ref drawPolygon, ref select, ref move, ref drawCircle);
         }
 
         private void LineButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawLine";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawSquare, ref drawRect, ref drawCircle, ref drawPolygon, ref select, ref move, ref drawLine);
+            MakeLastTrue(ref stretch, ref drawSquare, ref drawRect, ref drawCircle, ref drawPolygon, ref select, ref move, ref drawLine);
         }
 
         private void PolygonButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawPolygon";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawSquare, ref drawRect, ref drawCircle, ref drawLine, ref select, ref move, ref drawPolygon);
+            MakeLastTrue(ref stretch, ref drawSquare, ref drawRect, ref drawCircle, ref drawLine, ref select, ref move, ref drawPolygon);
         }
 
         private void SelectButton_Click(object sender, EventArgs e)
         {
             lastButton = "select";
             this.Cursor = Cursors.Arrow;
-            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawRect, ref drawLine, ref drawPolygon, ref move, ref select);
+            MakeLastTrue(ref stretch, ref drawSquare, ref drawCircle, ref drawRect, ref drawLine, ref drawPolygon, ref move, ref select);
         }
 
         private void MoveButton_Click(object sender, EventArgs e)
         {
             lastButton = "move";
             this.Cursor = Cursors.SizeAll;
-            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref drawRect, ref move);
+            MakeLastTrue(ref stretch, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref drawRect, ref move);
+        }
+
+        private void StretchButton_Click(object sender, EventArgs e)
+        {
+            lastButton = "stretch";
+            this.Cursor = Cursors.SizeAll;
+            MakeLastTrue(ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref drawRect, ref move, ref stretch);
         }
 
         public List<GraphRect> tempRects = new List<GraphRect>();   //temperary rects list for undo-draw method
@@ -867,7 +936,7 @@ namespace Vector_Drawing_Application
         {
             lastButton = "delete";
             this.Cursor = Cursors.Arrow;
-            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move);
+            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move, ref stretch);
 
             tempRects = Rects.ToList(); //stores Rects list in tempRects for undo method
             tempSquares = Squares.ToList(); //stores Squares list in tempSquares for undo method
@@ -926,7 +995,7 @@ namespace Vector_Drawing_Application
         {
             lastButton = "clear";
             this.Cursor = Cursors.Arrow;
-            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move);
+            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move, ref stretch);
             MakeSelectionNull(ref this.SelectedRect, ref this.SelectedSquare, ref this.SelectedCircle, ref this.SelectedLine, ref this.SelectedPolygon);
             MakeMovingNull(ref RectMoving, ref SquareMoving, ref CircleMoving, ref LineMoving, ref PolygonMoving);
             MakeListsEmpty(ref Rects, ref Squares, ref Circles, ref Lines, ref Polygons);
@@ -939,7 +1008,7 @@ namespace Vector_Drawing_Application
         private void UndoButton_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Arrow;
-            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move);
+            MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref move, ref stretch);
 
             switch (lastButton)
             {
@@ -1053,6 +1122,9 @@ namespace Vector_Drawing_Application
                         Refresh();
                     }
                     break;
+                case "stretch":
+                    Console.WriteLine("strech-undo method");
+                    break;
                 case "delete":
                     Rects = tempRects.ToList(); //sends all tempRects elements to Rects list
                     Squares = tempSquares.ToList(); //sends all tempSquares elements to Squares list
@@ -1146,16 +1218,24 @@ namespace Vector_Drawing_Application
                     writer.Write(lineLine + "\n");
                 }
                 writer.Write("Polygons\n");
-                /*
+                
                 for (int i = 0; i < Polygons.Count; i++)
                 {
-                    //writes GraphLine constructor's parameters
-                    string lineLine = Lines[i].GetParentId() + " " + Lines[i].Id + " " + Lines[i].StartPoint.X + " "
-                        + Lines[i].StartPoint.Y + " " + Lines[i].EndPoint.X + " " + Lines[i].EndPoint.Y + " " + Lines[i].size
-                        + " " + Lines[i].colour.ToArgb();
-                    writer.Write(lineLine + "\n");
+                    string polyLine1 = Polygons[i].GetParentId() + " " + Polygons[i].Id + " [";
+                    Console.WriteLine("poly1");
+
+                    string[] polyLine2 = new string[100];
+
+                    for (int k = 0; k < Polygons[i].CurvePoints.Length; k++) 
+                    {
+                        //writes GraphPolygon constructor's parameters
+                        polyLine2[k] = Polygons[i].CurvePoints[k].X + " " + Polygons[i].CurvePoints[k].Y + " ";
+                        Console.WriteLine("poly2");
+                    }
+                    string polyLine3 = "] " + Polygons[i].size + " " + Polygons[i].colour.ToArgb();
+                    writer.Write(polyLine1 + polyLine2[i] + polyLine2[i + 1] + polyLine2[i + 2] + polyLine3 + "\n");
                 }
-                */
+                
                 writer.Close();
             }
         }
@@ -1240,7 +1320,7 @@ namespace Vector_Drawing_Application
                 GraphSquare square;
                 GraphCircle circle;
                 GraphLine line;
-                GraphPolygon polygon;
+                //GraphPolygon polygon;
 
                 for (int index = 0; index < lines.Length; index++)
                 {
@@ -1271,7 +1351,6 @@ namespace Vector_Drawing_Application
 
                     if (a.Length == 9 && i < k)
                     {
-                        
                         //if rectangle doesn't have a parent GraphRect constructor makes parent parameter null
                         if (int.Parse(a[0]) == 0)
                         {
@@ -1317,7 +1396,7 @@ namespace Vector_Drawing_Application
                         Circles.Add(circle);
                     }
 
-                    if (a.Length == 8 && i > m)
+                    if (a.Length == 8 && i > m && i < n)
                     {
                         if (int.Parse(a[0]) == 0)
                         {
@@ -1331,6 +1410,24 @@ namespace Vector_Drawing_Application
                         }
                         Lines.Add(line);
                     }
+                    /*
+                    if (a.Length == 6 && i > n)
+                    {
+                        for (int index = 0; i < Polygons.Count; index++)
+                        {
+                            if (int.Parse(a[0]) == 0)
+                            {
+                                polygon = new GraphPolygon(null, int.Parse(a[1]), PointF[(a[3])], int.Parse(a[4]),
+                                int.Parse(a[5]), Color.FromArgb(int.Parse(a[6])));
+                            }
+                            else
+                            {
+                                polygon = new GraphPolygon(GetPolygonParent(int.Parse(a[0])), int.Parse(a[1]), 
+                                    PointF.(a[3]), int.Parse(a[4]), int.Parse(a[5]), Color.FromArgb(int.Parse(a[6])));
+                            }
+                        }
+                    }
+                    */
                 }
             }
         }

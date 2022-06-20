@@ -35,6 +35,7 @@
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.StretchButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
             this.SelectButton = new System.Windows.Forms.Button();
             this.MoveButton = new System.Windows.Forms.Button();
@@ -67,7 +68,7 @@
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(220, 18);
+            this.trackBar1.Location = new System.Drawing.Point(220, 17);
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(81, 45);
@@ -87,6 +88,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.StretchButton);
             this.panel1.Controls.Add(this.LoadButton);
             this.panel1.Controls.Add(this.SelectButton);
             this.panel1.Controls.Add(this.MoveButton);
@@ -103,19 +105,32 @@
             this.panel1.Controls.Add(this.FillColorCheckBox);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(652, 46);
+            this.panel1.Size = new System.Drawing.Size(698, 46);
             this.panel1.TabIndex = 10;
+            // 
+            // StretchButton
+            // 
+            this.StretchButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("StretchButton.BackgroundImage")));
+            this.StretchButton.Image = ((System.Drawing.Image)(resources.GetObject("StretchButton.Image")));
+            this.StretchButton.Location = new System.Drawing.Point(388, 1);
+            this.StretchButton.Name = "StretchButton";
+            this.StretchButton.Size = new System.Drawing.Size(45, 45);
+            this.StretchButton.TabIndex = 17;
+            this.toolTip1.SetToolTip(this.StretchButton, "Stretch");
+            this.StretchButton.UseVisualStyleBackColor = true;
+            this.StretchButton.Click += new System.EventHandler(this.StretchButton_Click);
             // 
             // LoadButton
             // 
             this.LoadButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LoadButton.BackgroundImage")));
             this.LoadButton.Image = ((System.Drawing.Image)(resources.GetObject("LoadButton.Image")));
-            this.LoadButton.Location = new System.Drawing.Point(605, 1);
+            this.LoadButton.Location = new System.Drawing.Point(651, 1);
             this.LoadButton.Name = "LoadButton";
             this.LoadButton.Size = new System.Drawing.Size(45, 45);
             this.LoadButton.TabIndex = 23;
             this.toolTip1.SetToolTip(this.LoadButton, "Load");
             this.LoadButton.UseVisualStyleBackColor = true;
+            this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
             // 
             // SelectButton
             // 
@@ -133,7 +148,7 @@
             // 
             this.MoveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MoveButton.BackgroundImage")));
             this.MoveButton.Image = ((System.Drawing.Image)(resources.GetObject("MoveButton.Image")));
-            this.MoveButton.Location = new System.Drawing.Point(343, 1);
+            this.MoveButton.Location = new System.Drawing.Point(344, 1);
             this.MoveButton.Name = "MoveButton";
             this.MoveButton.Size = new System.Drawing.Size(45, 45);
             this.MoveButton.TabIndex = 16;
@@ -145,7 +160,7 @@
             // 
             this.SaveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SaveButton.BackgroundImage")));
             this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
-            this.SaveButton.Location = new System.Drawing.Point(561, 1);
+            this.SaveButton.Location = new System.Drawing.Point(607, 1);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(45, 45);
             this.SaveButton.TabIndex = 22;
@@ -157,7 +172,7 @@
             // 
             this.DeleteButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeleteButton.BackgroundImage")));
             this.DeleteButton.Image = ((System.Drawing.Image)(resources.GetObject("DeleteButton.Image")));
-            this.DeleteButton.Location = new System.Drawing.Point(386, 1);
+            this.DeleteButton.Location = new System.Drawing.Point(432, 1);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(45, 45);
             this.DeleteButton.TabIndex = 20;
@@ -169,7 +184,7 @@
             // 
             this.ColorPickerButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ColorPickerButton.BackgroundImage")));
             this.ColorPickerButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorPickerButton.Image")));
-            this.ColorPickerButton.Location = new System.Drawing.Point(517, 1);
+            this.ColorPickerButton.Location = new System.Drawing.Point(563, 1);
             this.ColorPickerButton.Name = "ColorPickerButton";
             this.ColorPickerButton.Size = new System.Drawing.Size(45, 45);
             this.ColorPickerButton.TabIndex = 17;
@@ -181,7 +196,7 @@
             // 
             this.UndoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UndoButton.BackgroundImage")));
             this.UndoButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoButton.Image")));
-            this.UndoButton.Location = new System.Drawing.Point(473, 1);
+            this.UndoButton.Location = new System.Drawing.Point(519, 1);
             this.UndoButton.Name = "UndoButton";
             this.UndoButton.Size = new System.Drawing.Size(45, 45);
             this.UndoButton.TabIndex = 21;
@@ -194,7 +209,7 @@
             this.ClearButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClearButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ClearButton.BackgroundImage")));
             this.ClearButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearButton.Image")));
-            this.ClearButton.Location = new System.Drawing.Point(429, 1);
+            this.ClearButton.Location = new System.Drawing.Point(475, 1);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(45, 45);
             this.ClearButton.TabIndex = 18;
@@ -258,11 +273,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(654, 522);
+            this.ClientSize = new System.Drawing.Size(922, 522);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Location = new System.Drawing.Point(0, 45);
             this.Name = "Vector_Drawing_Application";
+            this.Padding = new System.Windows.Forms.Padding(0, 45, 0, 0);
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "Vector Drawing Application";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Vector_Drawing_Application_FormClosing);
@@ -299,5 +316,6 @@
         private System.Windows.Forms.Button ColorPickerButton;
         private System.Windows.Forms.Button UndoButton;
         private System.Windows.Forms.Button ClearButton;
+        private System.Windows.Forms.Button StretchButton;
     }
 }

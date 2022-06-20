@@ -14,6 +14,7 @@ namespace Vector_Drawing_Application
 
         }
         public PointF[] CurvePoints;
+        public PointF[] tempPoints;
         public Color colour;
         public int Fill;
         public int ParentId;
@@ -26,6 +27,7 @@ namespace Vector_Drawing_Application
         public GraphPolygon(GraphPolygon parent, int id, PointF[] curvePoints, int Fill, int Size, Color Colour)
         {
             this.CurvePoints = curvePoints;
+            this.tempPoints = CurvePoints;
             this.colour = Colour;
             this.Fill = Fill;
             this.size = Size;
@@ -34,71 +36,161 @@ namespace Vector_Drawing_Application
             if (this.Parent != null)
                 Parent.Childs.Add(this);
         }
-        
+
         public void SetX(float x)
         {
-            float[] tempX = new float[CurvePoints.Length];
-            for (int i = 0; i < CurvePoints.Count(); i++)
+            tempPoints[0].X = CurvePoints[0].X;
+
+            for (int i = 1; i < CurvePoints.Count(); i++)
             {
-                tempX[i] = CurvePoints[i].X;
-                CurvePoints[i].X = x;
+                tempPoints[i].X = CurvePoints[i].X - CurvePoints[0].X;
             }
 
-            for (int i = 0; i < CurvePoints.Count(); i++)
+            CurvePoints[0].X = x;
+
+            for (int i = 1; i < CurvePoints.Count(); i++)
             {
-                if (Childs.Count() > 0)
-                {
-                    foreach (GraphPolygon child in Childs)
-                    {
-                        child.SetX(child.CurvePoints[i].X - (tempX[i] - x));
-                    }
-                }
-                else
-                    return;
+                CurvePoints[i].X = CurvePoints[0].X + tempPoints[i].X;
             }
+
+            if (Childs.Count() > 0)
+            {
+                foreach (GraphPolygon child in Childs)
+                {
+                    child.SetX(child.CurvePoints[0].X - (tempPoints[0].X - x));
+                }
+            }
+            else
+                return;
         }
 
         public void SetY(float y)
         {
-            float[] tempY = new float[CurvePoints.Length];
-            for (int i = 0; i < CurvePoints.Count(); i++)
+            tempPoints[0].Y = CurvePoints[0].Y;
+
+            for (int i = 1; i < CurvePoints.Count(); i++)
             {
-                tempY[i] = CurvePoints[i].Y;
-                CurvePoints[i].Y = y;
+                tempPoints[i].Y = CurvePoints[i].Y - CurvePoints[0].Y;
             }
 
-            for (int i = 0; i < CurvePoints.Count(); i++)
+            CurvePoints[0].Y = y;
+
+            for (int i = 1; i < CurvePoints.Count(); i++)
             {
-                if (Childs.Count() > 0)
+                CurvePoints[i].Y = CurvePoints[0].Y + tempPoints[i].Y;
+            }
+
+            if (Childs.Count() > 0)
+            {
+                foreach (GraphPolygon child in Childs)
                 {
-                    foreach (GraphPolygon child in Childs)
-                    {
-                        child.SetY(child.CurvePoints[i].Y - (tempY[i] - y));
-                    }
+                    child.SetY(child.CurvePoints[0].Y - (tempPoints[0].Y - y));
                 }
-                else
-                    return;
             }
-
-
-            /*
-            for (int i = 0; i < CurvePoints.Count(); i++)
-            {
-                float temp = CurvePoints[i].Y;
-                CurvePoints[i].Y = y;
-                if (Childs.Count() > 0)
-                {
-                    foreach (GraphPolygon child in Childs)
-                    {
-                        child.SetY(child.CurvePoints[i].Y - (temp - y));
-                    }
-                }
-                else
-                    return;
-            }
-            */
+            else
+                return;
         }
-        
+
+        public void SetX1(float x)
+        {
+            PointF temp = CurvePoints[0];
+            CurvePoints[0].X = x;
+            if (Childs.Count() > 0)
+            {
+                foreach (GraphPolygon child in Childs)
+                {
+                    child.SetX1(child.CurvePoints[0].X - (temp.X - x));
+                }
+            }
+            else
+                return;
+        }
+
+        public void SetY1(float y)
+        {
+            PointF temp = CurvePoints[0];
+            CurvePoints[0].Y = y;
+            if (Childs.Count() > 0)
+            {
+                foreach (GraphPolygon child in Childs)
+                {
+                    child.SetY1(child.CurvePoints[0].Y - (temp.Y - y));
+                }
+            }
+            else
+                return;
+        }
+
+        public void SetX2(float x)
+        {
+            PointF temp = CurvePoints[1];
+            CurvePoints[1].X = x;
+            if (Childs.Count() > 0)
+            {
+                foreach (GraphPolygon child in Childs)
+                {
+                    child.SetX2(child.CurvePoints[1].X - (temp.X - x));
+                }
+            }
+            else
+                return;
+        }
+
+        public void SetY2(float y)
+        {
+            PointF temp = CurvePoints[1];
+            CurvePoints[1].Y = y;
+            if (Childs.Count() > 0)
+            {
+                foreach (GraphPolygon child in Childs)
+                {
+                    child.SetY2(child.CurvePoints[1].Y - (temp.Y - y));
+                }
+            }
+            else
+                return;
+        }
+
+        public void SetX3(float x)
+        {
+            PointF temp = CurvePoints[2];
+            CurvePoints[2].X = x;
+            if (Childs.Count() > 0)
+            {
+                foreach (GraphPolygon child in Childs)
+                {
+                    child.SetX3(child.CurvePoints[2].X - (temp.X - x));
+                }
+            }
+            else
+                return;
+        }
+
+        public void SetY3(float y)
+        {
+            PointF temp = CurvePoints[2];
+            CurvePoints[2].Y = y;
+            if (Childs.Count() > 0)
+            {
+                foreach (GraphPolygon child in Childs)
+                {
+                    child.SetY3(child.CurvePoints[2].Y - (temp.Y - y));
+                }
+            }
+            else
+                return;
+        }
+
+        public void StretchX(float x, int index)
+        {
+            CurvePoints[index].X = x;
+        }
+
+        public void StretchY(float y, int index)
+        {
+            CurvePoints[index].Y = y;
+        }
+
         public int GetParentId()
         {
             if (Parent == null)
