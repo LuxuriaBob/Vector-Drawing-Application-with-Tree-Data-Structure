@@ -1,10 +1,11 @@
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\bin\Debug\Vector Drawing Application.exe.config
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\bin\Debug\Vector Drawing Application.exe
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\bin\Debug\Vector Drawing Application.pdb
-C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector Drawing Application.csprojAssemblyReference.cache
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector_Drawing_Application.Properties.Resources.resources
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector Drawing Application.csproj.GenerateResource.cache
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector Drawing Application.csproj.CoreCompileInputs.cache
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector Drawing Application.exe
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector Drawing Application.pdb
 C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector_Drawing_Application.Vector_Drawing_Application.resources
+C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector Drawing Application.csprojAssemblyReference.cache
+C:\Users\yalin\Desktop\NETCAD\Vector Drawing Application\Vector Drawing Application\Vector Drawing Application\obj\Debug\Vector_Drawing_Application.Help.resources

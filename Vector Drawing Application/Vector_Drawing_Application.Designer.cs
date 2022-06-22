@@ -31,10 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Vector_Drawing_Application));
             this.RectangleButton = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.StretchButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
             this.SelectButton = new System.Windows.Forms.Button();
@@ -42,15 +42,28 @@
             this.SaveButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.ColorPickerButton = new System.Windows.Forms.Button();
-            this.UndoButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
             this.PolygonButton = new System.Windows.Forms.Button();
             this.LineButton = new System.Windows.Forms.Button();
             this.CircleButton = new System.Windows.Forms.Button();
             this.SquareButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotate90DegressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotateHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotateVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Help_Button = new System.Windows.Forms.Button();
+            this.UndoButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // RectangleButton
@@ -66,16 +79,6 @@
             this.RectangleButton.UseVisualStyleBackColor = false;
             this.RectangleButton.Click += new System.EventHandler(this.RectButton_Click);
             // 
-            // trackBar1
-            // 
-            this.trackBar1.Location = new System.Drawing.Point(220, 17);
-            this.trackBar1.Minimum = 1;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(81, 45);
-            this.trackBar1.TabIndex = 3;
-            this.toolTip1.SetToolTip(this.trackBar1, "Change Pen Size");
-            this.trackBar1.Value = 10;
-            // 
             // FillColorCheckBox
             // 
             this.FillColorCheckBox.AutoSize = true;
@@ -88,6 +91,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.Help_Button);
+            this.panel1.Controls.Add(this.numericUpDown1);
             this.panel1.Controls.Add(this.StretchButton);
             this.panel1.Controls.Add(this.LoadButton);
             this.panel1.Controls.Add(this.SelectButton);
@@ -103,10 +108,27 @@
             this.panel1.Controls.Add(this.SquareButton);
             this.panel1.Controls.Add(this.RectangleButton);
             this.panel1.Controls.Add(this.FillColorCheckBox);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(3, 29);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(698, 46);
+            this.panel1.Size = new System.Drawing.Size(748, 46);
             this.panel1.TabIndex = 10;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(228, 23);
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(65, 20);
+            this.numericUpDown1.TabIndex = 13;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // StretchButton
             // 
@@ -192,18 +214,6 @@
             this.ColorPickerButton.UseVisualStyleBackColor = true;
             this.ColorPickerButton.Click += new System.EventHandler(this.ColorPickerButton_Click);
             // 
-            // UndoButton
-            // 
-            this.UndoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UndoButton.BackgroundImage")));
-            this.UndoButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoButton.Image")));
-            this.UndoButton.Location = new System.Drawing.Point(519, 1);
-            this.UndoButton.Name = "UndoButton";
-            this.UndoButton.Size = new System.Drawing.Size(45, 45);
-            this.UndoButton.TabIndex = 21;
-            this.toolTip1.SetToolTip(this.UndoButton, "Undo");
-            this.UndoButton.UseVisualStyleBackColor = true;
-            this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
-            // 
             // ClearButton
             // 
             this.ClearButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -268,16 +278,155 @@
             this.SquareButton.UseVisualStyleBackColor = false;
             this.SquareButton.Click += new System.EventHandler(this.SquareButton_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem1,
+            this.rotateToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(0);
+            this.menuStrip1.Size = new System.Drawing.Size(144, 24);
+            this.menuStrip1.TabIndex = 11;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem1
+            // 
+            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem1.Text = "&File";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
+            this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Text = "&New";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
+            this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
+            this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Text = "&Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
+            // rotateToolStripMenuItem
+            // 
+            this.rotateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.rotate90DegressToolStripMenuItem,
+            this.rotateHorizontallyToolStripMenuItem,
+            this.rotateVerticallyToolStripMenuItem});
+            this.rotateToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.rotateToolStripMenuItem.Text = "Rotate";
+            this.rotateToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // rotate90DegressToolStripMenuItem
+            // 
+            this.rotate90DegressToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("rotate90DegressToolStripMenuItem.Image")));
+            this.rotate90DegressToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.rotate90DegressToolStripMenuItem.Name = "rotate90DegressToolStripMenuItem";
+            this.rotate90DegressToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.rotate90DegressToolStripMenuItem.Size = new System.Drawing.Size(242, 38);
+            this.rotate90DegressToolStripMenuItem.Text = "Rotate 90 Degress";
+            this.rotate90DegressToolStripMenuItem.Click += new System.EventHandler(this.Rotate90DegressToolStripMenuItem_Click);
+            // 
+            // rotateHorizontallyToolStripMenuItem
+            // 
+            this.rotateHorizontallyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("rotateHorizontallyToolStripMenuItem.Image")));
+            this.rotateHorizontallyToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.rotateHorizontallyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.rotateHorizontallyToolStripMenuItem.Name = "rotateHorizontallyToolStripMenuItem";
+            this.rotateHorizontallyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.rotateHorizontallyToolStripMenuItem.Size = new System.Drawing.Size(242, 38);
+            this.rotateHorizontallyToolStripMenuItem.Text = "Rotate Horizontally";
+            this.rotateHorizontallyToolStripMenuItem.Click += new System.EventHandler(this.RotateHorizontallyToolStripMenuItem_Click);
+            // 
+            // rotateVerticallyToolStripMenuItem
+            // 
+            this.rotateVerticallyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("rotateVerticallyToolStripMenuItem.Image")));
+            this.rotateVerticallyToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.rotateVerticallyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.rotateVerticallyToolStripMenuItem.Name = "rotateVerticallyToolStripMenuItem";
+            this.rotateVerticallyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.rotateVerticallyToolStripMenuItem.Size = new System.Drawing.Size(242, 38);
+            this.rotateVerticallyToolStripMenuItem.Text = "Rotate Vertically";
+            this.rotateVerticallyToolStripMenuItem.Click += new System.EventHandler(this.RotateVerticallyToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+            // 
+            // Help_Button
+            // 
+            this.Help_Button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Help_Button.BackgroundImage")));
+            this.Help_Button.Image = ((System.Drawing.Image)(resources.GetObject("Help_Button.Image")));
+            this.Help_Button.Location = new System.Drawing.Point(695, 1);
+            this.Help_Button.Name = "Help_Button";
+            this.Help_Button.Size = new System.Drawing.Size(45, 45);
+            this.Help_Button.TabIndex = 24;
+            this.toolTip1.SetToolTip(this.Help_Button, "Load");
+            this.Help_Button.UseVisualStyleBackColor = true;
+            this.Help_Button.Click += new System.EventHandler(this.Help_Button_Click);
+            // 
+            // UndoButton
+            // 
+            this.UndoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UndoButton.BackgroundImage")));
+            this.UndoButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoButton.Image")));
+            this.UndoButton.Location = new System.Drawing.Point(519, 1);
+            this.UndoButton.Name = "UndoButton";
+            this.UndoButton.Size = new System.Drawing.Size(45, 45);
+            this.UndoButton.TabIndex = 21;
+            this.toolTip1.SetToolTip(this.UndoButton, "Undo");
+            this.UndoButton.UseVisualStyleBackColor = true;
+            this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
+            // 
             // Vector_Drawing_Application
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(922, 522);
-            this.Controls.Add(this.trackBar1);
+            this.ClientSize = new System.Drawing.Size(761, 522);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(0, 45);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Vector_Drawing_Application";
             this.Padding = new System.Windows.Forms.Padding(0, 45, 0, 0);
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -289,9 +438,11 @@
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -299,7 +450,6 @@
 
         #endregion
         private System.Windows.Forms.Button RectangleButton;
-        private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.CheckBox FillColorCheckBox;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Panel panel1;
@@ -314,8 +464,21 @@
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button DeleteButton;
         private System.Windows.Forms.Button ColorPickerButton;
-        private System.Windows.Forms.Button UndoButton;
         private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.Button StretchButton;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem rotateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rotate90DegressToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rotateHorizontallyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rotateVerticallyToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Button Help_Button;
+        private System.Windows.Forms.Button UndoButton;
     }
 }

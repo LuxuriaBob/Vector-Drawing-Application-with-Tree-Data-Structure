@@ -27,7 +27,7 @@ namespace Vector_Drawing_Application
         public GraphPolygon(GraphPolygon parent, int id, PointF[] curvePoints, int Fill, int Size, Color Colour)
         {
             this.CurvePoints = curvePoints;
-            this.tempPoints = CurvePoints;
+            this.tempPoints = new PointF[10];
             this.colour = Colour;
             this.Fill = Fill;
             this.size = Size;
@@ -85,6 +85,42 @@ namespace Vector_Drawing_Application
                 foreach (GraphPolygon child in Childs)
                 {
                     child.SetY(child.CurvePoints[0].Y - (tempPoints[0].Y - y));
+                }
+            }
+            else
+                return;
+        }
+
+        public void SetXtrial(float x, int index)
+        {
+            CurvePoints[index].X = x;
+
+            if (Childs.Count() > 0)
+            {
+                for (int i = 0; i < Childs.Count; i++)
+                {
+                    foreach (GraphPolygon child in Childs)
+                    {
+                        child.SetXtrial(child.CurvePoints[i].X - (tempPoints[i].X - x), child.CurvePoints.Length);
+                    }
+                }
+            }
+            else
+                return;
+        }
+
+        public void SetYtrial(float y, int index)
+        {
+            CurvePoints[index].Y = y;
+
+            if (Childs.Count() > 0)
+            {
+                for (int i = 0; i < Childs.Count; i++)
+                {
+                    foreach (GraphPolygon child in Childs)
+                    {
+                        child.SetYtrial(child.CurvePoints[i].Y - (tempPoints[i].Y - y), child.CurvePoints.Length);
+                    }
                 }
             }
             else

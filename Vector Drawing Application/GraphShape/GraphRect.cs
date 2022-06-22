@@ -69,9 +69,19 @@ namespace Vector_Drawing_Application
                 return;
         }
 
+        public void RotateClockWise()
+        {
+            float tempHeight = Height;
+            float constant = (Width - Height) / 2;
+            StartPoint.X += constant;
+            StartPoint.Y -= constant;
+            Height = Width;
+            Width = tempHeight;
+        }
+
         public int GetParentId()
         {
-            if(Parent == null)
+            if (Parent == null)
             {
                 return 0;
             }

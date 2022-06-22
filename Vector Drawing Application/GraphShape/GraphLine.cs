@@ -95,6 +95,56 @@ namespace Vector_Drawing_Application
                 return;
         }
 
+        public void Stretch(PointF mousePoint, PointF CornerPoint)
+        {
+            if(CornerPoint.X == EndPoint.X && CornerPoint.Y == EndPoint.Y)
+            {
+                EndPoint = mousePoint;
+            }
+            else
+            {
+                StartPoint = mousePoint;
+            }
+        }
+
+        public void RotateClockWise(float rad)
+        {
+            if (rad == 90)
+            {
+                //find the center
+                PointF Center = new PointF((StartPoint.X + EndPoint.X) / 2, (StartPoint.Y + EndPoint.Y) / 2);
+
+                //move the line to center on the origin
+                StartPoint.X -= Center.X; StartPoint.Y -= Center.Y;
+                EndPoint.X -= Center.X; EndPoint.Y -= Center.Y;
+
+                //rotate both points
+                float TempX = StartPoint.X; float TempY = StartPoint.Y;
+                StartPoint.X = -TempY; StartPoint.Y = TempX;
+
+                TempX = EndPoint.X; TempY = EndPoint.Y;
+                EndPoint.X = -TempY; EndPoint.Y = TempX;
+
+                //move the center point back to where it was
+                StartPoint.X += Center.X; StartPoint.Y += Center.Y;
+                EndPoint.X += Center.X; EndPoint.Y += Center.Y;
+            }
+        }
+
+        public void HorizontalSymmetry()
+        {
+            PointF Center = new PointF((StartPoint.X + EndPoint.X) / 2, (StartPoint.Y + EndPoint.Y) / 2);
+            StartPoint.Y -= (StartPoint.Y - Center.Y) * 2;
+            EndPoint.Y -= (EndPoint.Y - Center.Y) * 2;
+        }
+
+        public void VerticalSymmetry()
+        {
+            PointF Center = new PointF((StartPoint.X + EndPoint.X) / 2, (StartPoint.Y + EndPoint.Y) / 2);
+            StartPoint.X += (Center.X - StartPoint.X) * 2;
+            EndPoint.X += (Center.X - EndPoint.X) * 2;
+        }
+
         public int GetParentId()
         {
             if (Parent == null)
