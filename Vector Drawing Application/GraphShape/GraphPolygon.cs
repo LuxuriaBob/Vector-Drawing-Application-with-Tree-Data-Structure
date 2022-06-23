@@ -217,14 +217,9 @@ namespace Vector_Drawing_Application
                 return;
         }
 
-        public void StretchX(float x, int index)
+        public void Stretch(PointF cornerlocation, PointF MouseLocation, int iindex, int jindex)
         {
-            CurvePoints[index].X = x;
-        }
-
-        public void StretchY(float y, int index)
-        {
-            CurvePoints[index].Y = y;
+            CurvePoints[jindex] = MouseLocation;
         }
 
         public int GetParentId()

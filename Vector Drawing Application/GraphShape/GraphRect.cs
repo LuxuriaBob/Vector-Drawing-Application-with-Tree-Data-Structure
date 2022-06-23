@@ -69,6 +69,49 @@ namespace Vector_Drawing_Application
                 return;
         }
 
+        public void Stretch(PointF cornerlocation, PointF MouseLocation)
+        {
+            //top left
+            if(cornerlocation == StartPoint)
+            {
+                if (MouseLocation.X < StartPoint.X + Width && MouseLocation.Y < StartPoint.Y + Height)
+                {
+                    Width += StartPoint.X - MouseLocation.X;
+                    Height = (StartPoint.Y + Height - MouseLocation.Y);
+                    StartPoint = MouseLocation;
+                }
+            }
+            //bottom left
+            else if(cornerlocation.X == StartPoint.X && cornerlocation.Y == (StartPoint.Y + Height))
+            {
+                if (MouseLocation.Y > StartPoint.Y && MouseLocation.X < StartPoint.X + Width)
+                {
+                    Width = StartPoint.X + Width - MouseLocation.X;
+                    Height = MouseLocation.Y - StartPoint.Y;
+                    StartPoint.X = MouseLocation.X;
+                }
+            }
+            //top right
+            else if (cornerlocation.X == (StartPoint.X + Width) && cornerlocation.Y == StartPoint.Y)
+            {
+                if(MouseLocation.X > StartPoint.X && MouseLocation.Y < StartPoint.Y + Height)
+                {
+                    Height = StartPoint.Y + Height - MouseLocation.Y;
+                    Width = MouseLocation.X - StartPoint.X;
+                    StartPoint.Y = MouseLocation.Y;
+                }
+            }
+            //bottom right
+            else if (cornerlocation.X == (StartPoint.X + Width) && cornerlocation.Y == (StartPoint.Y + Height))
+            {
+                if (MouseLocation.X > StartPoint.X &&  MouseLocation.Y > StartPoint.Y)
+                {
+                    Height = MouseLocation.Y - StartPoint.Y;
+                    Width = MouseLocation.X - StartPoint.X;
+                }
+            }
+        }
+
         public void RotateClockWise()
         {
             float tempHeight = Height;

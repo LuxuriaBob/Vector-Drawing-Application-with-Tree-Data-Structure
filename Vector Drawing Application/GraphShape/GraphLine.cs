@@ -97,11 +97,11 @@ namespace Vector_Drawing_Application
 
         public void Stretch(PointF mousePoint, PointF CornerPoint)
         {
-            if(CornerPoint.X == EndPoint.X && CornerPoint.Y == EndPoint.Y)
+            if(CornerPoint == EndPoint)
             {
                 EndPoint = mousePoint;
             }
-            else
+            else if(CornerPoint == StartPoint)
             {
                 StartPoint = mousePoint;
             }

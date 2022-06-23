@@ -34,6 +34,7 @@
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Help_Button = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.StretchButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
@@ -42,6 +43,7 @@
             this.SaveButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.ColorPickerButton = new System.Windows.Forms.Button();
+            this.UndoButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
             this.PolygonButton = new System.Windows.Forms.Button();
             this.LineButton = new System.Windows.Forms.Button();
@@ -59,8 +61,6 @@
             this.rotateHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Help_Button = new System.Windows.Forms.Button();
-            this.UndoButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -112,6 +112,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(748, 46);
             this.panel1.TabIndex = 10;
+            // 
+            // Help_Button
+            // 
+            this.Help_Button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Help_Button.BackgroundImage")));
+            this.Help_Button.Image = ((System.Drawing.Image)(resources.GetObject("Help_Button.Image")));
+            this.Help_Button.Location = new System.Drawing.Point(695, 1);
+            this.Help_Button.Name = "Help_Button";
+            this.Help_Button.Size = new System.Drawing.Size(45, 45);
+            this.Help_Button.TabIndex = 24;
+            this.toolTip1.SetToolTip(this.Help_Button, "Load");
+            this.Help_Button.UseVisualStyleBackColor = true;
+            this.Help_Button.Click += new System.EventHandler(this.Help_Button_Click);
             // 
             // numericUpDown1
             // 
@@ -214,6 +226,18 @@
             this.ColorPickerButton.UseVisualStyleBackColor = true;
             this.ColorPickerButton.Click += new System.EventHandler(this.ColorPickerButton_Click);
             // 
+            // UndoButton
+            // 
+            this.UndoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UndoButton.BackgroundImage")));
+            this.UndoButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoButton.Image")));
+            this.UndoButton.Location = new System.Drawing.Point(519, 1);
+            this.UndoButton.Name = "UndoButton";
+            this.UndoButton.Size = new System.Drawing.Size(45, 45);
+            this.UndoButton.TabIndex = 21;
+            this.toolTip1.SetToolTip(this.UndoButton, "Undo");
+            this.UndoButton.UseVisualStyleBackColor = true;
+            this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
+            // 
             // ClearButton
             // 
             this.ClearButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -300,7 +324,7 @@
             this.saveToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 24);
             this.fileToolStripMenuItem1.Text = "&File";
             // 
             // newToolStripMenuItem
@@ -311,6 +335,7 @@
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "&New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -347,7 +372,7 @@
             this.rotateVerticallyToolStripMenuItem});
             this.rotateToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.rotateToolStripMenuItem.Text = "Rotate";
             this.rotateToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -387,33 +412,9 @@
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 24);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
-            // 
-            // Help_Button
-            // 
-            this.Help_Button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Help_Button.BackgroundImage")));
-            this.Help_Button.Image = ((System.Drawing.Image)(resources.GetObject("Help_Button.Image")));
-            this.Help_Button.Location = new System.Drawing.Point(695, 1);
-            this.Help_Button.Name = "Help_Button";
-            this.Help_Button.Size = new System.Drawing.Size(45, 45);
-            this.Help_Button.TabIndex = 24;
-            this.toolTip1.SetToolTip(this.Help_Button, "Load");
-            this.Help_Button.UseVisualStyleBackColor = true;
-            this.Help_Button.Click += new System.EventHandler(this.Help_Button_Click);
-            // 
-            // UndoButton
-            // 
-            this.UndoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UndoButton.BackgroundImage")));
-            this.UndoButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoButton.Image")));
-            this.UndoButton.Location = new System.Drawing.Point(519, 1);
-            this.UndoButton.Name = "UndoButton";
-            this.UndoButton.Size = new System.Drawing.Size(45, 45);
-            this.UndoButton.TabIndex = 21;
-            this.toolTip1.SetToolTip(this.UndoButton, "Undo");
-            this.UndoButton.UseVisualStyleBackColor = true;
-            this.UndoButton.Click += new System.EventHandler(this.UndoButton_Click);
             // 
             // Vector_Drawing_Application
             // 
@@ -425,8 +426,6 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(0, 45);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "Vector_Drawing_Application";
             this.Padding = new System.Windows.Forms.Padding(0, 45, 0, 0);
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;

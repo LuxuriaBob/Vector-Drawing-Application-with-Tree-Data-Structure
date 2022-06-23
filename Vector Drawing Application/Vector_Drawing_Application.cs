@@ -71,7 +71,8 @@ namespace Vector_Drawing_Application
         Point endlocation;      //shape's bottom right coordinates
         PointF cornerlocation;
         Point polyMoveLocation;
-        Point polyStretchLocation;
+        Point StretchLocation;
+        int iindex, jindex;
 
         int index = 0;
 
@@ -191,32 +192,10 @@ namespace Vector_Drawing_Application
                 LineHitTest(Lines, e.Location);
                 RefreshLineSelection(e.Location);
 
-                for (int i = 0; i < Lines.Count; i++)
-                {
-                    if (Math.Abs(e.X - Lines[i].StartPoint.X) < 5 && Math.Abs(e.Y - Lines[i].StartPoint.Y) < 5)
-                    {
-                        cornerlocation = Lines[i].StartPoint;
-                    }
-                    else if (Math.Abs(e.X - Lines[i].EndPoint.X) < 5 && Math.Abs(e.Y - Lines[i].EndPoint.Y) < 5)
-                    {
-                        cornerlocation = Lines[i].EndPoint;
-                    }
-                }
-
-                Console.WriteLine("cornerlocation" + cornerlocation);
-                Console.WriteLine("startpoint" + SelectedLine.StartPoint);
-                Console.WriteLine("endpoint" + SelectedLine.EndPoint);
-
                 PolygonHitTest(Polygons, e.Location);
                 RefreshPolygonSelection(e.Location);
 
                 Refresh();
-            }
-            else if (stretch)
-            {
-                Console.WriteLine("stretchte cornerlocation" + cornerlocation);
-                Console.WriteLine(cornerlocation == SelectedLine.EndPoint);
-                polyStretchLocation = e.Location;
             }
         }
 
@@ -450,17 +429,116 @@ namespace Vector_Drawing_Application
                         break;
                 }
             }
+            else if (select)
+            {
+                for (int i = 0; i < Lines.Count; i++)
+                {
+                    if (Math.Abs(e.X - Lines[i].StartPoint.X) < 20 && Math.Abs(e.Y - Lines[i].StartPoint.Y) < 20)
+                    {
+                        cornerlocation = Lines[i].StartPoint;
+                    }
+                    else if (Math.Abs(e.X - Lines[i].EndPoint.X) < 20 && Math.Abs(e.Y - Lines[i].EndPoint.Y) < 20)
+                    {
+                        cornerlocation = Lines[i].EndPoint;
+                    }
+                }
+                
+                for (int i = 0; i < Rects.Count; i++)
+                {
+                    //top left
+                    if (Math.Abs(e.X - Rects[i].StartPoint.X) < 20 && Math.Abs(e.Y - Rects[i].StartPoint.Y) < 20)
+                    {
+                        cornerlocation = Rects[i].StartPoint;
+                    }
+                    //bottom left
+                    else if (Math.Abs(e.X - Rects[i].StartPoint.X) < 20 && Math.Abs(e.Y - (Rects[i].StartPoint.Y + Rects[i].Height)) < 20)
+                    {
+                        cornerlocation = new PointF(Rects[i].StartPoint.X, Rects[i].StartPoint.Y + Rects[i].Height);
+                    }
+                    //top right
+                    else if (Math.Abs(e.X - (Rects[i].StartPoint.X + Rects[i].Width)) < 20 && Math.Abs(e.Y - Rects[i].StartPoint.Y) < 20)
+                    {
+                        cornerlocation = new PointF(Rects[i].StartPoint.X + Rects[i].Width, Rects[i].StartPoint.Y);
+                    }
+                    //bottom right
+                    else if (Math.Abs(e.X - (Rects[i].StartPoint.X + Rects[i].Width)) < 20 && Math.Abs(e.Y - (Rects[i].StartPoint.Y + Rects[i].Height)) < 20)
+                    {
+                        cornerlocation = new PointF(Rects[i].StartPoint.X + Rects[i].Width, Rects[i].StartPoint.Y + Rects[i].Height);
+                    }
+                }
+                /*
+                for(int i = 0; i < Polygons.Capacity; i++)
+                {
+                    for (int j = 0; j < Polygons[i].CurvePoints.Length; j++)
+                    {
+                        if (Math.Abs(e.X - Polygons[i].CurvePoints[j].X) < 20 && (Math.Abs(e.Y - Polygons[i].CurvePoints[j].Y) < 20))
+                        {
+                            cornerlocation = Polygons[i].CurvePoints[j];
+                            iindex = i;
+                            jindex = j;
+                        }
+                    }
+                }
+                */
+            }
             else if (stretch)
             {
-                polyStretchLocation = e.Location;
+                StretchLocation = e.Location;
 
                 switch (e.Button)
                 {
                     case MouseButtons.Left:
-                        SelectedLine.Stretch(polyStretchLocation, cornerlocation);
-                        break;
-                    case MouseButtons.Right:
-                        stretch = false;
+                        if(SelectedLine != null)
+                        {
+                            if (cornerlocation == SelectedLine.StartPoint)
+                            {
+                                SelectedLine.Stretch(StretchLocation, cornerlocation);
+                                cornerlocation = SelectedLine.StartPoint;
+                            }
+                            else if (cornerlocation == SelectedLine.EndPoint)
+                            {
+                                SelectedLine.Stretch(StretchLocation, cornerlocation);
+                                cornerlocation = SelectedLine.EndPoint;
+                            }
+                        }
+                        else if(SelectedRect != null)
+                        {
+                            //top left
+                            if (cornerlocation == SelectedRect.StartPoint)
+                            {
+                                SelectedRect.Stretch(cornerlocation, StretchLocation);
+                                cornerlocation = SelectedRect.StartPoint;
+                            }
+                            //bottom left
+                            else if (cornerlocation.X == SelectedRect.StartPoint.X 
+                                && cornerlocation.Y == SelectedRect.StartPoint.Y + SelectedRect.Height)
+                            {
+                                SelectedRect.Stretch(cornerlocation, StretchLocation);
+                                cornerlocation.X = SelectedRect.StartPoint.X;
+                                cornerlocation.Y = SelectedRect.StartPoint.Y + SelectedRect.Height;
+                            }    
+                            //top right
+                            else if (cornerlocation.X == SelectedRect.StartPoint.X + SelectedRect.Width 
+                                && cornerlocation.Y == SelectedRect.StartPoint.Y)
+                            {
+                                SelectedRect.Stretch(cornerlocation, StretchLocation);
+                                cornerlocation.X = SelectedRect.StartPoint.X + SelectedRect.Width;
+                                cornerlocation.Y = SelectedRect.StartPoint.Y;
+                            }
+                            //bottom right
+                            else if (cornerlocation.X == SelectedRect.StartPoint.X + SelectedRect.Width
+                                && cornerlocation.Y == SelectedRect.StartPoint.Y + SelectedRect.Height)
+                            {
+                                SelectedRect.Stretch(cornerlocation, StretchLocation);
+                                cornerlocation.X = SelectedRect.StartPoint.X + SelectedRect.Width;
+                                cornerlocation.Y = SelectedRect.StartPoint.Y + SelectedRect.Height;
+                            }
+                        }
+                        else if (SelectedPolygon != null)
+                        {
+                            SelectedPolygon.Stretch(cornerlocation, StretchLocation, iindex, jindex);
+                            cornerlocation = SelectedPolygon.CurvePoints[jindex];
+                        }
                         break;
                 }
                 Refresh();
@@ -577,14 +655,29 @@ namespace Vector_Drawing_Application
                 if (rect.Fill == 0)
                 {
                     e.Graphics.DrawRectangle(pen, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //draws square in Squares list
-
                 }
                 else
                 {
                     e.Graphics.FillRectangle(pen.Brush, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //fills square in Squares list
                 }
             }
-
+            
+            if (SelectedRect != null)
+            {
+                if(!move)
+                {
+                    if (cornerlocation != null)
+                    {
+                        var pen = new Pen(Brushes.Red, 10);   //selected colour, rect's size
+                        e.Graphics.FillRectangle(pen.Brush, cornerlocation.X - 10, cornerlocation.Y - 10, 20, 20);
+                    }
+                }
+            }
+            else if (SelectedRect == null && SelectedLine == null)
+            {
+                cornerlocation = new PointF(0, 0);
+            }
+            
             foreach (var square in Squares)
             {
                 var color = square == SelectedSquare ? Color.Blue : square.GetColour();    //square.GetColour(rect)SelectedSquare is blue, others are colors selected from colorpicker
@@ -628,6 +721,15 @@ namespace Vector_Drawing_Application
                 e.Graphics.DrawLine(pen, line.StartPoint, line.EndPoint);   //draws circle in Circles list
             }
 
+            if(SelectedLine != null)
+            {
+                if(cornerlocation != null)
+                {
+                    var pen = new Pen(Brushes.Red, 10);   //selected colour, rect's size
+                    e.Graphics.FillRectangle(pen.Brush, cornerlocation.X - 7, cornerlocation.Y - 7, 15, 15);
+                }
+            }
+
             foreach (var polygon in Polygons)
             {
                 var color = polygon == SelectedPolygon ? Color.Blue : polygon.GetColour();    //polygon.GetColour(rect)Selectedpolygon is blue, others are colors selected from colorpicker
@@ -637,25 +739,6 @@ namespace Vector_Drawing_Application
                 if (polygon.Fill == 0)
                 {
                     e.Graphics.DrawPolygon(pen, polygon.CurvePoints);   //draws polygon in polygons list
-
-                    /*
-                   // Point[] points = { new Point(100, 1000), new Point(300, 250) };
-
-                    // Draw line connecting two untransformed points.
-                    e.Graphics.DrawPolygon(new Pen(Color.Green, 3), polygon.CurvePoints);
-
-                    // Set world transformation of Graphics object to translate.
-                    e.Graphics.TranslateTransform(40, 30);
-
-                    // Transform points in array from world to page coordinates.
-                    e.Graphics.TransformPoints(CoordinateSpace.Page, CoordinateSpace.World, polygon.CurvePoints);
-
-                    // Reset world transformation.
-                    e.Graphics.ResetTransform();
-
-                    // Draw line that connects transformed points.
-                    e.Graphics.DrawPolygon(new Pen(Color.Red, 3), polygon.CurvePoints);
-                    */
                 }
                 else
                 {
@@ -1279,6 +1362,8 @@ namespace Vector_Drawing_Application
                 ClearButton.PerformClick();
             if (e.KeyCode == Keys.E)
                 DeleteButton.PerformClick();
+            if (e.KeyCode == Keys.G)
+                StretchButton.PerformClick();
             if (e.Control && e.KeyCode == Keys.Z)
                 UndoButton.PerformClick();
             if (e.Control && e.KeyCode == Keys.S)
@@ -1547,6 +1632,13 @@ namespace Vector_Drawing_Application
                     */
                 }
             }
+        }
+
+        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Vector_Drawing_Application vector_Drawing_Form2 = new Vector_Drawing_Application();
+            vector_Drawing_Form2.Show();
+            this.Hide();
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
