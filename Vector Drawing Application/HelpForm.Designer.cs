@@ -48,20 +48,20 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(186, 13);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 91);
+            this.label2.Size = new System.Drawing.Size(112, 117);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Select tools with keys:\r\nS - Select\r\nM - Move\r\nE - Delete\r\nC - Clear\r\nCtrl + S - " +
-    "Save\r\nCtrl + Z - Undo";
+            this.label2.Text = "Select tools with keys:\r\nS - Select\r\nM - Move\r\nE - Delete\r\nC - Clear\r\nG - Stretch" +
+    "\r\nR - Ruler\r\nCtrl + S - Save\r\nCtrl + Z - Undo";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 126);
+            this.label3.Location = new System.Drawing.Point(18, 137);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(266, 39);
             this.label3.TabIndex = 2;
             this.label3.Text = "Drawing a shape while there is a selected one\r\nmakes it it\'s child. Actions to pa" +
-    "rent shape is applied to \r\nchild shape.";
+    "rent shape is applied to \r\nchild shapes as well.";
             // 
             // Help
             // 

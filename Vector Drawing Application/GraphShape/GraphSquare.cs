@@ -67,6 +67,16 @@ namespace Vector_Drawing_Application
                 return;
         }
 
+        public float GetLength()
+        {
+            return (4 * Side);
+        }
+
+        public float GetArea()
+        {
+            return (Side*Side);
+        }
+
         public int GetParentId()
         {
             if (Parent == null)

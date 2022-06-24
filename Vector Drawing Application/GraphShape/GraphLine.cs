@@ -107,6 +107,12 @@ namespace Vector_Drawing_Application
             }
         }
 
+        public float GetLength()
+        {
+            return (float)Math.Sqrt(((StartPoint.X - EndPoint.X) * (StartPoint.X - EndPoint.X)) +
+                ((StartPoint.Y - EndPoint.Y) * (StartPoint.Y - EndPoint.Y)));
+        }
+
         public void RotateClockWise(float rad)
         {
             if (rad == 90)

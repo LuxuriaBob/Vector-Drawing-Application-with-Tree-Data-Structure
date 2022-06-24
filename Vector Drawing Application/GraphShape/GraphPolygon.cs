@@ -217,9 +217,50 @@ namespace Vector_Drawing_Application
                 return;
         }
 
-        public void Stretch(PointF cornerlocation, PointF MouseLocation, int iindex, int jindex)
+        public void Stretch(PointF MouseLocation, int jindex)
         {
             CurvePoints[jindex] = MouseLocation;
+        }
+
+        public float Pythagorean_Theorem(PointF point1, PointF point2)
+        {
+            float x = point1.X - point2.X;
+            float y = point1.Y - point2.Y;
+            x = x * x;
+            y = y * y;
+            float z = x + y;
+            return (float)Math.Sqrt(z);
+        }
+
+        public float GetLength()
+        {
+            float length = 0;
+            for (int i = 0; i < CurvePoints.Length - 1; i++)
+            {
+                length += Pythagorean_Theorem(CurvePoints[i], CurvePoints[i + 1]);
+            }
+            length += Pythagorean_Theorem(CurvePoints[CurvePoints.Length - 1], CurvePoints[0]);
+            return length;
+        }
+
+        public float GetArea()
+        {
+            // Add the first point to the end.
+            int num_points = CurvePoints.Length;
+            PointF[] pts = new PointF[num_points + 1];
+            CurvePoints.CopyTo(pts, 0);
+            pts[num_points] = CurvePoints[0];
+
+            // Get the areas.
+            float area = 0;
+            for (int i = 0; i < num_points; i++)
+            {
+                area +=
+                    (pts[i + 1].X - pts[i].X) *
+                    (pts[i + 1].Y + pts[i].Y) / 2;
+            }
+            // Return the result.
+            return Math.Abs(area);
         }
 
         public int GetParentId()

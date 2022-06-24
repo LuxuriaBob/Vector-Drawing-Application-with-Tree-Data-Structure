@@ -112,6 +112,16 @@ namespace Vector_Drawing_Application
             }
         }
 
+        public float GetLength()
+        {
+            return ((Height + Width) * 2);
+        }
+
+        public float GetArea()
+        {
+            return (Height*Width);
+        }
+
         public void RotateClockWise()
         {
             float tempHeight = Height;

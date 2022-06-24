@@ -67,6 +67,23 @@ namespace Vector_Drawing_Application
                 return;
         }
 
+        public void Stretch(PointF MouseLocation)
+        {
+            float radius = ((MouseLocation.X - Center.X) * (MouseLocation.X - Center.X)) 
+                + ((MouseLocation.Y - Center.Y) * (MouseLocation.Y - Center.Y));
+            Radius = (float)Math.Sqrt(radius);
+        }
+
+        public float GetLength()
+        {
+            return (float)(2 * Math.PI * Radius);
+        }
+
+        public float GetArea()
+        {
+            return (float)(Math.PI * Radius * Radius);
+        }
+
         public int GetParentId()
         {
             if (Parent == null)
