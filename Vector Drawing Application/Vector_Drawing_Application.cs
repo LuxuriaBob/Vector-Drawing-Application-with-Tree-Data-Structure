@@ -62,18 +62,17 @@ namespace Vector_Drawing_Application
         LineMoveInfo LineSecondMoving = null;   //stores line moving for undo-move method
         Point secondLineE;  //stores line-coordinates for undo-move
 
-        PolygonMoveInfo PolygonSecondMoving = null;   //stores Polygon moving for undo-move method
-        Point secondPolygonE;  //stores Polygon-coordinates for undo-move
-
         Point startlocation;    //shape's top left coordinates
         Point endlocation;      //shape's bottom right coordinates
-        PointF cornerlocation;
-        Point polyMoveLocation;
-        Point StretchLocation;
-        PointF SecondCornerLocation;
+        PointF cornerlocation;  //red corner coordinates
+        Point StretchLocation;  //mouselocation for stretch method 
+        Point PolyMoveLocation; //stores polygonmove location for move method
+        PointF SecondCornerLocation;    //stores initial red corner coordinates for undo-move method
+        float MoveX;
+        float MoveY;
+
 
         int jindex;
-        int index = 0;
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -167,14 +166,6 @@ namespace Vector_Drawing_Application
                         PolygonPoints = SelectedPolygon.CurvePoints,
                         StartMoveMousePoint = e.Location
                     };
-                    PolygonSecondMoving = PolygonMoving;      //stores Moving for undo method
-                    secondPolygonE = e.Location;   //stores mouse coordinates for undo method
-
-                    for (int i = 0; i < PolygonMoving.PolygonPoints.Length; i++)
-                    {
-                        Console.WriteLine($"polygonpoints {i}.X = " + PolygonMoving.PolygonPoints[i].X);
-                        Console.WriteLine($"polygonpoints {i}.Y = " + PolygonMoving.PolygonPoints[i].Y);
-                    }
                 }
             }
             else if (select)
@@ -222,8 +213,6 @@ namespace Vector_Drawing_Application
 
                 if (RectMoving != null)
                 {
-                    index++;
-                    Console.WriteLine("rect index" + index);
                     RectMoving.Rect.SetX(RectMoving.StartRectPoint.X + e.X - RectMoving.StartMoveMousePoint.X); //sets x coordinate of a moving rect
                     RectMoving.Rect.SetY(RectMoving.StartRectPoint.Y + e.Y - RectMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving rect
                 }
@@ -251,60 +240,6 @@ namespace Vector_Drawing_Application
                     LineMoving.Line.SetY2(LineMoving.EndLinePoint.Y + e.Y - LineMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving line
                 }
                 RefreshLineSelection(e.Location);
-
-                if (PolygonMoving != null)
-                {
-                    polyMoveLocation = e.Location;
-
-                    /*
-                    matrixLocation = e.Location;
-                    Console.WriteLine("matrixlocation = " + matrixLocation);
-                    Console.WriteLine("secondPolygonE = " + secondPolygonE);
-                    Console.WriteLine("startmoveX" + PolygonMoving.StartMoveMousePoint.X);
-                    Console.WriteLine("startmoveY" + PolygonMoving.StartMoveMousePoint.Y);
-                    */
-
-                    index++;
-
-                    Console.WriteLine("secondPolygonE = " + secondPolygonE);
-                    Console.WriteLine("polyMoveLocation = " + polyMoveLocation);
-
-                    PolygonMoving.Polygon.SetX(PolygonMoving.PolygonPoints[0].X + polyMoveLocation.X - secondPolygonE.X);
-                    PolygonMoving.Polygon.SetY(PolygonMoving.PolygonPoints[0].Y + polyMoveLocation.X - secondPolygonE.X);
-
-                    //PolygonMoving.Polygon.SetX1(PolygonMoving.PolygonPoints[0].X + e.X - PolygonMoving.StartMoveMousePoint.X);
-                    //PolygonMoving.Polygon.SetY1(PolygonMoving.PolygonPoints[0].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y);
-                    //PolygonMoving.Polygon.SetX2(PolygonMoving.PolygonPoints[1].X + e.X - PolygonMoving.StartMoveMousePoint.X);
-                    //PolygonMoving.Polygon.SetY2(PolygonMoving.PolygonPoints[1].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y);
-                    //PolygonMoving.Polygon.SetX3(PolygonMoving.PolygonPoints[2].X + e.X - PolygonMoving.StartMoveMousePoint.X);
-                    //PolygonMoving.Polygon.SetY3(PolygonMoving.PolygonPoints[2].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y);
-
-                    /*
-                    for(int index2 = 0; index2 < PolygonMoving.PolygonPoints.Length; index2++)
-                    {
-                        PolygonMoving.Polygon.SetXtrial(PolygonMoving.PolygonPoints[index2].X + e.X - PolygonMoving.StartMoveMousePoint.X, index2);
-                        PolygonMoving.Polygon.SetYtrial(PolygonMoving.PolygonPoints[index2].Y + e.Y - PolygonMoving.StartMoveMousePoint.Y, index2);
-                    }
-                    */
-
-                    for (int i = 0; i < PolygonMoving.PolygonPoints.Length; i++)
-                    {
-                        Console.WriteLine($"polygonpoints {i}.X = " + PolygonMoving.PolygonPoints[i].X);
-                        Console.WriteLine($"polygonpoints {i}.Y = " + PolygonMoving.PolygonPoints[i].Y);
-                    }
-
-                    Console.WriteLine("index " + index);
-
-                    /*
-                    SizeF StartMoveMouseCoordinate = new SizeF(PolygonMoving.StartMoveMousePoint.X, PolygonMoving.StartMoveMousePoint.Y);
-                    SizeF CurrentMouseCoordinate = new SizeF(e.X, e.Y);
-
-                    for(int i = 0; i<PolygonMoving.PolygonPoints.Length; i++)
-                    {
-                        PolygonMoving.PolygonPoints[i] = PolygonMoving.PolygonPoints[i] + CurrentMouseCoordinate - StartMoveMouseCoordinate;
-                    }
-                    */
-                }
                 RefreshPolygonSelection(e.Location);
             }
         }
@@ -363,23 +298,6 @@ namespace Vector_Drawing_Application
                 }
                 else if (PolygonMoving != null)
                 {
-                    /*
-                    matrixLocation = e.Location;
-                    
-                    if (matrixLocation.X > secondPolygonE.X)
-                    {
-                        myMatrix.Translate(matrixLocation.X - secondPolygonE.X, 0, MatrixOrder.Append);
-                        myMatrix.TransformPoints(PolygonMoving.PolygonPoints);
-                        Console.WriteLine("right");
-                    }
-
-                    if (matrixLocation.Y > secondPolygonE.Y)
-                    {
-                        myMatrix.Translate(0, matrixLocation.Y - secondPolygonE.Y, MatrixOrder.Append);
-                        myMatrix.TransformPoints(PolygonMoving.PolygonPoints);
-                        Console.WriteLine("down");
-                    }
-                    */
                     this.Capture = false;
                     PolygonMoving = null;
                 }
@@ -444,31 +362,62 @@ namespace Vector_Drawing_Application
                         SecondCornerLocation = cornerlocation;
                     }
                 }
-                
+
                 for (int i = 0; i < Rects.Count; i++)
                 {
-                    //top left
+                    //top left corner of rectangle
                     if (Math.Abs(e.X - Rects[i].StartPoint.X) < 20 && Math.Abs(e.Y - Rects[i].StartPoint.Y) < 20)
                     {
                         cornerlocation = Rects[i].StartPoint;
                         SecondCornerLocation = cornerlocation;
                     }
-                    //bottom left
+                    //bottom left corner of rectangle
                     else if (Math.Abs(e.X - Rects[i].StartPoint.X) < 20 && Math.Abs(e.Y - (Rects[i].StartPoint.Y + Rects[i].Height)) < 20)
                     {
                         cornerlocation = new PointF(Rects[i].StartPoint.X, Rects[i].StartPoint.Y + Rects[i].Height);
                         SecondCornerLocation = cornerlocation;
                     }
-                    //top right
+                    //top right corner of rectangle
                     else if (Math.Abs(e.X - (Rects[i].StartPoint.X + Rects[i].Width)) < 20 && Math.Abs(e.Y - Rects[i].StartPoint.Y) < 20)
                     {
                         cornerlocation = new PointF(Rects[i].StartPoint.X + Rects[i].Width, Rects[i].StartPoint.Y);
                         SecondCornerLocation = cornerlocation;
                     }
-                    //bottom right
+                    //bottom right corner of rectangle
                     else if (Math.Abs(e.X - (Rects[i].StartPoint.X + Rects[i].Width)) < 20 && Math.Abs(e.Y - (Rects[i].StartPoint.Y + Rects[i].Height)) < 20)
                     {
                         cornerlocation = new PointF(Rects[i].StartPoint.X + Rects[i].Width, Rects[i].StartPoint.Y + Rects[i].Height);
+                        SecondCornerLocation = cornerlocation;
+                    }
+                }
+
+                for (int i = 0; i < Squares.Count; i++)
+                {
+                    //top left corner of square
+                    if (Math.Abs(e.X - Squares[i].StartPoint.X) < 20 && Math.Abs(e.Y - Squares[i].StartPoint.Y) < 20)
+                    {
+                        cornerlocation = Squares[i].StartPoint;
+                        SecondCornerLocation = cornerlocation;
+                    }
+                    //bottom left corner of square
+                    else if (Math.Abs(e.X - Squares[i].StartPoint.X) < 20 &&
+                        Math.Abs(e.Y - (Squares[i].StartPoint.Y + Squares[i].Side)) < 20)
+                    {
+                        cornerlocation = new PointF(Squares[i].StartPoint.X, Squares[i].StartPoint.Y + Squares[i].Side);
+                        SecondCornerLocation = cornerlocation;
+                    }
+                    //top right corner of square
+                    else if (Math.Abs(e.X - (Squares[i].StartPoint.X + Squares[i].Side)) < 20 &&
+                        Math.Abs(e.Y - Squares[i].StartPoint.Y) < 20)
+                    {
+                        cornerlocation = new PointF(Squares[i].StartPoint.X + Squares[i].Side, Squares[i].StartPoint.Y);
+                        SecondCornerLocation = cornerlocation;
+                    }
+                    //bottom right corner of square
+                    else if (Math.Abs(e.X - (Squares[i].StartPoint.X + Squares[i].Side)) < 20 &&
+                        Math.Abs(e.Y - (Squares[i].StartPoint.Y + Squares[i].Side)) < 20)
+                    {
+                        cornerlocation = new PointF(Squares[i].StartPoint.X + Squares[i].Side, Squares[i].StartPoint.Y + Squares[i].Side);
                         SecondCornerLocation = cornerlocation;
                     }
                 }
@@ -484,11 +433,11 @@ namespace Vector_Drawing_Application
                             SecondCornerLocation = cornerlocation;
                         }
                     }
-                }                
-                
+                }
+
                 for (int i = 0; i < Circles.Count; i++)
                 {
-                    if(SelectedCircle != null)
+                    if (SelectedCircle != null)
                     {
                         cornerlocation = SelectedCircle.Center;
                         SecondCornerLocation = new PointF(SelectedCircle.Center.X + SelectedCircle.Radius, SelectedCircle.Center.Y);
@@ -502,7 +451,7 @@ namespace Vector_Drawing_Application
                 switch (e.Button)
                 {
                     case MouseButtons.Left:
-                        if(SelectedLine != null)
+                        if (SelectedLine != null)
                         {
                             if (cornerlocation == SelectedLine.StartPoint)
                             {
@@ -515,7 +464,7 @@ namespace Vector_Drawing_Application
                                 cornerlocation = SelectedLine.EndPoint;
                             }
                         }
-                        else if(SelectedRect != null)
+                        else if (SelectedRect != null)
                         {
                             //top left
                             if (cornerlocation == SelectedRect.StartPoint)
@@ -524,15 +473,15 @@ namespace Vector_Drawing_Application
                                 cornerlocation = SelectedRect.StartPoint;
                             }
                             //bottom left
-                            else if (cornerlocation.X == SelectedRect.StartPoint.X 
+                            else if (cornerlocation.X == SelectedRect.StartPoint.X
                                 && cornerlocation.Y == SelectedRect.StartPoint.Y + SelectedRect.Height)
                             {
                                 SelectedRect.Stretch(cornerlocation, StretchLocation);
                                 cornerlocation.X = SelectedRect.StartPoint.X;
                                 cornerlocation.Y = SelectedRect.StartPoint.Y + SelectedRect.Height;
-                            }    
+                            }
                             //top right
-                            else if (cornerlocation.X == SelectedRect.StartPoint.X + SelectedRect.Width 
+                            else if (cornerlocation.X == SelectedRect.StartPoint.X + SelectedRect.Width
                                 && cornerlocation.Y == SelectedRect.StartPoint.Y)
                             {
                                 SelectedRect.Stretch(cornerlocation, StretchLocation);
@@ -546,6 +495,39 @@ namespace Vector_Drawing_Application
                                 SelectedRect.Stretch(cornerlocation, StretchLocation);
                                 cornerlocation.X = SelectedRect.StartPoint.X + SelectedRect.Width;
                                 cornerlocation.Y = SelectedRect.StartPoint.Y + SelectedRect.Height;
+                            }
+                        }
+                        else if (SelectedSquare != null)
+                        {
+                            //top left
+                            if (cornerlocation == SelectedSquare.StartPoint)
+                            {
+                                SelectedSquare.Stretch(cornerlocation, StretchLocation);
+                                cornerlocation = SelectedSquare.StartPoint;
+                            }
+                            //bottom left
+                            else if (cornerlocation.X == SelectedSquare.StartPoint.X
+                                && cornerlocation.Y == SelectedSquare.StartPoint.Y + SelectedSquare.Side)
+                            {
+                                SelectedSquare.Stretch(cornerlocation, StretchLocation);
+                                cornerlocation.X = SelectedSquare.StartPoint.X;
+                                cornerlocation.Y = SelectedSquare.StartPoint.Y + SelectedSquare.Side;
+                            }
+                            //top right
+                            else if (cornerlocation.X == SelectedSquare.StartPoint.X + SelectedSquare.Side
+                                && cornerlocation.Y == SelectedSquare.StartPoint.Y)
+                            {
+                                SelectedSquare.Stretch(cornerlocation, StretchLocation);
+                                cornerlocation.X = SelectedSquare.StartPoint.X + SelectedSquare.Side;
+                                cornerlocation.Y = SelectedSquare.StartPoint.Y;
+                            }
+                            //bottom right
+                            else if (cornerlocation.X == SelectedSquare.StartPoint.X + SelectedSquare.Side
+                                && cornerlocation.Y == SelectedSquare.StartPoint.Y + SelectedSquare.Side)
+                            {
+                                SelectedSquare.Stretch(cornerlocation, StretchLocation);
+                                cornerlocation.X = SelectedSquare.StartPoint.X + SelectedSquare.Side;
+                                cornerlocation.Y = SelectedSquare.StartPoint.Y + SelectedSquare.Side;
                             }
                         }
                         else if (SelectedPolygon != null)
@@ -564,7 +546,16 @@ namespace Vector_Drawing_Application
             }
             else if (move)
             {
+                PolyMoveLocation = e.Location;
 
+                if (SelectedPolygon != null)
+                {
+                    MoveX = PolyMoveLocation.X - SelectedPolygon.CurvePoints[jindex].X;
+                    MoveY = PolyMoveLocation.Y - SelectedPolygon.CurvePoints[jindex].Y;
+
+                    SelectedPolygon.Move(PolyMoveLocation, MoveX, MoveY);
+                    cornerlocation = SelectedPolygon.CurvePoints[jindex];
+                }
             }
         }
 
@@ -683,10 +674,10 @@ namespace Vector_Drawing_Application
                     e.Graphics.FillRectangle(pen.Brush, rect.StartPoint.X, rect.StartPoint.Y, rect.Width, rect.Height);   //fills square in Squares list
                 }
             }
-            
+
             if (SelectedRect != null)
             {
-                if(!move)
+                if (!move)
                 {
                     if (cornerlocation != null)
                     {
@@ -695,11 +686,12 @@ namespace Vector_Drawing_Application
                     }
                 }
             }
-            else if (SelectedRect == null && SelectedLine == null && SelectedPolygon == null && SelectedCircle == null)
+            else if (SelectedRect == null && SelectedLine == null && SelectedPolygon == null &&
+                SelectedCircle == null && SelectedSquare == null)
             {
                 cornerlocation = new PointF(0, 0);
             }
-            
+
             foreach (var square in Squares)
             {
                 var color = square == SelectedSquare ? Color.Blue : square.GetColour();    //square.GetColour(rect)SelectedSquare is blue, others are colors selected from colorpicker
@@ -713,6 +705,18 @@ namespace Vector_Drawing_Application
                 else
                 {
                     e.Graphics.FillRectangle(pen.Brush, square.StartPoint.X, square.StartPoint.Y, square.Side, square.Side);   //fills square in Squares list
+                }
+            }
+
+            if (SelectedSquare != null)
+            {
+                if (!move)
+                {
+                    if (cornerlocation != null)
+                    {
+                        var pen = new Pen(Brushes.Red, 10);   //selected colour, rect's size
+                        e.Graphics.FillRectangle(pen.Brush, cornerlocation.X - 10, cornerlocation.Y - 10, 20, 20);
+                    }
                 }
             }
 
@@ -732,7 +736,7 @@ namespace Vector_Drawing_Application
                         circle.Radius + circle.Radius);   //fills square in Rects list
                 }
             }
-            
+
             if (SelectedCircle != null)
             {
                 if (!move)
@@ -753,7 +757,7 @@ namespace Vector_Drawing_Application
                     }
                 }
             }
-            
+
             foreach (var line in Lines)
             {
                 var color = line == SelectedLine ? Color.Blue : line.GetColour();    //line.GetColour(rect) SelectedLine is blue, others are colors selected from colorpicker
@@ -762,9 +766,9 @@ namespace Vector_Drawing_Application
                 e.Graphics.DrawLine(pen, line.StartPoint, line.EndPoint);   //draws circle in Circles list
             }
 
-            if(SelectedLine != null)
+            if (SelectedLine != null)
             {
-                if(!move)
+                if (!move)
                 {
                     if (cornerlocation != null)
                     {
@@ -788,7 +792,7 @@ namespace Vector_Drawing_Application
                     e.Graphics.FillPolygon(pen.Brush, polygon.CurvePoints);   //fills polygon in polygons list
                 }
             }
-            
+
             if (SelectedPolygon != null)
             {
                 if (cornerlocation != null)
@@ -797,7 +801,7 @@ namespace Vector_Drawing_Application
                     e.Graphics.FillRectangle(pen.Brush, cornerlocation.X - 9, cornerlocation.Y - 9, 20, 20);
                 }
             }
-            
+
         }
 
         static GraphRect RectangleHitTest(List<GraphRect> rects, Point p)
@@ -1104,6 +1108,7 @@ namespace Vector_Drawing_Application
         private void MoveButton_Click(object sender, EventArgs e)
         {
             lastButton = "move";
+            cornerlocation = new PointF(0, 0);
             this.Cursor = Cursors.SizeAll;
             MakeLastTrue(ref stretch, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, ref drawRect, ref move);
         }
@@ -1118,9 +1123,9 @@ namespace Vector_Drawing_Application
         private void RulerButton_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Arrow;
-            if(SelectedRect != null)
+            if (SelectedRect != null)
             {
-                MessageBox.Show("Rectangle's length is " + SelectedRect.GetLength() + "\n" + 
+                MessageBox.Show("Rectangle's length is " + SelectedRect.GetLength() + "\n" +
                     "Rectangle's area is " + SelectedRect.GetArea());
             }
             if (SelectedSquare != null)
@@ -1130,7 +1135,7 @@ namespace Vector_Drawing_Application
             }
             if (SelectedCircle != null)
             {
-                MessageBox.Show("Circle's length is " + SelectedCircle.GetLength() + "\n" + 
+                MessageBox.Show("Circle's length is " + SelectedCircle.GetLength() + "\n" +
                     "Circle's area is " + SelectedCircle.GetArea());
             }
             if (SelectedLine != null)
@@ -1216,7 +1221,7 @@ namespace Vector_Drawing_Application
 
             if (Circles.Count != 0)   //Exception for empty list
             {
-                if (Circles.Contains(SelectedCircle))    //delete selected vircle if Circles list contains
+                if (Circles.Contains(SelectedCircle))    //delete selected circle if Circles list contains
                 {
                     SelectedCircle.DeleteCircles(Circles);
                     Circles.Remove(SelectedCircle);
@@ -1225,7 +1230,7 @@ namespace Vector_Drawing_Application
 
             if (Lines.Count != 0)   //Exception for empty list
             {
-                if (Lines.Contains(SelectedLine))    //delete selected vircle if Lines list contains
+                if (Lines.Contains(SelectedLine))    //delete selected line if Lines list contains
                 {
                     SelectedLine.DeleteLines(Lines);
                     Lines.Remove(SelectedLine);
@@ -1234,7 +1239,7 @@ namespace Vector_Drawing_Application
 
             if (Polygons.Count != 0)   //Exception for empty list
             {
-                if (Polygons.Contains(SelectedPolygon))    //delete selected vircle if Polygons list contains
+                if (Polygons.Contains(SelectedPolygon))    //delete selected polygon if Polygons list contains
                 {
                     SelectedPolygon.DeletePolygons(Polygons);
                     Polygons.Remove(SelectedPolygon);
@@ -1372,9 +1377,15 @@ namespace Vector_Drawing_Application
                         LineSecondMoving = null;
                         Refresh();
                     }
+                    else if (SelectedPolygon != null)
+                    {
+                        SelectedPolygon.Move(SecondCornerLocation, MoveX, MoveY);
+                        cornerlocation = SecondCornerLocation;
+                        Refresh();
+                    }
                     break;
                 case "stretch":
-                    if(SelectedLine != null)
+                    if (SelectedLine != null)
                     {
                         SelectedLine.Stretch(SecondCornerLocation, cornerlocation);
                         cornerlocation = SecondCornerLocation;
@@ -1388,7 +1399,13 @@ namespace Vector_Drawing_Application
                     }
                     else if (SelectedRect != null)
                     {
-                        SelectedRect.Stretch(cornerlocation,SecondCornerLocation);
+                        SelectedRect.Stretch(cornerlocation, SecondCornerLocation);
+                        cornerlocation = SecondCornerLocation;
+                        Refresh();
+                    }
+                    else if (SelectedSquare != null)
+                    {
+                        SelectedSquare.Stretch(cornerlocation, SecondCornerLocation);
                         cornerlocation = SecondCornerLocation;
                         Refresh();
                     }
@@ -1397,7 +1414,6 @@ namespace Vector_Drawing_Application
                         SelectedCircle.Stretch(SecondCornerLocation);
                         Refresh();
                     }
-                    Console.WriteLine("strech-undo method");
                     break;
                 case "rotateRight":
                     if (LastSelectedRect != null)
@@ -1475,6 +1491,8 @@ namespace Vector_Drawing_Application
                 UndoButton.PerformClick();
             if (e.Control && e.KeyCode == Keys.S)
                 SaveButton.PerformClick();
+            if (e.Control && e.KeyCode == Keys.O)
+                LoadButton.PerformClick();
         }
 
         private void WriteToText()
@@ -1530,21 +1548,29 @@ namespace Vector_Drawing_Application
 
                 for (int i = 0; i < Polygons.Count; i++)
                 {
-                    string polyLine1 = Polygons[i].GetParentId() + " " + Polygons[i].Id + " [";
-                    Console.WriteLine("poly1");
+                    string polyLine1 = Polygons[i].GetParentId() + " " + Polygons[i].Id + " " + Polygons[i].CurvePoints.Length + " ";
 
                     string[] polyLine2 = new string[100];
+                    Console.WriteLine("polyline2 0 = " + polyLine2[0]);
 
                     for (int k = 0; k < Polygons[i].CurvePoints.Length; k++)
                     {
                         //writes GraphPolygon constructor's parameters
                         polyLine2[k] = Polygons[i].CurvePoints[k].X + " " + Polygons[i].CurvePoints[k].Y + " ";
-                        Console.WriteLine("poly2");
+                        Console.WriteLine("polyLine2[k] = " + polyLine2[k]);
                     }
-                    string polyLine3 = "] " + Polygons[i].size + " " + Polygons[i].colour.ToArgb();
-                    writer.Write(polyLine1 + polyLine2[i] + polyLine2[i + 1] + polyLine2[i + 2] + polyLine3 + "\n");
-                }
+                    Console.WriteLine("k = " + k);
+                    string polyLine3 = Polygons[i].Fill + " " + Polygons[i].size + " " + Polygons[i].colour.ToArgb();
+                    string allPolyLine2 = "";
 
+                    for (int l = 0; l < Polygons[i].CurvePoints.Length; l++)
+                    {
+                        allPolyLine2 += polyLine2[l];
+                    }
+                    writer.Write(polyLine1 + allPolyLine2 + polyLine3 + "\n");
+                    // writer.Write(polyLine1 + polyLine2[i] + polyLine2[i + 1] + polyLine2[i + 2] + polyLine3 + "\n");
+                    Console.WriteLine("i = " + i);
+                }
                 writer.Close();
             }
         }
@@ -1593,7 +1619,7 @@ namespace Vector_Drawing_Application
         {
             for (int i = 0; i < Polygons.Count; i++)
             {
-                if (Lines[i].Id == p)
+                if (Polygons[i].Id == p)
                     return Polygons[i];
             }
             return null;
@@ -1629,7 +1655,7 @@ namespace Vector_Drawing_Application
                 GraphSquare square;
                 GraphCircle circle;
                 GraphLine line;
-                //GraphPolygon polygon;
+                GraphPolygon polygon;
 
                 for (int index = 0; index < lines.Length; index++)
                 {
@@ -1719,24 +1745,47 @@ namespace Vector_Drawing_Application
                         }
                         Lines.Add(line);
                     }
-                    /*
-                    if (a.Length == 6 && i > n)
+
+                    if (a.Length >= 11 && i > n)
                     {
-                        for (int index = 0; i < Polygons.Count; index++)
+                        if (int.Parse(a[0]) == 0)
                         {
-                            if (int.Parse(a[0]) == 0)
+                            float polyPointsLength = float.Parse(a[2]);
+                            Console.WriteLine(polyPointsLength);
+
+                            PointF[] polyPoints = new PointF[(int)polyPointsLength];
+                            int b = 0;
+
+                            for (int index = 0; index < (2 * polyPointsLength); index += 2)
                             {
-                                polygon = new GraphPolygon(null, int.Parse(a[1]), PointF[(a[3])], int.Parse(a[4]),
-                                int.Parse(a[5]), Color.FromArgb(int.Parse(a[6])));
+                                polyPoints[b] = new PointF(float.Parse(a[index + 3]), float.Parse(a[index + 4]));
+                                b++;
                             }
-                            else
-                            {
-                                polygon = new GraphPolygon(GetPolygonParent(int.Parse(a[0])), int.Parse(a[1]), 
-                                    PointF.(a[3]), int.Parse(a[4]), int.Parse(a[5]), Color.FromArgb(int.Parse(a[6])));
-                            }
+                            Console.WriteLine("b1 " + b);
+                            polygon = new GraphPolygon(null, int.Parse(a[1]), polyPoints, int.Parse(a[2*b+3]),
+                            int.Parse(a[2*b+4]), Color.FromArgb(int.Parse(a[2*b+5])));
+                            b = 0;
                         }
+                        else
+                        {
+                            Console.WriteLine("else");
+                            float polyPointsLength = float.Parse(a[2]);
+                            Console.WriteLine(polyPointsLength);
+
+                            PointF[] polyPoints = new PointF[(int)polyPointsLength];
+                            int b = 0;
+
+                            for (int index = 0; index < (2 * polyPointsLength); index += 2)
+                            {
+                                polyPoints[b] = new PointF(float.Parse(a[index + 3]), float.Parse(a[index + 4]));
+                                b++;
+                            }
+                            Console.WriteLine("b2 " + b);
+                            polygon = new GraphPolygon(GetPolygonParent(int.Parse(a[0])), int.Parse(a[1]),
+                                polyPoints, int.Parse(a[2*b+3]), int.Parse(a[2*b+4]), Color.FromArgb(int.Parse(a[2*b+5])));
+                        }
+                        Polygons.Add(polygon);
                     }
-                    */
                 }
             }
         }
@@ -1799,7 +1848,7 @@ namespace Vector_Drawing_Application
             this.Cursor = Cursors.Arrow;
             ReadFromText();
             Refresh();
-            Console.WriteLine("rects + squares + circles + lines = polygons" + Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count);
+            Console.WriteLine("rects + squares + circles + lines + polygons" + Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count);
         }
 
         private void Vector_Drawing_Application_FormClosing(object sender, FormClosingEventArgs e)

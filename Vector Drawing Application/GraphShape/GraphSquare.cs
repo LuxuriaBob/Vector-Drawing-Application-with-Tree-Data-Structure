@@ -67,6 +67,45 @@ namespace Vector_Drawing_Application
                 return;
         }
 
+        public void Stretch(PointF cornerlocation, PointF MouseLocation)
+        {
+            //top left
+            if (cornerlocation == StartPoint)
+            {
+                if (MouseLocation.X < StartPoint.X + Side && MouseLocation.Y < StartPoint.Y + Side)
+                {
+                    Side += StartPoint.X - MouseLocation.X;
+                    StartPoint = MouseLocation;
+                }
+            }
+            //bottom left
+            else if (cornerlocation.X == StartPoint.X && cornerlocation.Y == (StartPoint.Y + Side))
+            {
+                if (MouseLocation.Y > StartPoint.Y && MouseLocation.X < StartPoint.X + Side)
+                {
+                    Side = StartPoint.X + Side - MouseLocation.X;
+                    StartPoint.X = MouseLocation.X;
+                }
+            }
+            //top right
+            else if (cornerlocation.X == (StartPoint.X + Side) && cornerlocation.Y == StartPoint.Y)
+            {
+                if (MouseLocation.X > StartPoint.X && MouseLocation.Y < StartPoint.Y + Side)
+                {
+                    Side = StartPoint.Y + Side - MouseLocation.Y;
+                    StartPoint.Y = MouseLocation.Y;
+                }
+            }
+            //bottom right
+            else if (cornerlocation.X == (StartPoint.X + Side) && cornerlocation.Y == (StartPoint.Y + Side))
+            {
+                if (MouseLocation.X > StartPoint.X && MouseLocation.Y > StartPoint.Y)
+                {
+                    Side = MouseLocation.Y - StartPoint.Y;
+                }
+            }
+        }
+
         public float GetLength()
         {
             return (4 * Side);
