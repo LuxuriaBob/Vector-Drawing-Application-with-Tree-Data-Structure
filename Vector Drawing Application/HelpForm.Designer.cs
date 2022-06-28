@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -38,10 +39,10 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(18, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 78);
+            this.label1.Size = new System.Drawing.Size(142, 91);
             this.label1.TabIndex = 0;
             this.label1.Text = "Select shapes with numbers:\r\n1 - Rectangle\r\n2 - Square\r\n3 - Circle\r\n4 - Line\r\n5 -" +
-    "Polygon\r\n";
+    "Polygon\r\n6 - Curve";
             // 
             // label2
             // 
@@ -63,11 +64,21 @@
             this.label3.Text = "Drawing a shape while there is a selected one\r\nmakes it it\'s child. Actions to pa" +
     "rent shape is applied to \r\nchild shapes as well.";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(155, 185);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(143, 26);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Version 14.0 by Yalın Hoşgör\r\n\r\n";
+            // 
             // Help
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 196);
+            this.ClientSize = new System.Drawing.Size(303, 209);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -84,5 +95,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

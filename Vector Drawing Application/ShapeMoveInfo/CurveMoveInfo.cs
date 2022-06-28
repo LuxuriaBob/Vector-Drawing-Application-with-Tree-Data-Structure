@@ -7,10 +7,10 @@ using System.Drawing;
 
 namespace Vector_Drawing_Application
 {
-    class PolygonMoveInfo
+    class CurveMoveInfo
     {
-        public GraphPolygon Polygon;
-        public PointF[] PolygonPoints;
+        public GraphCurve Curve;
+        public PointF[] CurvePoints;
         public Point StartMoveMousePoint;
     }
 }
