@@ -71,7 +71,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(143, 26);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Version 14.0 by Yalın Hoşgör\r\n\r\n";
+            this.label4.Text = "Version 16.0 by Yalın Hoşgör\r\n\r\n";
             // 
             // Help
             // 

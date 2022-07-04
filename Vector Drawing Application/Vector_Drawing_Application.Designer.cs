@@ -34,6 +34,7 @@
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CurveButton = new System.Windows.Forms.Button();
             this.RulerButton = new System.Windows.Forms.Button();
             this.Help_Button = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -56,6 +57,7 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadBackgroundImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotate90DegressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,11 +65,12 @@
             this.rotateVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.CurveButton = new System.Windows.Forms.Button();
+            this.rulerLabel = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // RectangleButton
@@ -95,6 +98,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.OrangeRed;
             this.panel1.Controls.Add(this.CurveButton);
             this.panel1.Controls.Add(this.RulerButton);
             this.panel1.Controls.Add(this.Help_Button);
@@ -114,10 +118,23 @@
             this.panel1.Controls.Add(this.SquareButton);
             this.panel1.Controls.Add(this.RectangleButton);
             this.panel1.Controls.Add(this.FillColorCheckBox);
-            this.panel1.Location = new System.Drawing.Point(3, 29);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 45);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(835, 46);
+            this.panel1.Size = new System.Drawing.Size(984, 46);
             this.panel1.TabIndex = 10;
+            // 
+            // CurveButton
+            // 
+            this.CurveButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.CurveButton.Image = ((System.Drawing.Image)(resources.GetObject("CurveButton.Image")));
+            this.CurveButton.Location = new System.Drawing.Point(220, 0);
+            this.CurveButton.Name = "CurveButton";
+            this.CurveButton.Size = new System.Drawing.Size(45, 45);
+            this.CurveButton.TabIndex = 14;
+            this.toolTip1.SetToolTip(this.CurveButton, "Draw Curve");
+            this.CurveButton.UseVisualStyleBackColor = false;
+            this.CurveButton.Click += new System.EventHandler(this.CurveButton_Click);
             // 
             // RulerButton
             // 
@@ -340,6 +357,7 @@
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
+            this.loadBackgroundImageToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
             this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 24);
@@ -351,7 +369,7 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
@@ -361,7 +379,7 @@
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
@@ -371,14 +389,24 @@
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
+            // 
+            // loadBackgroundImageToolStripMenuItem
+            // 
+            this.loadBackgroundImageToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("loadBackgroundImageToolStripMenuItem.Image")));
+            this.loadBackgroundImageToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.loadBackgroundImageToolStripMenuItem.Name = "loadBackgroundImageToolStripMenuItem";
+            this.loadBackgroundImageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.loadBackgroundImageToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.loadBackgroundImageToolStripMenuItem.Text = "&Load Background Image";
+            this.loadBackgroundImageToolStripMenuItem.Click += new System.EventHandler(this.LoadBackgroundImageToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -437,49 +465,49 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label1.Location = new System.Drawing.Point(0, 504);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label1.Location = new System.Drawing.Point(4, 31);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
-            this.label1.Size = new System.Drawing.Size(96, 18);
+            this.label1.Size = new System.Drawing.Size(158, 27);
             this.label1.TabIndex = 12;
             this.label1.Text = "Mouse Position = ";
             // 
-            // label2
+            // rulerLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label2.Location = new System.Drawing.Point(0, 486);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
-            this.label2.Size = new System.Drawing.Size(100, 18);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Selected Button = ";
+            this.rulerLabel.AutoSize = true;
+            this.rulerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.rulerLabel.Location = new System.Drawing.Point(4, 4);
+            this.rulerLabel.Name = "rulerLabel";
+            this.rulerLabel.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
+            this.rulerLabel.Size = new System.Drawing.Size(163, 27);
+            this.rulerLabel.TabIndex = 13;
+            this.rulerLabel.Text = "Selected Button = ";
             // 
-            // CurveButton
+            // panel2
             // 
-            this.CurveButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.CurveButton.Image = ((System.Drawing.Image)(resources.GetObject("CurveButton.Image")));
-            this.CurveButton.Location = new System.Drawing.Point(220, 0);
-            this.CurveButton.Name = "CurveButton";
-            this.CurveButton.Size = new System.Drawing.Size(45, 45);
-            this.CurveButton.TabIndex = 14;
-            this.toolTip1.SetToolTip(this.CurveButton, "Draw Curve");
-            this.CurveButton.UseVisualStyleBackColor = false;
-            this.CurveButton.Click += new System.EventHandler(this.CurveButton_Click);
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel2.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.panel2.Controls.Add(this.rulerLabel);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Location = new System.Drawing.Point(0, 500);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(177, 60);
+            this.panel2.TabIndex = 14;
             // 
             // Vector_Drawing_Application
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(860, 522);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(0, 45);
+            this.MinimumSize = new System.Drawing.Size(850, 600);
             this.Name = "Vector_Drawing_Application";
             this.Padding = new System.Windows.Forms.Padding(0, 45, 0, 0);
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -496,6 +524,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -535,7 +565,9 @@
         private System.Windows.Forms.Button UndoButton;
         private System.Windows.Forms.Button RulerButton;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label rulerLabel;
         private System.Windows.Forms.Button CurveButton;
+        private System.Windows.Forms.ToolStripMenuItem loadBackgroundImageToolStripMenuItem;
+        private System.Windows.Forms.Panel panel2;
     }
 }

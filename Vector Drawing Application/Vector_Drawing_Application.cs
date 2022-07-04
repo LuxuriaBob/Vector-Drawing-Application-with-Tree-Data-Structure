@@ -74,7 +74,6 @@ namespace Vector_Drawing_Application
         PointF SecondCornerLocation;    //stores initial red corner coordinates for undo-move method
 
         int jindex;
-
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if (drawRect)
@@ -230,22 +229,28 @@ namespace Vector_Drawing_Application
 
                 if (RectMoving != null)
                 {
-                    RectMoving.Rect.SetX(RectMoving.StartRectPoint.X + e.X - RectMoving.StartMoveMousePoint.X); //sets x coordinate of a moving rect
-                    RectMoving.Rect.SetY(RectMoving.StartRectPoint.Y + e.Y - RectMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving rect
+                    //sets x coordinate of a moving rect
+                    RectMoving.Rect.SetX(RectMoving.StartRectPoint.X + e.X - RectMoving.StartMoveMousePoint.X);
+                    //sets y coordinate of a moving rect
+                    RectMoving.Rect.SetY(RectMoving.StartRectPoint.Y + e.Y - RectMoving.StartMoveMousePoint.Y); 
                 }
                 RefreshRectSelection(e.Location);
 
                 if (SquareMoving != null)
                 {
-                    SquareMoving.Square.SetX(SquareMoving.StartSquarePoint.X + e.X - SquareMoving.StartMoveMousePoint.X); //sets x coordinate of a moving square
-                    SquareMoving.Square.SetY(SquareMoving.StartSquarePoint.Y + e.Y - SquareMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving square
+                    //sets x coordinate of a moving square
+                    SquareMoving.Square.SetX(SquareMoving.StartSquarePoint.X + e.X - SquareMoving.StartMoveMousePoint.X);
+                    //sets y coordinate of a moving square
+                    SquareMoving.Square.SetY(SquareMoving.StartSquarePoint.Y + e.Y - SquareMoving.StartMoveMousePoint.Y); 
                 }
                 RefreshSquareSelection(e.Location);
 
                 if (CircleMoving != null)
                 {
-                    CircleMoving.Circle.SetX(CircleMoving.StartCirclePoint.X + e.X - CircleMoving.StartMoveMousePoint.X); //sets x coordinate of a moving circle
-                    CircleMoving.Circle.SetY(CircleMoving.StartCirclePoint.Y + e.Y - CircleMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving circle
+                    //sets x coordinate of a moving circle
+                    CircleMoving.Circle.SetX(CircleMoving.StartCirclePoint.X + e.X - CircleMoving.StartMoveMousePoint.X);
+                    //sets y coordinate of a moving circle
+                    CircleMoving.Circle.SetY(CircleMoving.StartCirclePoint.Y + e.Y - CircleMoving.StartMoveMousePoint.Y); 
                 }
                 RefreshCircleSelection(e.Location);
 
@@ -684,8 +689,10 @@ namespace Vector_Drawing_Application
 
         private void CreateRectangle(Point startlocation, Point endlocation)
         {
-            int startPointX = endlocation.X < startlocation.X ? endlocation.X : startlocation.X;    //determines x coordinate of top left corner by determining which is smaller
-            int startPointY = endlocation.Y < startlocation.Y ? endlocation.Y : startlocation.Y;    //determines y coordinate of top left corner by determining which is smaller
+            //determines x coordinate of top left corner by determining which is smaller
+            int startPointX = endlocation.X < startlocation.X ? endlocation.X : startlocation.X;
+            //determines y coordinate of top left corner by determining which is smaller
+            int startPointY = endlocation.Y < startlocation.Y ? endlocation.Y : startlocation.Y;    
             int rectWidth = Math.Abs(startlocation.X - endlocation.X);  //width and height is difference of coordinates
             int rectHeight = Math.Abs(startlocation.Y - endlocation.Y);
 
@@ -709,8 +716,10 @@ namespace Vector_Drawing_Application
 
         private void CreateSquare(Point startlocation, Point endlocation)
         {
-            int startPointX = endlocation.X < startlocation.X ? endlocation.X : startlocation.X;    //determines x coordinate of top left corner by determining which is smaller
-            int startPointY = endlocation.Y < startlocation.Y ? endlocation.Y : startlocation.Y;    //determines y coordinate of top left corner by determining which is smaller
+            //determines x coordinate of top left corner by determining which is smaller
+            int startPointX = endlocation.X < startlocation.X ? endlocation.X : startlocation.X;
+            //determines y coordinate of top left corner by determining which is smaller
+            int startPointY = endlocation.Y < startlocation.Y ? endlocation.Y : startlocation.Y;    
             int squareSide = Math.Abs(startlocation.Y - endlocation.Y);
 
             if (FillColorCheckBox.Checked)
@@ -846,13 +855,13 @@ namespace Vector_Drawing_Application
 
                 if (circle.Fill == 0)
                 {
-                    e.Graphics.DrawEllipse(pen, circle.Center.X - circle.Radius, circle.Center.Y - circle.Radius, circle.Radius + circle.Radius,
-                        circle.Radius + circle.Radius);   //draws circle in Circles list
+                    e.Graphics.DrawEllipse(pen, circle.Center.X - circle.Radius, circle.Center.Y - circle.Radius, 
+                        circle.Radius + circle.Radius, circle.Radius + circle.Radius);   //draws circle in Circles list
                 }
                 else
                 {
-                    e.Graphics.FillEllipse(pen.Brush, circle.Center.X - circle.Radius, circle.Center.Y - circle.Radius, circle.Radius + circle.Radius,
-                        circle.Radius + circle.Radius);   //fills square in Rects list
+                    e.Graphics.FillEllipse(pen.Brush, circle.Center.X - circle.Radius, circle.Center.Y - circle.Radius, 
+                        circle.Radius + circle.Radius, circle.Radius + circle.Radius);   //fills square in Rects list
                 }
             }
 
@@ -949,7 +958,7 @@ namespace Vector_Drawing_Application
             }
         }
 
-        static GraphRect RectangleHitTest(List<GraphRect> rects, Point p)
+        private GraphRect RectangleHitTest(List<GraphRect> rects, Point p)
         {
             var size = 10;
             var buffer = new Bitmap(size * 2, size * 2);
@@ -968,7 +977,7 @@ namespace Vector_Drawing_Application
             return null;
         }
 
-        static GraphSquare SquareHitTest(List<GraphSquare> squares, Point p)
+        private GraphSquare SquareHitTest(List<GraphSquare> squares, Point p)
         {
             var size = 10;
             var buffer = new Bitmap(size * 2, size * 2);
@@ -987,7 +996,7 @@ namespace Vector_Drawing_Application
             return null;
         }
 
-        static GraphCircle CircleHitTest(List<GraphCircle> circles, Point p)
+        private GraphCircle CircleHitTest(List<GraphCircle> circles, Point p)
         {
             var size = 10;
             var buffer = new Bitmap(size * 2, size * 2);
@@ -1007,7 +1016,7 @@ namespace Vector_Drawing_Application
             return null;
         }
 
-        static GraphLine LineHitTest(List<GraphLine> lines, Point p)
+        private GraphLine LineHitTest(List<GraphLine> lines, Point p)
         {
             var size = 10;
             var buffer = new Bitmap(size * 2, size * 2);
@@ -1027,9 +1036,9 @@ namespace Vector_Drawing_Application
             return null;
         }
 
-        static GraphPolygon PolygonHitTest(List<GraphPolygon> polygons, Point p)
+        private GraphPolygon PolygonHitTest(List<GraphPolygon> polygons, Point p)
         {
-            var size = 100;
+            var size = 10;
             var buffer = new Bitmap(size * 2, size * 2);
             PointF[] curvePoints = new PointF[100];
 
@@ -1053,7 +1062,7 @@ namespace Vector_Drawing_Application
             return null;
         }
 
-        static GraphCurve CurveHitTest(List<GraphCurve> curves, Point p)
+        private GraphCurve CurveHitTest(List<GraphCurve> curves, Point p)
         {
             var size = 10;
             var buffer = new Bitmap(size * 2, size * 2);
@@ -1195,7 +1204,7 @@ namespace Vector_Drawing_Application
         }
 
         string lastButton = null;   //stores last pressed button
-
+        
         private void MakeAllFalse(ref bool r, ref bool s, ref bool t, ref bool u, ref bool v, ref bool w, ref bool x, 
             ref bool y, ref bool z)
         {
@@ -1264,7 +1273,7 @@ namespace Vector_Drawing_Application
         private void RectButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawRect";
-            label2.Text = "Rectangle";
+            rulerLabel.Text = "Rectangle";
             this.Cursor = Cursors.Arrow;
             MakeLastTrue(ref drawCurve, ref stretch, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, 
                 ref select, ref move, ref drawRect);
@@ -1273,7 +1282,7 @@ namespace Vector_Drawing_Application
         private void SquareButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawSquare";
-            label2.Text = "Square";
+            rulerLabel.Text = "Square";
             this.Cursor = Cursors.Arrow;
             MakeLastTrue(ref drawCurve, ref stretch, ref drawRect, ref drawCircle, ref drawLine, ref drawPolygon, 
                 ref select, ref move, ref drawSquare);
@@ -1282,7 +1291,7 @@ namespace Vector_Drawing_Application
         private void CircleButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawCircle";
-            label2.Text = "Circle";
+            rulerLabel.Text = "Circle";
             this.Cursor = Cursors.Arrow;
             MakeLastTrue(ref drawCurve, ref stretch, ref drawSquare, ref drawRect, ref drawLine, ref drawPolygon, 
                 ref select, ref move, ref drawCircle);
@@ -1291,7 +1300,7 @@ namespace Vector_Drawing_Application
         private void LineButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawLine";
-            label2.Text = "Line";
+            rulerLabel.Text = "Line";
             this.Cursor = Cursors.Arrow;
             MakeLastTrue(ref drawCurve, ref stretch, ref drawSquare, ref drawRect, ref drawCircle, ref drawPolygon, 
                 ref select, ref move, ref drawLine);
@@ -1300,7 +1309,7 @@ namespace Vector_Drawing_Application
         private void PolygonButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawPolygon";
-            label2.Text = "Polygon";
+            rulerLabel.Text = "Polygon";
             this.Cursor = Cursors.Arrow;
             MakeLastTrue(ref drawCurve, ref stretch, ref drawSquare, ref drawRect, ref drawCircle, ref drawLine, 
                 ref select, ref move, ref drawPolygon);
@@ -1309,7 +1318,7 @@ namespace Vector_Drawing_Application
         private void CurveButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawCurve";
-            label2.Text = "Curve";
+            rulerLabel.Text = "Curve";
             this.Cursor = Cursors.Arrow;
             MakeLastTrue(ref stretch, ref drawSquare, ref drawRect, ref drawCircle, ref drawLine,
                 ref select, ref move, ref drawPolygon, ref drawCurve);
@@ -1318,7 +1327,7 @@ namespace Vector_Drawing_Application
         private void SelectButton_Click(object sender, EventArgs e)
         {
             lastButton = "select";
-            label2.Text = "Select";
+            rulerLabel.Text = "Select";
             this.Cursor = Cursors.Arrow;
             MakeLastTrue(ref drawCurve, ref stretch, ref drawSquare, ref drawCircle, ref drawRect, ref drawLine, 
                 ref drawPolygon, ref move, ref select);
@@ -1327,7 +1336,7 @@ namespace Vector_Drawing_Application
         private void MoveButton_Click(object sender, EventArgs e)
         {
             lastButton = "move";
-            label2.Text = "Move";
+            rulerLabel.Text = "Move";
             cornerlocation = new PointF(0, 0);
             this.Cursor = Cursors.SizeAll;
             MakeLastTrue(ref drawCurve, ref stretch, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, 
@@ -1337,7 +1346,7 @@ namespace Vector_Drawing_Application
         private void StretchButton_Click(object sender, EventArgs e)
         {
             lastButton = "stretch";
-            label2.Text = "Stretch";
+            rulerLabel.Text = "Stretch";
             this.Cursor = Cursors.Arrow;
             MakeLastTrue(ref drawCurve, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref select, 
                 ref drawRect, ref move, ref stretch);
@@ -1345,30 +1354,30 @@ namespace Vector_Drawing_Application
 
         private void RulerButton_Click(object sender, EventArgs e)
         {
-            label2.Text = "Ruler";
+            rulerLabel.Text = "Ruler";
             this.Cursor = Cursors.Arrow;
             if (SelectedRect != null)
             {
-                label2.Text += "\nRectangle's length is " + SelectedRect.GetLength().ToString("0.00") + "u" + "\n" +
+                rulerLabel.Text += "\nRectangle's length is " + SelectedRect.GetLength().ToString("0.00") + "u" + "\n" +
                     "Rectangle's area is " + SelectedRect.GetArea().ToString("0.00") + "u²";
             }
             if (SelectedSquare != null)
             {
-                label2.Text += "\nSquare's length is " + SelectedSquare.GetLength().ToString("0.00") + "u" + "\n" +
+                rulerLabel.Text += "\nSquare's length is " + SelectedSquare.GetLength().ToString("0.00") + "u" + "\n" +
                     "Square's area is " + SelectedSquare.GetArea().ToString("0.00") + "u²";
             }
             if (SelectedCircle != null)
             {
-                label2.Text += "\nCircle's length is " + SelectedCircle.GetLength().ToString("0.00") + "u" + "\n" +
+                rulerLabel.Text += "\nCircle's length is " + SelectedCircle.GetLength().ToString("0.00") + "u" + "\n" +
                     "Circle's area is " + SelectedCircle.GetArea().ToString("0.00") + "u²";
             }
             if (SelectedLine != null)
             {
-                label2.Text += "\nLine's length is " + SelectedLine.GetLength().ToString("0.00") + "u";
+                rulerLabel.Text += "\nLine's length is " + SelectedLine.GetLength().ToString("0.00") + "u";
             }
             if (SelectedPolygon != null)
             {
-                label2.Text += "\nPolygon's length is " + SelectedPolygon.GetLength().ToString("0.00") + "u" + "\n" +
+                rulerLabel.Text += "\nPolygon's length is " + SelectedPolygon.GetLength().ToString("0.00") + "u" + "\n" +
                     "Polygon's area is " + SelectedPolygon.GetArea().ToString("0.00") + "u²";
             }
         }
@@ -1437,19 +1446,19 @@ namespace Vector_Drawing_Application
 
         #region Test
 
-        public List<GraphRect> tempRects = new List<GraphRect>();   //temperary rects list for undo-draw method
-        public List<GraphSquare> tempSquares = new List<GraphSquare>();   //temperary rects list for undo-draw method
-        public List<GraphCircle> tempCircles = new List<GraphCircle>();   //temperary circles list for undo-draw method
-        public List<GraphLine> tempLines = new List<GraphLine>();   //temperary lines list for undo-draw method
-        public List<GraphPolygon> tempPolygons = new List<GraphPolygon>();  //temperary polygons list for undo-draw method
-        public List<GraphCurve> tempCurves = new List<GraphCurve>();  //temperary Curves list for undo-draw method
+        public List<GraphRect> tempRects = new List<GraphRect>();   //temporary rects list for undo-draw method
+        public List<GraphSquare> tempSquares = new List<GraphSquare>();   //temporary rects list for undo-draw method
+        public List<GraphCircle> tempCircles = new List<GraphCircle>();   //temporary circles list for undo-draw method
+        public List<GraphLine> tempLines = new List<GraphLine>();   //temporary lines list for undo-draw method
+        public List<GraphPolygon> tempPolygons = new List<GraphPolygon>();  //temporary polygons list for undo-draw method
+        public List<GraphCurve> tempCurves = new List<GraphCurve>();  //temporary Curves list for undo-draw method
 
         #endregion
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             lastButton = "delete";
-            label2.Text = "Delete";
+            rulerLabel.Text = "Delete";
             this.Cursor = Cursors.Arrow;
             MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref drawCurve, ref select, ref move, ref stretch);
 
@@ -1519,7 +1528,7 @@ namespace Vector_Drawing_Application
         private void ClearButton_Click(object sender, EventArgs e)
         {
             lastButton = "clear";
-            label2.Text = "Clear";
+            rulerLabel.Text = "Clear";
             this.Cursor = Cursors.Arrow;
             MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref drawCurve, 
                 ref select, ref move, ref stretch);
@@ -1530,11 +1539,12 @@ namespace Vector_Drawing_Application
             this.Capture = false;
             Refresh();
         }
+
         Graphics K = null;
 
         private void UndoButton_Click(object sender, EventArgs e)
         {
-            label2.Text = "Undo";
+            rulerLabel.Text = "Undo";
             this.Cursor = Cursors.Arrow;
             MakeAllFalse(ref drawRect, ref drawSquare, ref drawCircle, ref drawLine, ref drawPolygon, ref drawCurve, 
                 ref select, ref move, ref stretch);
@@ -1785,7 +1795,7 @@ namespace Vector_Drawing_Application
 
         private void Help_Button_Click(object sender, EventArgs e)
         {
-            label2.Text = "Help";
+            rulerLabel.Text = "Help";
             Help helpForm = new Help();
             helpForm.Show();
         }
@@ -2187,6 +2197,25 @@ namespace Vector_Drawing_Application
             }
         }
 
+        private void LoadBackgroundImage()
+        {
+            OpenFileDialog file = new OpenFileDialog
+            {
+                Filter = "jpg Files (*.jpg)|*.jpg|All Files(*.*)|*.*",
+                FilterIndex = 2,
+                RestoreDirectory = true,    //opens the last selected directory
+                CheckFileExists = false,
+                Title = "Choose Background Image"
+            };
+
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                string path = file.FileName;
+                Image myimage = new Bitmap(@path);
+                this.BackgroundImage = myimage;
+            }
+        }
+
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Vector_Drawing_Application vector_Drawing_Form2 = new Vector_Drawing_Application();
@@ -2207,6 +2236,12 @@ namespace Vector_Drawing_Application
             Refresh();
         }
 
+        private void LoadBackgroundImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.Arrow;
+            LoadBackgroundImage();
+        }
+
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (lastFilePath != null)
@@ -2217,7 +2252,6 @@ namespace Vector_Drawing_Application
 
                 if (shapeCount != Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count + Curves.Count)
                 {
-                    Console.WriteLine("shapecount" + shapeCount);
                     if (MessageBox.Show("Do you want to save your changes?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         SaveButton.PerformClick();
@@ -2236,19 +2270,17 @@ namespace Vector_Drawing_Application
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            label2.Text = "Save";
+            rulerLabel.Text = "Save";
             this.Cursor = Cursors.Arrow;
             WriteToText();
         }
 
         private void LoadButton_Click(object sender, EventArgs e)
         {
-            label2.Text = "Load";
+            rulerLabel.Text = "Load";
             this.Cursor = Cursors.Arrow;
             ReadFromText();
             Refresh();
-            Console.WriteLine("rects + squares + circles + lines + polygons + curves = " + Rects.Count + Squares.Count + 
-                Circles.Count + Lines.Count + Polygons.Count + Curves.Count);
         }
 
         private void Vector_Drawing_Application_FormClosing(object sender, FormClosingEventArgs e)
@@ -2261,7 +2293,6 @@ namespace Vector_Drawing_Application
 
                 if (shapeCount != Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count + Curves.Count)
                 {
-                    Console.WriteLine("shapecount" + shapeCount);
                     if (MessageBox.Show("Do you want to save your changes?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         e.Cancel = true;
