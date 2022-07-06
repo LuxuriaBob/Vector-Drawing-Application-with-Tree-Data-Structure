@@ -206,7 +206,7 @@ namespace Vector_Drawing_Application
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            label1.Text = e.Location.ToString();
+            mouseLabel.Text = e.Location.ToString();
             if (drawRect)
             {
                 endlocation = e.Location;   //stores mouse location while mouse is moving

@@ -16,5 +16,11 @@ namespace Vector_Drawing_Application
         {
             InitializeComponent();
         }
+
+        private void githubLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            githubLinkLabel.LinkVisited = true;
+            System.Diagnostics.Process.Start("https://github.com/LuxuriaBob/Vector-Drawing-Application-with-Tree-Data-Structure");
+        }
     }
 }

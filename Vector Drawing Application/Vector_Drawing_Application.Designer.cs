@@ -33,7 +33,7 @@
             this.RectangleButton = new System.Windows.Forms.Button();
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.toolPanel = new System.Windows.Forms.Panel();
             this.CurveButton = new System.Windows.Forms.Button();
             this.RulerButton = new System.Windows.Forms.Button();
             this.Help_Button = new System.Windows.Forms.Button();
@@ -64,13 +64,13 @@
             this.rotateHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
+            this.mouseLabel = new System.Windows.Forms.Label();
             this.rulerLabel = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel1.SuspendLayout();
+            this.TextPanel = new System.Windows.Forms.Panel();
+            this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.TextPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // RectangleButton
@@ -78,7 +78,7 @@
             this.RectangleButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.RectangleButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RectangleButton.BackgroundImage")));
             this.RectangleButton.Image = ((System.Drawing.Image)(resources.GetObject("RectangleButton.Image")));
-            this.RectangleButton.Location = new System.Drawing.Point(0, 0);
+            this.RectangleButton.Location = new System.Drawing.Point(0, 1);
             this.RectangleButton.Name = "RectangleButton";
             this.RectangleButton.Size = new System.Drawing.Size(45, 45);
             this.RectangleButton.TabIndex = 2;
@@ -96,39 +96,40 @@
             this.FillColorCheckBox.Text = "Fill Color";
             this.FillColorCheckBox.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // toolPanel
             // 
-            this.panel1.BackColor = System.Drawing.Color.OrangeRed;
-            this.panel1.Controls.Add(this.CurveButton);
-            this.panel1.Controls.Add(this.RulerButton);
-            this.panel1.Controls.Add(this.Help_Button);
-            this.panel1.Controls.Add(this.numericUpDown1);
-            this.panel1.Controls.Add(this.StretchButton);
-            this.panel1.Controls.Add(this.LoadButton);
-            this.panel1.Controls.Add(this.SelectButton);
-            this.panel1.Controls.Add(this.MoveButton);
-            this.panel1.Controls.Add(this.SaveButton);
-            this.panel1.Controls.Add(this.DeleteButton);
-            this.panel1.Controls.Add(this.ColorPickerButton);
-            this.panel1.Controls.Add(this.UndoButton);
-            this.panel1.Controls.Add(this.ClearButton);
-            this.panel1.Controls.Add(this.PolygonButton);
-            this.panel1.Controls.Add(this.LineButton);
-            this.panel1.Controls.Add(this.CircleButton);
-            this.panel1.Controls.Add(this.SquareButton);
-            this.panel1.Controls.Add(this.RectangleButton);
-            this.panel1.Controls.Add(this.FillColorCheckBox);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 45);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(984, 46);
-            this.panel1.TabIndex = 10;
+            this.toolPanel.AutoSize = true;
+            this.toolPanel.BackColor = System.Drawing.Color.OrangeRed;
+            this.toolPanel.Controls.Add(this.CurveButton);
+            this.toolPanel.Controls.Add(this.RulerButton);
+            this.toolPanel.Controls.Add(this.Help_Button);
+            this.toolPanel.Controls.Add(this.numericUpDown1);
+            this.toolPanel.Controls.Add(this.StretchButton);
+            this.toolPanel.Controls.Add(this.LoadButton);
+            this.toolPanel.Controls.Add(this.SelectButton);
+            this.toolPanel.Controls.Add(this.MoveButton);
+            this.toolPanel.Controls.Add(this.SaveButton);
+            this.toolPanel.Controls.Add(this.DeleteButton);
+            this.toolPanel.Controls.Add(this.ColorPickerButton);
+            this.toolPanel.Controls.Add(this.UndoButton);
+            this.toolPanel.Controls.Add(this.ClearButton);
+            this.toolPanel.Controls.Add(this.PolygonButton);
+            this.toolPanel.Controls.Add(this.LineButton);
+            this.toolPanel.Controls.Add(this.CircleButton);
+            this.toolPanel.Controls.Add(this.SquareButton);
+            this.toolPanel.Controls.Add(this.RectangleButton);
+            this.toolPanel.Controls.Add(this.FillColorCheckBox);
+            this.toolPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.toolPanel.Location = new System.Drawing.Point(0, 24);
+            this.toolPanel.Name = "toolPanel";
+            this.toolPanel.Size = new System.Drawing.Size(836, 49);
+            this.toolPanel.TabIndex = 10;
             // 
             // CurveButton
             // 
             this.CurveButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.CurveButton.Image = ((System.Drawing.Image)(resources.GetObject("CurveButton.Image")));
-            this.CurveButton.Location = new System.Drawing.Point(220, 0);
+            this.CurveButton.Location = new System.Drawing.Point(220, 1);
             this.CurveButton.Name = "CurveButton";
             this.CurveButton.Size = new System.Drawing.Size(45, 45);
             this.CurveButton.TabIndex = 14;
@@ -290,7 +291,7 @@
             // 
             this.PolygonButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.PolygonButton.Image = ((System.Drawing.Image)(resources.GetObject("PolygonButton.Image")));
-            this.PolygonButton.Location = new System.Drawing.Point(176, 0);
+            this.PolygonButton.Location = new System.Drawing.Point(176, 1);
             this.PolygonButton.Name = "PolygonButton";
             this.PolygonButton.Size = new System.Drawing.Size(45, 45);
             this.PolygonButton.TabIndex = 13;
@@ -303,7 +304,7 @@
             this.LineButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.LineButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LineButton.BackgroundImage")));
             this.LineButton.Image = ((System.Drawing.Image)(resources.GetObject("LineButton.Image")));
-            this.LineButton.Location = new System.Drawing.Point(132, 0);
+            this.LineButton.Location = new System.Drawing.Point(132, 1);
             this.LineButton.Name = "LineButton";
             this.LineButton.Size = new System.Drawing.Size(45, 45);
             this.LineButton.TabIndex = 12;
@@ -316,7 +317,7 @@
             this.CircleButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.CircleButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CircleButton.BackgroundImage")));
             this.CircleButton.Image = ((System.Drawing.Image)(resources.GetObject("CircleButton.Image")));
-            this.CircleButton.Location = new System.Drawing.Point(88, 0);
+            this.CircleButton.Location = new System.Drawing.Point(88, 1);
             this.CircleButton.Name = "CircleButton";
             this.CircleButton.Size = new System.Drawing.Size(45, 45);
             this.CircleButton.TabIndex = 11;
@@ -329,7 +330,7 @@
             this.SquareButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.SquareButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SquareButton.BackgroundImage")));
             this.SquareButton.Image = ((System.Drawing.Image)(resources.GetObject("SquareButton.Image")));
-            this.SquareButton.Location = new System.Drawing.Point(44, 0);
+            this.SquareButton.Location = new System.Drawing.Point(44, 1);
             this.SquareButton.Name = "SquareButton";
             this.SquareButton.Size = new System.Drawing.Size(45, 45);
             this.SquareButton.TabIndex = 8;
@@ -339,7 +340,6 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem1,
             this.rotateToolStripMenuItem,
@@ -347,7 +347,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.menuStrip1.Size = new System.Drawing.Size(144, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(836, 24);
             this.menuStrip1.TabIndex = 11;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -462,16 +462,16 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
-            // label1
+            // mouseLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label1.Location = new System.Drawing.Point(4, 31);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
-            this.label1.Size = new System.Drawing.Size(158, 27);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Mouse Position = ";
+            this.mouseLabel.AutoSize = true;
+            this.mouseLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.mouseLabel.Location = new System.Drawing.Point(4, 31);
+            this.mouseLabel.Name = "mouseLabel";
+            this.mouseLabel.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
+            this.mouseLabel.Size = new System.Drawing.Size(158, 27);
+            this.mouseLabel.TabIndex = 12;
+            this.mouseLabel.Text = "Mouse Position = ";
             // 
             // rulerLabel
             // 
@@ -484,33 +484,35 @@
             this.rulerLabel.TabIndex = 13;
             this.rulerLabel.Text = "Selected Button = ";
             // 
-            // panel2
+            // TextPanel
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel2.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.panel2.Controls.Add(this.rulerLabel);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(0, 500);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(177, 60);
-            this.panel2.TabIndex = 14;
+            this.TextPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.TextPanel.AutoSize = true;
+            this.TextPanel.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.TextPanel.Controls.Add(this.rulerLabel);
+            this.TextPanel.Controls.Add(this.mouseLabel);
+            this.TextPanel.Location = new System.Drawing.Point(1, 442);
+            this.TextPanel.Name = "TextPanel";
+            this.TextPanel.Size = new System.Drawing.Size(265, 77);
+            this.TextPanel.TabIndex = 14;
             // 
             // Vector_Drawing_Application
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(984, 561);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(836, 520);
+            this.Controls.Add(this.TextPanel);
+            this.Controls.Add(this.toolPanel);
             this.Controls.Add(this.menuStrip1);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(0, 45);
-            this.MinimumSize = new System.Drawing.Size(850, 600);
+            this.MinimumSize = new System.Drawing.Size(851, 212);
             this.Name = "Vector_Drawing_Application";
-            this.Padding = new System.Windows.Forms.Padding(0, 45, 0, 0);
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vector Drawing Application";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Vector_Drawing_Application_FormClosing);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
@@ -519,13 +521,13 @@
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.toolPanel.ResumeLayout(false);
+            this.toolPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.TextPanel.ResumeLayout(false);
+            this.TextPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -535,7 +537,7 @@
         private System.Windows.Forms.Button RectangleButton;
         private System.Windows.Forms.CheckBox FillColorCheckBox;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel toolPanel;
         private System.Windows.Forms.Button SquareButton;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button CircleButton;
@@ -564,10 +566,10 @@
         private System.Windows.Forms.Button Help_Button;
         private System.Windows.Forms.Button UndoButton;
         private System.Windows.Forms.Button RulerButton;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label mouseLabel;
         private System.Windows.Forms.Label rulerLabel;
         private System.Windows.Forms.Button CurveButton;
         private System.Windows.Forms.ToolStripMenuItem loadBackgroundImageToolStripMenuItem;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel TextPanel;
     }
 }
