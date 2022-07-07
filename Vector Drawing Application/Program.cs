@@ -16,6 +16,7 @@ namespace Vector_Drawing_Application
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new SplashScreen());
             Application.Run(new Vector_Drawing_Application());
         }
     }

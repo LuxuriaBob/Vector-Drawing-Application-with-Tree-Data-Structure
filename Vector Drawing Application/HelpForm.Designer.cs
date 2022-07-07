@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Help));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -72,7 +73,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(143, 26);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Version 17.0 by Yalın Hoşgör\r\n\r\n";
+            this.label4.Text = "Version 17.1 by Yalın Hoşgör\r\n\r\n";
             // 
             // githubLinkLabel
             // 
@@ -96,6 +97,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Help";

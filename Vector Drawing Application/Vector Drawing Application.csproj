@@ -52,8 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoolWrapper.cs" />
+    <Compile Include="GraphShape.cs" />
     <Compile Include="GraphShape\GraphCurve.cs" />
     <Compile Include="GraphShape\GraphPolygon.cs" />
+    <Compile Include="GraphShape\GraphSquare.cs" />
     <Compile Include="HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,8 +77,13 @@
     <Compile Include="GraphShape\GraphRect.cs" />
     <Compile Include="ShapeMoveInfo\LineMoveInfo.cs" />
     <Compile Include="ShapeMoveInfo\RectMoveInfo.cs" />
-    <Compile Include="GraphShape\GraphSquare.cs" />
     <Compile Include="ShapeMoveInfo\SquareMoveInfo.cs" />
+    <Compile Include="SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vector_Drawing_Application.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +108,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vector_Drawing_Application.resx">
       <DependentUpon>Vector_Drawing_Application.cs</DependentUpon>
     </EmbeddedResource>
