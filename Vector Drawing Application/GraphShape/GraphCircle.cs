@@ -97,7 +97,10 @@ namespace Vector_Drawing_Application
         {
             return colour;
         }
-
+        public void SetColour(Color color)
+        {
+            colour = color;
+        }
         public void DeleteCircles(List<GraphCircle> Circle)
         {
             if (Childs.Count() > 0)

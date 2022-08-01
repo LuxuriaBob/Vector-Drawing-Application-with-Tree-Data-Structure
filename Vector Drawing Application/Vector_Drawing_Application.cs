@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.IO;
 using System.Drawing.Drawing2D;
+using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace Vector_Drawing_Application
 {
@@ -17,14 +19,8 @@ namespace Vector_Drawing_Application
     {
         public Vector_Drawing_Application()
         {
-            this.DoubleBuffered = true; //reduces flicker
-            /*
-            this.Paint += new PaintEventHandler(Form1_Paint);
-            this.MouseMove += new MouseEventHandler(Form1_MouseMove);
-            this.MouseDown += new MouseEventHandler(Form1_MouseDown);
-            this.MouseUp += new MouseEventHandler(Form1_MouseUp);
-            */
             InitializeComponent();
+            this.DoubleBuffered = true; //reduces flicker
             KeyPreview = true;  //necessary for keyboard input
         }
 
@@ -57,6 +53,7 @@ namespace Vector_Drawing_Application
             boolVariablesList.Add(select);
             boolVariablesList.Add(move);
             boolVariablesList.Add(stretch);
+            KeyCreate();
         }
 
         RectMoveInfo RectMoving = null; //move info for selected rect
@@ -85,25 +82,11 @@ namespace Vector_Drawing_Application
         Point PolyMoveLocation; //stores polygonmove location for move method
         PointF CurveMoveLocation; //stores curvemove location for move method
         PointF SecondCornerLocation;    //stores initial red corner coordinates for undo-move method
-
-        int jindex;
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (drawRect.Value == true)
+            if (drawRect.Value == true || drawSquare.Value == true || drawCircle.Value == true || drawLine.Value == true)
             {
                 startlocation = e.Location; //stores mouse location for first coordinates
-            }
-            else if (drawSquare.Value == true)
-            {
-                startlocation = e.Location;
-            }
-            else if (drawCircle.Value == true)
-            {
-                startlocation = e.Location;
-            }
-            else if (drawLine.Value == true)
-            {
-                startlocation = e.Location;
             }
             else if (move.Value == true)
             {
@@ -173,6 +156,7 @@ namespace Vector_Drawing_Application
                 if (this.SelectedPolygon != null && PolygonMoving == null)
                 {
                     this.Capture = true;
+                    startlocation = e.Location;
                     PolygonMoving = new PolygonMoveInfo   //sets Moving class properties for moving Polygon
                     {
                         Polygon = this.SelectedPolygon,
@@ -219,21 +203,9 @@ namespace Vector_Drawing_Application
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             mouseLabel.Text = e.Location.ToString();
-            if (drawRect.Value == true)
+            if (drawRect.Value == true || drawSquare.Value == true || drawCircle.Value == true || drawLine.Value == true)
             {
                 endlocation = e.Location;   //stores mouse location while mouse is moving
-            }
-            else if (drawSquare.Value == true)
-            {
-                endlocation = e.Location;
-            }
-            else if (drawCircle.Value == true)
-            {
-                endlocation = e.Location;
-            }
-            else if (drawLine.Value == true)
-            {
-                endlocation = e.Location;
             }
             else if (move.Value == true)
             {
@@ -274,7 +246,27 @@ namespace Vector_Drawing_Application
                     LineMoving.Line.SetY2(LineMoving.EndLinePoint.Y + e.Y - LineMoving.StartMoveMousePoint.Y); //sets y coordinate of a moving line
                 }
                 RefreshLineSelection(e.Location);
+                if (PolygonMoving != null)
+                {
+                    PolyMoveLocation = e.Location;
+
+                    MoveX = PolyMoveLocation.X - PolygonMoving.PolygonPoints[jindex].X;
+                    MoveY = PolyMoveLocation.Y - PolygonMoving.PolygonPoints[jindex].Y;
+                    //sets coordinates of a moving polygon
+                    SelectedPolygon.Move(PolyMoveLocation, MoveX, MoveY);
+                    cornerlocation = PolygonMoving.PolygonPoints[jindex];
+                }
                 RefreshPolygonSelection(e.Location);
+                if (CurveMoving != null)
+                {
+                    CurveMoveLocation = e.Location;
+
+                    MoveX = CurveMoveLocation.X - CurveMoving.CurvePoints[jindex].X;
+                    MoveY = CurveMoveLocation.Y - CurveMoving.CurvePoints[jindex].Y;
+                    //sets coordinates of a moving Curve
+                    SelectedCurve.Move(CurveMoveLocation, MoveX, MoveY);
+                    cornerlocation = CurveMoving.CurvePoints[jindex];
+                }
                 RefreshCurveSelection(e.Location);
             }
         }
@@ -348,12 +340,13 @@ namespace Vector_Drawing_Application
                 RefreshCurveSelection(e.Location);
             }
         }
+
         public List<GraphPolygon> Polygons = new List<GraphPolygon>();   // main Polygons list
         public List<PointF> polygonPoints = new List<PointF>();
         public List<GraphCurve> Curves = new List<GraphCurve>();   // main Curves list
         public List<PointF> curvePoints = new List<PointF>();
-        float MoveX;
-        float MoveY;
+        float MoveX, MoveY;
+        int jindex;
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             if (drawPolygon.Value == true)
@@ -643,30 +636,6 @@ namespace Vector_Drawing_Application
                 }
                 Refresh();
             }
-            else if (move.Value == true)
-            {
-                PolyMoveLocation = e.Location;
-
-                if (SelectedPolygon != null)
-                {
-                    MoveX = PolyMoveLocation.X - SelectedPolygon.CurvePoints[jindex].X;
-                    MoveY = PolyMoveLocation.Y - SelectedPolygon.CurvePoints[jindex].Y;
-
-                    SelectedPolygon.Move(PolyMoveLocation, MoveX, MoveY);
-                    cornerlocation = SelectedPolygon.CurvePoints[jindex];
-                }
-
-                CurveMoveLocation = e.Location;
-
-                if (SelectedCurve != null)
-                {
-                    MoveX = CurveMoveLocation.X - SelectedCurve.CurvePoints[jindex].X;
-                    MoveY = CurveMoveLocation.Y - SelectedCurve.CurvePoints[jindex].Y;
-
-                    SelectedCurve.Move(CurveMoveLocation, MoveX, MoveY);
-                    cornerlocation = SelectedCurve.CurvePoints[jindex];
-                }
-            }
         }
         private void DrawLine(PointF p1, PointF p2)
         {
@@ -687,8 +656,34 @@ namespace Vector_Drawing_Application
         {
             this.Cursor = Cursors.Arrow;
             colorPicker.ShowDialog();
+
+            if (SelectedRect != null)
+            {
+                SelectedRect.SetColour(colorPicker.Color);
+            }
+            if (SelectedSquare != null)
+            {
+                SelectedSquare.SetColour(colorPicker.Color);
+            }
+            if (SelectedPolygon != null)
+            {
+                SelectedPolygon.SetColour(colorPicker.Color);
+            }
+            if (SelectedLine != null)
+            {
+                SelectedLine.SetColour(colorPicker.Color);
+            }
+            if (SelectedCurve != null)
+            {
+                SelectedCurve.SetColour(colorPicker.Color);
+            }
+            if (SelectedCircle != null)
+            {
+                SelectedCircle.SetColour(colorPicker.Color);
+            }
+            Refresh();
         }
-        public List<GraphRect> Rects = new List<GraphRect>();   // main rects list
+        public List<GraphRect> Rects = new List<GraphRect>();   // main Rects list
         private void CreateRectangle(Point startlocation, Point endlocation)
         {
             //determines x coordinate of top left corner by determining which is smaller
@@ -713,7 +708,7 @@ namespace Vector_Drawing_Application
                 Rects.Add(rectangle);   //adds to Rects list
             }
         }
-        public List<GraphSquare> Squares = new List<GraphSquare>();   // main squares list
+        public List<GraphSquare> Squares = new List<GraphSquare>();   // main Squares list
         private void CreateSquare(Point startlocation, Point endlocation)
         {
             //determines x coordinate of top left corner by determining which is smaller
@@ -809,7 +804,7 @@ namespace Vector_Drawing_Application
             else if (SelectedRect == null && SelectedLine == null && SelectedPolygon == null &&
                 SelectedCircle == null && SelectedSquare == null && SelectedCurve == null)
             {
-                cornerlocation = new PointF(0, 0);
+                cornerlocation = PointF.Empty;
             }
 
             foreach (var square in Squares)
@@ -950,6 +945,15 @@ namespace Vector_Drawing_Application
                     var pen = new Pen(Brushes.Red, 10);   //selected colour, rect's size
                     e.Graphics.FillRectangle(pen.Brush, cornerlocation.X - 9, cornerlocation.Y - 9, 20, 20);
                 }
+            }
+        }
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            base.OnPaintBackground(e);
+            if(myimage != null)
+            {
+                var rc = new Rectangle(0, 73, myimage.Width, myimage.Height);
+                e.Graphics.DrawImage(myimage, rc);
             }
         }
         private GraphRect RectangleHitTest(List<GraphRect> rects, Point p)
@@ -1278,7 +1282,7 @@ namespace Vector_Drawing_Application
         {
             lastButton = "move";
             rulerLabel.Text = "Move";
-            cornerlocation = new PointF(0, 0);
+            cornerlocation = cornerlocation = PointF.Empty;
             this.Cursor = Cursors.SizeAll;
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(move);
@@ -1401,6 +1405,7 @@ namespace Vector_Drawing_Application
             tempLines = Lines.ToList(); //stores Lines list in tempLines for undo method
             tempPolygons = Polygons.ToList(); //stores Polygons list in tempPolygons for undo method
             tempCurves = Curves.ToList();//stores Curves list in tempCurves for undo method
+            cornerlocation = PointF.Empty;
 
             if (Rects.Count != 0)   //Exception for empty list
             {
@@ -1466,7 +1471,6 @@ namespace Vector_Drawing_Application
         }
 
         Graphics K = null;
-
         private void UndoButton_Click(object sender, EventArgs e)
         {
             rulerLabel.Text = "Undo";
@@ -1749,6 +1753,8 @@ namespace Vector_Drawing_Application
                 RulerButton.PerformClick();
             if (e.KeyCode == Keys.G)
                 StretchButton.PerformClick();
+            if (e.KeyCode == Keys.F)
+                ColorPickerButton.PerformClick();
             if (e.Control && e.KeyCode == Keys.Z)
                 UndoButton.PerformClick();
             if (e.Control && e.KeyCode == Keys.S)
@@ -2102,6 +2108,144 @@ namespace Vector_Drawing_Application
                 }
             }
         }
+        private string key;
+        private string key1 = "b14c";
+        private string key2 = "a589";
+        private string key3 = "8a4e";
+        private string key4 = "4133";
+        private string key5 = "bbce";
+        private string key6 = "2ea2";
+        private string key7 = "315a";
+        private string key8 = "1917";
+        public void KeyCreate()
+        {
+            char[] charArray2 = key2.ToCharArray();
+            Array.Reverse(charArray2);
+            key2 = new string(charArray2);
+            char[] charArray4 = key4.ToCharArray();
+            Array.Reverse(charArray4);
+            key4 = new string(charArray4);
+            char[] charArray6 = key6.ToCharArray();
+            Array.Reverse(charArray6);
+            key6 = new string(charArray6);
+            char[] charArray8 = key8.ToCharArray();
+            Array.Reverse(charArray8);
+            key8 = new string(charArray8);
+            key = key4 + key3 + key2 + key1 + key8 + key7 + key6 + key5;
+        }
+        public static string EncryptString(string key, string plainText)
+        {
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plainText);
+                        }
+                        array = memoryStream.ToArray();
+                    }
+                }
+            }
+            return Convert.ToBase64String(array);
+        }
+        public static string DecryptString(string key, string cipherText)
+        {
+            byte[] iv = new byte[16];
+            byte[] buffer = Convert.FromBase64String(cipherText);
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                        {
+                            return streamReader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+        }
+        private void EncryptionButton_Click(object sender, EventArgs e)
+        {
+            var save = new SaveFileDialog
+            {
+                OverwritePrompt = true, //shows a warning when there is a file with the same name
+                CreatePrompt = false,
+                Title = "Vector Drawing Application Files",
+                DefaultExt = "txt",
+                Filter = "txt Files (*.txt)|*.txt|All Files(*.*)|*.*"   //Filters txt files
+            };
+
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                string path = save.FileName;
+                string[] lines = File.ReadAllLines(path);
+                var oldText = "";
+
+                using (StreamReader streamReader = File.OpenText(save.FileName))
+                {
+                    for (int index = 0; index < lines.Length; index++)
+                    {
+                        string line = lines[index];
+                        string encryptedString = EncryptString(key, line);
+                        if (line.Contains(oldText))
+                        {
+                            lines[index] = encryptedString;
+                        }
+                    }
+                }
+                File.WriteAllLines(save.FileName, lines);
+            }
+        }
+        private void DecryptionButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog save = new SaveFileDialog
+            {
+                OverwritePrompt = true, //shows a warning when there is a file with the same name
+                CreatePrompt = false,
+                Title = "Vector Drawing Application Files",
+                DefaultExt = "txt",
+                Filter = "txt Files (*.txt)|*.txt|All Files(*.*)|*.*"   //Filters txt files
+            };
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                string path = save.FileName;
+                string[] lines = File.ReadAllLines(path);
+                var oldText = "";
+
+                using (StreamReader streamReader = File.OpenText(save.FileName))
+                {
+                    for (int index = 0; index < lines.Length; index++)
+                    {
+                        string line = lines[index];
+                        string decryptedString = DecryptString(key, line);
+                        if (line.Contains(oldText))
+                        {
+                            lines[index] = decryptedString;
+                        }
+                    }
+                }
+                File.WriteAllLines(save.FileName, lines);
+            }
+        }
+        Image myimage;
         private void LoadBackgroundImage()
         {
             OpenFileDialog file = new OpenFileDialog
@@ -2115,8 +2259,7 @@ namespace Vector_Drawing_Application
             if (file.ShowDialog() == DialogResult.OK)
             {
                 string path = file.FileName;
-                Image myimage = new Bitmap(@path);
-                this.BackgroundImage = myimage;
+                myimage = new Bitmap(@path);
             }
         }
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2136,10 +2279,12 @@ namespace Vector_Drawing_Application
             ReadFromText();
             Refresh();
         }
+        
         private void LoadBackgroundImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Arrow;
             LoadBackgroundImage();
+            Refresh();
         }
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2184,7 +2329,7 @@ namespace Vector_Drawing_Application
             {
                 OpenFileDialog file = new OpenFileDialog();
                 string[] alines = File.ReadAllLines(lastFilePath);
-                int shapeCount = alines.Count() - 5; //need to increase when new shapelists are added
+                int shapeCount = alines.Count() - 6; //need to increase when new shapelists are added
 
                 if (shapeCount != Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count + Curves.Count)
                 {

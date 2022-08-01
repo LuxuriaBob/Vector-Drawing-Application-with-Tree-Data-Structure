@@ -102,7 +102,10 @@ namespace Vector_Drawing_Application
         {
             return colour;
         }
-
+        public void SetColour(Color color)
+        {
+            colour = color;
+        }
         public void DeleteCurves(List<GraphCurve> Curve)
         {
             if (Childs.Count() > 0)

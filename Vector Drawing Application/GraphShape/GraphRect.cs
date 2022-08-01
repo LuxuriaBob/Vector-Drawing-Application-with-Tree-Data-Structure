@@ -145,7 +145,10 @@ namespace Vector_Drawing_Application
         {
             return colour;
         }
-
+        public void SetColour(Color color)
+        {
+            colour = color;
+        }
         public void DeleteRects(List<GraphRect> Rect)
         {
             if (Childs.Count() > 0)

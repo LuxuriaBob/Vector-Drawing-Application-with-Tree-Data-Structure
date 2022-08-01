@@ -53,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolWrapper.cs" />
-    <Compile Include="GraphShape.cs" />
     <Compile Include="GraphShape\GraphCurve.cs" />
     <Compile Include="GraphShape\GraphPolygon.cs" />
     <Compile Include="GraphShape\GraphSquare.cs" />

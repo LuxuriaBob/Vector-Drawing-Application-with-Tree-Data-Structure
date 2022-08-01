@@ -164,7 +164,10 @@ namespace Vector_Drawing_Application
         {
             return colour;
         }
-
+        public void SetColour(Color color)
+        {
+            colour = color;
+        }
         public void DeleteLines(List<GraphLine> Line)
         {
             if (Childs.Count() > 0)
