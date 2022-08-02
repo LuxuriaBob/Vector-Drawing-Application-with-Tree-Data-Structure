@@ -51,15 +51,16 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(186, 13);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 130);
+            this.label2.Size = new System.Drawing.Size(112, 169);
             this.label2.TabIndex = 1;
             this.label2.Text = "Select tools with keys:\r\nS - Select\r\nM - Move\r\nE - Delete\r\nC - Clear\r\nG - Stretch" +
-    "\r\nR - Ruler\r\nF - Color\r\nCtrl + S - Save\r\nCtrl + Z - Undo";
+    "\r\nR - Ruler\r\nF - Color\r\nCtrl + S - Save\r\nCtrl + Z - Undo\r\nF5 - Capture Screen\r\nF" +
+    "6 - Encrypt File\r\nF7 - Decrypt File";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 158);
+            this.label3.Location = new System.Drawing.Point(18, 193);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(266, 39);
             this.label3.TabIndex = 2;
@@ -69,16 +70,16 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(155, 206);
+            this.label4.Location = new System.Drawing.Point(155, 241);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(134, 26);
+            this.label4.Size = new System.Drawing.Size(143, 26);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Version 18 by Yalın Hoşgör\r\n\r\n";
+            this.label4.Text = "Version 18.1 by Yalın Hoşgör\r\n\r\n";
             // 
             // githubLinkLabel
             // 
             this.githubLinkLabel.AutoSize = true;
-            this.githubLinkLabel.Location = new System.Drawing.Point(242, 227);
+            this.githubLinkLabel.Location = new System.Drawing.Point(242, 262);
             this.githubLinkLabel.Name = "githubLinkLabel";
             this.githubLinkLabel.Size = new System.Drawing.Size(56, 13);
             this.githubLinkLabel.TabIndex = 4;
@@ -90,7 +91,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(303, 246);
+            this.ClientSize = new System.Drawing.Size(303, 282);
             this.Controls.Add(this.githubLinkLabel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);

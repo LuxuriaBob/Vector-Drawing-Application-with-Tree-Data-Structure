@@ -30,13 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Vector_Drawing_Application));
-            this.RectangleButton = new System.Windows.Forms.Button();
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.toolPanel = new System.Windows.Forms.Panel();
-            this.decryptionButton = new System.Windows.Forms.Button();
+            this.CaptureButton = new System.Windows.Forms.Button();
+            this.DecryptionButton = new System.Windows.Forms.Button();
             this.CurveButton = new System.Windows.Forms.Button();
-            this.encryptionButton = new System.Windows.Forms.Button();
+            this.EncryptionButton = new System.Windows.Forms.Button();
             this.RulerButton = new System.Windows.Forms.Button();
             this.Help_Button = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -53,6 +53,7 @@
             this.LineButton = new System.Windows.Forms.Button();
             this.CircleButton = new System.Windows.Forms.Button();
             this.SquareButton = new System.Windows.Forms.Button();
+            this.RectangleButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,19 +76,6 @@
             this.TextPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // RectangleButton
-            // 
-            this.RectangleButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.RectangleButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RectangleButton.BackgroundImage")));
-            this.RectangleButton.Image = ((System.Drawing.Image)(resources.GetObject("RectangleButton.Image")));
-            this.RectangleButton.Location = new System.Drawing.Point(1, 1);
-            this.RectangleButton.Name = "RectangleButton";
-            this.RectangleButton.Size = new System.Drawing.Size(45, 45);
-            this.RectangleButton.TabIndex = 2;
-            this.toolTip1.SetToolTip(this.RectangleButton, "Draw Rectangle");
-            this.RectangleButton.UseVisualStyleBackColor = false;
-            this.RectangleButton.Click += new System.EventHandler(this.RectButton_Click);
-            // 
             // FillColorCheckBox
             // 
             this.FillColorCheckBox.AutoSize = true;
@@ -101,10 +89,11 @@
             // toolPanel
             // 
             this.toolPanel.AutoSize = true;
-            this.toolPanel.BackColor = System.Drawing.Color.OrangeRed;
-            this.toolPanel.Controls.Add(this.decryptionButton);
+            this.toolPanel.BackColor = System.Drawing.Color.DarkOrange;
+            this.toolPanel.Controls.Add(this.CaptureButton);
+            this.toolPanel.Controls.Add(this.DecryptionButton);
             this.toolPanel.Controls.Add(this.CurveButton);
-            this.toolPanel.Controls.Add(this.encryptionButton);
+            this.toolPanel.Controls.Add(this.EncryptionButton);
             this.toolPanel.Controls.Add(this.RulerButton);
             this.toolPanel.Controls.Add(this.Help_Button);
             this.toolPanel.Controls.Add(this.numericUpDown1);
@@ -126,25 +115,37 @@
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolPanel.Location = new System.Drawing.Point(0, 24);
             this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(924, 49);
+            this.toolPanel.Size = new System.Drawing.Size(969, 49);
             this.toolPanel.TabIndex = 10;
             // 
-            // decryptionButton
+            // CaptureButton
             // 
-            this.decryptionButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("decryptionButton.BackgroundImage")));
-            this.decryptionButton.Image = ((System.Drawing.Image)(resources.GetObject("decryptionButton.Image")));
-            this.decryptionButton.Location = new System.Drawing.Point(876, 1);
-            this.decryptionButton.Name = "decryptionButton";
-            this.decryptionButton.Size = new System.Drawing.Size(45, 45);
-            this.decryptionButton.TabIndex = 26;
-            this.toolTip1.SetToolTip(this.decryptionButton, "DecryptFile");
-            this.decryptionButton.UseVisualStyleBackColor = true;
-            this.decryptionButton.Click += new System.EventHandler(this.DecryptionButton_Click);
+            this.CaptureButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CaptureButton.BackgroundImage")));
+            this.CaptureButton.Image = global::Vector_Drawing_Application.Properties.Resources.capture_icon_32x32;
+            this.CaptureButton.Location = new System.Drawing.Point(920, 1);
+            this.CaptureButton.Name = "CaptureButton";
+            this.CaptureButton.Size = new System.Drawing.Size(45, 45);
+            this.CaptureButton.TabIndex = 27;
+            this.toolTip1.SetToolTip(this.CaptureButton, "Capture Screen");
+            this.CaptureButton.UseVisualStyleBackColor = true;
+            this.CaptureButton.Click += new System.EventHandler(this.CaptureButton_Click);
+            // 
+            // DecryptionButton
+            // 
+            this.DecryptionButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DecryptionButton.BackgroundImage")));
+            this.DecryptionButton.Image = global::Vector_Drawing_Application.Properties.Resources.decryption_icon_32x32;
+            this.DecryptionButton.Location = new System.Drawing.Point(876, 1);
+            this.DecryptionButton.Name = "DecryptionButton";
+            this.DecryptionButton.Size = new System.Drawing.Size(45, 45);
+            this.DecryptionButton.TabIndex = 26;
+            this.toolTip1.SetToolTip(this.DecryptionButton, "Decrypt File");
+            this.DecryptionButton.UseVisualStyleBackColor = true;
+            this.DecryptionButton.Click += new System.EventHandler(this.DecryptionButton_Click);
             // 
             // CurveButton
             // 
             this.CurveButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.CurveButton.Image = ((System.Drawing.Image)(resources.GetObject("CurveButton.Image")));
+            this.CurveButton.Image = global::Vector_Drawing_Application.Properties.Resources.curve_icon_32x32;
             this.CurveButton.Location = new System.Drawing.Point(221, 1);
             this.CurveButton.Name = "CurveButton";
             this.CurveButton.Size = new System.Drawing.Size(45, 45);
@@ -153,22 +154,22 @@
             this.CurveButton.UseVisualStyleBackColor = false;
             this.CurveButton.Click += new System.EventHandler(this.CurveButton_Click);
             // 
-            // encryptionButton
+            // EncryptionButton
             // 
-            this.encryptionButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("encryptionButton.BackgroundImage")));
-            this.encryptionButton.Image = ((System.Drawing.Image)(resources.GetObject("encryptionButton.Image")));
-            this.encryptionButton.Location = new System.Drawing.Point(832, 1);
-            this.encryptionButton.Name = "encryptionButton";
-            this.encryptionButton.Size = new System.Drawing.Size(45, 45);
-            this.encryptionButton.TabIndex = 25;
-            this.toolTip1.SetToolTip(this.encryptionButton, "EncryptedSave");
-            this.encryptionButton.UseVisualStyleBackColor = true;
-            this.encryptionButton.Click += new System.EventHandler(this.EncryptionButton_Click);
+            this.EncryptionButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("EncryptionButton.BackgroundImage")));
+            this.EncryptionButton.Image = global::Vector_Drawing_Application.Properties.Resources.encryption_32x32;
+            this.EncryptionButton.Location = new System.Drawing.Point(832, 1);
+            this.EncryptionButton.Name = "EncryptionButton";
+            this.EncryptionButton.Size = new System.Drawing.Size(45, 45);
+            this.EncryptionButton.TabIndex = 25;
+            this.toolTip1.SetToolTip(this.EncryptionButton, "Encrypte File");
+            this.EncryptionButton.UseVisualStyleBackColor = true;
+            this.EncryptionButton.Click += new System.EventHandler(this.EncryptionButton_Click);
             // 
             // RulerButton
             // 
             this.RulerButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RulerButton.BackgroundImage")));
-            this.RulerButton.Image = ((System.Drawing.Image)(resources.GetObject("RulerButton.Image")));
+            this.RulerButton.Image = global::Vector_Drawing_Application.Properties.Resources.ruler_icon_1_40x40;
             this.RulerButton.Location = new System.Drawing.Point(480, 1);
             this.RulerButton.Name = "RulerButton";
             this.RulerButton.Size = new System.Drawing.Size(45, 45);
@@ -180,7 +181,7 @@
             // Help_Button
             // 
             this.Help_Button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Help_Button.BackgroundImage")));
-            this.Help_Button.Image = ((System.Drawing.Image)(resources.GetObject("Help_Button.Image")));
+            this.Help_Button.Image = global::Vector_Drawing_Application.Properties.Resources.question_icon_32x32;
             this.Help_Button.Location = new System.Drawing.Point(788, 1);
             this.Help_Button.Name = "Help_Button";
             this.Help_Button.Size = new System.Drawing.Size(45, 45);
@@ -221,7 +222,7 @@
             // LoadButton
             // 
             this.LoadButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LoadButton.BackgroundImage")));
-            this.LoadButton.Image = ((System.Drawing.Image)(resources.GetObject("LoadButton.Image")));
+            this.LoadButton.Image = global::Vector_Drawing_Application.Properties.Resources.load_icon_32x32;
             this.LoadButton.Location = new System.Drawing.Point(744, 1);
             this.LoadButton.Name = "LoadButton";
             this.LoadButton.Size = new System.Drawing.Size(45, 45);
@@ -233,7 +234,7 @@
             // SelectButton
             // 
             this.SelectButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SelectButton.BackgroundImage")));
-            this.SelectButton.Image = ((System.Drawing.Image)(resources.GetObject("SelectButton.Image")));
+            this.SelectButton.Image = global::Vector_Drawing_Application.Properties.Resources.select_icon;
             this.SelectButton.Location = new System.Drawing.Point(348, 1);
             this.SelectButton.Name = "SelectButton";
             this.SelectButton.Size = new System.Drawing.Size(45, 45);
@@ -245,7 +246,7 @@
             // MoveButton
             // 
             this.MoveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MoveButton.BackgroundImage")));
-            this.MoveButton.Image = ((System.Drawing.Image)(resources.GetObject("MoveButton.Image")));
+            this.MoveButton.Image = global::Vector_Drawing_Application.Properties.Resources.move_icon;
             this.MoveButton.Location = new System.Drawing.Point(392, 1);
             this.MoveButton.Name = "MoveButton";
             this.MoveButton.Size = new System.Drawing.Size(45, 45);
@@ -257,7 +258,7 @@
             // SaveButton
             // 
             this.SaveButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SaveButton.BackgroundImage")));
-            this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
+            this.SaveButton.Image = global::Vector_Drawing_Application.Properties.Resources.save_icon_32x32;
             this.SaveButton.Location = new System.Drawing.Point(700, 1);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(45, 45);
@@ -269,19 +270,19 @@
             // DeleteButton
             // 
             this.DeleteButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeleteButton.BackgroundImage")));
-            this.DeleteButton.Image = ((System.Drawing.Image)(resources.GetObject("DeleteButton.Image")));
+            this.DeleteButton.Image = global::Vector_Drawing_Application.Properties.Resources.eraser_icon_1_48x32;
             this.DeleteButton.Location = new System.Drawing.Point(524, 1);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(45, 45);
             this.DeleteButton.TabIndex = 20;
-            this.toolTip1.SetToolTip(this.DeleteButton, "Erase");
+            this.toolTip1.SetToolTip(this.DeleteButton, "Delete");
             this.DeleteButton.UseVisualStyleBackColor = true;
             this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
             // ColorPickerButton
             // 
             this.ColorPickerButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ColorPickerButton.BackgroundImage")));
-            this.ColorPickerButton.Image = ((System.Drawing.Image)(resources.GetObject("ColorPickerButton.Image")));
+            this.ColorPickerButton.Image = global::Vector_Drawing_Application.Properties.Resources.color_icon_32x32;
             this.ColorPickerButton.Location = new System.Drawing.Point(656, 1);
             this.ColorPickerButton.Name = "ColorPickerButton";
             this.ColorPickerButton.Size = new System.Drawing.Size(45, 45);
@@ -293,7 +294,7 @@
             // UndoButton
             // 
             this.UndoButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UndoButton.BackgroundImage")));
-            this.UndoButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoButton.Image")));
+            this.UndoButton.Image = global::Vector_Drawing_Application.Properties.Resources.undo_icon_2_48x32;
             this.UndoButton.Location = new System.Drawing.Point(612, 1);
             this.UndoButton.Name = "UndoButton";
             this.UndoButton.Size = new System.Drawing.Size(45, 45);
@@ -306,7 +307,7 @@
             // 
             this.ClearButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClearButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ClearButton.BackgroundImage")));
-            this.ClearButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearButton.Image")));
+            this.ClearButton.Image = global::Vector_Drawing_Application.Properties.Resources.delete_icon_32x32;
             this.ClearButton.Location = new System.Drawing.Point(568, 1);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(45, 45);
@@ -318,7 +319,7 @@
             // PolygonButton
             // 
             this.PolygonButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.PolygonButton.Image = ((System.Drawing.Image)(resources.GetObject("PolygonButton.Image")));
+            this.PolygonButton.Image = global::Vector_Drawing_Application.Properties.Resources.polygon_icon_1_32x32;
             this.PolygonButton.Location = new System.Drawing.Point(177, 1);
             this.PolygonButton.Name = "PolygonButton";
             this.PolygonButton.Size = new System.Drawing.Size(45, 45);
@@ -331,7 +332,7 @@
             // 
             this.LineButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.LineButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("LineButton.BackgroundImage")));
-            this.LineButton.Image = ((System.Drawing.Image)(resources.GetObject("LineButton.Image")));
+            this.LineButton.Image = global::Vector_Drawing_Application.Properties.Resources.line_icon_v2_24x24;
             this.LineButton.Location = new System.Drawing.Point(133, 1);
             this.LineButton.Name = "LineButton";
             this.LineButton.Size = new System.Drawing.Size(45, 45);
@@ -344,7 +345,7 @@
             // 
             this.CircleButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.CircleButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CircleButton.BackgroundImage")));
-            this.CircleButton.Image = ((System.Drawing.Image)(resources.GetObject("CircleButton.Image")));
+            this.CircleButton.Image = global::Vector_Drawing_Application.Properties.Resources.circle_icon_32x32;
             this.CircleButton.Location = new System.Drawing.Point(89, 1);
             this.CircleButton.Name = "CircleButton";
             this.CircleButton.Size = new System.Drawing.Size(45, 45);
@@ -357,7 +358,7 @@
             // 
             this.SquareButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.SquareButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SquareButton.BackgroundImage")));
-            this.SquareButton.Image = ((System.Drawing.Image)(resources.GetObject("SquareButton.Image")));
+            this.SquareButton.Image = global::Vector_Drawing_Application.Properties.Resources.square_icon_44x48;
             this.SquareButton.Location = new System.Drawing.Point(45, 1);
             this.SquareButton.Name = "SquareButton";
             this.SquareButton.Size = new System.Drawing.Size(45, 45);
@@ -366,8 +367,22 @@
             this.SquareButton.UseVisualStyleBackColor = false;
             this.SquareButton.Click += new System.EventHandler(this.SquareButton_Click);
             // 
+            // RectangleButton
+            // 
+            this.RectangleButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.RectangleButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RectangleButton.BackgroundImage")));
+            this.RectangleButton.Image = global::Vector_Drawing_Application.Properties.Resources.rectangle_icon_48x32;
+            this.RectangleButton.Location = new System.Drawing.Point(1, 1);
+            this.RectangleButton.Name = "RectangleButton";
+            this.RectangleButton.Size = new System.Drawing.Size(45, 45);
+            this.RectangleButton.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.RectangleButton, "Draw Rectangle");
+            this.RectangleButton.UseVisualStyleBackColor = false;
+            this.RectangleButton.Click += new System.EventHandler(this.RectButton_Click);
+            // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem1,
             this.rotateToolStripMenuItem,
@@ -375,7 +390,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.menuStrip1.Size = new System.Drawing.Size(924, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(969, 24);
             this.menuStrip1.TabIndex = 11;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -528,12 +543,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(924, 520);
+            this.ClientSize = new System.Drawing.Size(969, 520);
             this.Controls.Add(this.TextPanel);
             this.Controls.Add(this.toolPanel);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
+            this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(0, 45);
             this.MinimumSize = new System.Drawing.Size(851, 212);
@@ -601,7 +618,8 @@
         private System.Windows.Forms.Button CurveButton;
         private System.Windows.Forms.ToolStripMenuItem loadBackgroundImageToolStripMenuItem;
         private System.Windows.Forms.Panel TextPanel;
-        private System.Windows.Forms.Button decryptionButton;
-        private System.Windows.Forms.Button encryptionButton;
+        private System.Windows.Forms.Button DecryptionButton;
+        private System.Windows.Forms.Button EncryptionButton;
+        private System.Windows.Forms.Button CaptureButton;
     }
 }

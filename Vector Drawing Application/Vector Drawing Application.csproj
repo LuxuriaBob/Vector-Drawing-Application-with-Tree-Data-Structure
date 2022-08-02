@@ -68,6 +68,11 @@
     <Compile Include="obj\obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ShapeMoveInfo\CurveMoveInfo.cs" />
     <Compile Include="ShapeMoveInfo\PolygonMoveInfo.cs" />
     <Compile Include="ShapeMoveInfo\CircleMoveInfo.cs" />
@@ -100,13 +105,9 @@
     <EmbeddedResource Include="obj\obj\Debug\Vector_Drawing_Application.Vector_Drawing_Application.resources" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,6 +148,27 @@
     <Content Include="obj\obj\Debug\Vector Drawing Application.csproj.FileListAbsolute.txt" />
     <Content Include="obj\obj\Debug\Vector Drawing Application.exe" />
     <Content Include="obj\obj\Debug\Vector Drawing Application.pdb" />
+    <None Include="Resources\stretch_icon_5_32x321.png" />
+    <None Include="Resources\rectangle_icon_48x32.png" />
+    <None Include="Resources\square_icon_44x48.png" />
+    <None Include="Resources\circle_icon_32x32.png" />
+    <None Include="Resources\line_icon_v2_24x24.png" />
+    <None Include="Resources\polygon_icon_1_32x32.png" />
+    <None Include="Resources\curve_icon_32x32.png" />
+    <None Include="Resources\select_icon.png" />
+    <None Include="Resources\move_icon.png" />
+    <None Include="Resources\ruler_icon_1_40x40.jpg" />
+    <None Include="Resources\eraser_icon_1_48x32.png" />
+    <None Include="Resources\delete_icon_32x32.png" />
+    <None Include="Resources\undo_icon_2_48x32.png" />
+    <None Include="Resources\color_icon_32x32.jpg" />
+    <None Include="Resources\save_icon_32x32.png" />
+    <None Include="Resources\load_icon_32x32.png" />
+    <None Include="Resources\question_icon_32x32.png" />
+    <None Include="Resources\encryption_32x32.png" />
+    <None Include="Resources\decryption_icon_32x32.png" />
+    <None Include="Resources\capture_icon_32x32.png" />
+    <None Include="Resources\vector_drawing_application_version_18.1.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\bin\Release\" />
