@@ -33,13 +33,22 @@
             this.FillColorCheckBox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.toolPanel = new System.Windows.Forms.Panel();
-            this.CaptureButton = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mouseLabel = new System.Windows.Forms.Label();
+            this.rulerLabel = new System.Windows.Forms.Label();
+            this.TextPanel = new System.Windows.Forms.Panel();
+            this.WebViewerButton = new System.Windows.Forms.Button();
             this.DecryptionButton = new System.Windows.Forms.Button();
             this.CurveButton = new System.Windows.Forms.Button();
             this.EncryptionButton = new System.Windows.Forms.Button();
             this.RulerButton = new System.Windows.Forms.Button();
             this.Help_Button = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.StretchButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
             this.SelectButton = new System.Windows.Forms.Button();
@@ -54,22 +63,13 @@
             this.CircleButton = new System.Windows.Forms.Button();
             this.SquareButton = new System.Windows.Forms.Button();
             this.RectangleButton = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadBackgroundImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rotateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotate90DegressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mouseLabel = new System.Windows.Forms.Label();
-            this.rulerLabel = new System.Windows.Forms.Label();
-            this.TextPanel = new System.Windows.Forms.Panel();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -90,7 +90,7 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.Color.DarkOrange;
-            this.toolPanel.Controls.Add(this.CaptureButton);
+            this.toolPanel.Controls.Add(this.WebViewerButton);
             this.toolPanel.Controls.Add(this.DecryptionButton);
             this.toolPanel.Controls.Add(this.CurveButton);
             this.toolPanel.Controls.Add(this.EncryptionButton);
@@ -118,17 +118,121 @@
             this.toolPanel.Size = new System.Drawing.Size(969, 49);
             this.toolPanel.TabIndex = 10;
             // 
-            // CaptureButton
+            // numericUpDown1
             // 
-            this.CaptureButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CaptureButton.BackgroundImage")));
-            this.CaptureButton.Image = global::Vector_Drawing_Application.Properties.Resources.capture_icon_32x32;
-            this.CaptureButton.Location = new System.Drawing.Point(920, 1);
-            this.CaptureButton.Name = "CaptureButton";
-            this.CaptureButton.Size = new System.Drawing.Size(45, 45);
-            this.CaptureButton.TabIndex = 27;
-            this.toolTip1.SetToolTip(this.CaptureButton, "Capture Screen");
-            this.CaptureButton.UseVisualStyleBackColor = true;
-            this.CaptureButton.Click += new System.EventHandler(this.CaptureButton_Click);
+            this.numericUpDown1.Location = new System.Drawing.Point(276, 23);
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(65, 20);
+            this.numericUpDown1.TabIndex = 13;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem1,
+            this.rotateToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(0);
+            this.menuStrip1.Size = new System.Drawing.Size(969, 24);
+            this.menuStrip1.TabIndex = 11;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem1
+            // 
+            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.loadBackgroundImageToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 24);
+            this.fileToolStripMenuItem1.Text = "&File";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.exitToolStripMenuItem.Text = "&Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
+            // rotateToolStripMenuItem
+            // 
+            this.rotateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.rotate90DegressToolStripMenuItem,
+            this.rotateHorizontallyToolStripMenuItem,
+            this.rotateVerticallyToolStripMenuItem});
+            this.rotateToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.rotateToolStripMenuItem.Text = "Rotate";
+            this.rotateToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 24);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+            // 
+            // mouseLabel
+            // 
+            this.mouseLabel.AutoSize = true;
+            this.mouseLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.mouseLabel.Location = new System.Drawing.Point(4, 31);
+            this.mouseLabel.Name = "mouseLabel";
+            this.mouseLabel.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
+            this.mouseLabel.Size = new System.Drawing.Size(158, 27);
+            this.mouseLabel.TabIndex = 12;
+            this.mouseLabel.Text = "Mouse Position = ";
+            // 
+            // rulerLabel
+            // 
+            this.rulerLabel.AutoSize = true;
+            this.rulerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.rulerLabel.Location = new System.Drawing.Point(4, 4);
+            this.rulerLabel.Name = "rulerLabel";
+            this.rulerLabel.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
+            this.rulerLabel.Size = new System.Drawing.Size(163, 27);
+            this.rulerLabel.TabIndex = 13;
+            this.rulerLabel.Text = "Selected Button = ";
+            // 
+            // TextPanel
+            // 
+            this.TextPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.TextPanel.AutoSize = true;
+            this.TextPanel.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.TextPanel.Controls.Add(this.rulerLabel);
+            this.TextPanel.Controls.Add(this.mouseLabel);
+            this.TextPanel.Location = new System.Drawing.Point(1, 442);
+            this.TextPanel.Name = "TextPanel";
+            this.TextPanel.Size = new System.Drawing.Size(265, 77);
+            this.TextPanel.TabIndex = 14;
+            // 
+            // WebViewerButton
+            // 
+            this.WebViewerButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("WebViewerButton.BackgroundImage")));
+            this.WebViewerButton.Image = global::Vector_Drawing_Application.Properties.Resources.web_icon_40x40_32x32;
+            this.WebViewerButton.Location = new System.Drawing.Point(920, 1);
+            this.WebViewerButton.Name = "WebViewerButton";
+            this.WebViewerButton.Size = new System.Drawing.Size(45, 45);
+            this.WebViewerButton.TabIndex = 27;
+            this.toolTip1.SetToolTip(this.WebViewerButton, "View on Web");
+            this.WebViewerButton.UseVisualStyleBackColor = true;
+            this.WebViewerButton.Click += new System.EventHandler(this.WebViewerButton_Click);
             // 
             // DecryptionButton
             // 
@@ -189,23 +293,6 @@
             this.toolTip1.SetToolTip(this.Help_Button, "Help");
             this.Help_Button.UseVisualStyleBackColor = true;
             this.Help_Button.Click += new System.EventHandler(this.Help_Button_Click);
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(276, 23);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(65, 20);
-            this.numericUpDown1.TabIndex = 13;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             // 
             // StretchButton
             // 
@@ -380,32 +467,6 @@
             this.RectangleButton.UseVisualStyleBackColor = false;
             this.RectangleButton.Click += new System.EventHandler(this.RectButton_Click);
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem1,
-            this.rotateToolStripMenuItem,
-            this.aboutToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.menuStrip1.Size = new System.Drawing.Size(969, 24);
-            this.menuStrip1.TabIndex = 11;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem1
-            // 
-            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem,
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.loadBackgroundImageToolStripMenuItem,
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 24);
-            this.fileToolStripMenuItem1.Text = "&File";
-            // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
@@ -446,25 +507,6 @@
             this.loadBackgroundImageToolStripMenuItem.Text = "&Load Background Image";
             this.loadBackgroundImageToolStripMenuItem.Click += new System.EventHandler(this.LoadBackgroundImageToolStripMenuItem_Click);
             // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
-            this.exitToolStripMenuItem.Text = "&Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
-            // 
-            // rotateToolStripMenuItem
-            // 
-            this.rotateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.rotate90DegressToolStripMenuItem,
-            this.rotateHorizontallyToolStripMenuItem,
-            this.rotateVerticallyToolStripMenuItem});
-            this.rotateToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
-            this.rotateToolStripMenuItem.Text = "Rotate";
-            this.rotateToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
             // rotate90DegressToolStripMenuItem
             // 
             this.rotate90DegressToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("rotate90DegressToolStripMenuItem.Image")));
@@ -496,48 +538,6 @@
             this.rotateVerticallyToolStripMenuItem.Size = new System.Drawing.Size(242, 38);
             this.rotateVerticallyToolStripMenuItem.Text = "Rotate Vertically";
             this.rotateVerticallyToolStripMenuItem.Click += new System.EventHandler(this.RotateVerticallyToolStripMenuItem_Click);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 24);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
-            // 
-            // mouseLabel
-            // 
-            this.mouseLabel.AutoSize = true;
-            this.mouseLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.mouseLabel.Location = new System.Drawing.Point(4, 31);
-            this.mouseLabel.Name = "mouseLabel";
-            this.mouseLabel.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
-            this.mouseLabel.Size = new System.Drawing.Size(158, 27);
-            this.mouseLabel.TabIndex = 12;
-            this.mouseLabel.Text = "Mouse Position = ";
-            // 
-            // rulerLabel
-            // 
-            this.rulerLabel.AutoSize = true;
-            this.rulerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.rulerLabel.Location = new System.Drawing.Point(4, 4);
-            this.rulerLabel.Name = "rulerLabel";
-            this.rulerLabel.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
-            this.rulerLabel.Size = new System.Drawing.Size(163, 27);
-            this.rulerLabel.TabIndex = 13;
-            this.rulerLabel.Text = "Selected Button = ";
-            // 
-            // TextPanel
-            // 
-            this.TextPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TextPanel.AutoSize = true;
-            this.TextPanel.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.TextPanel.Controls.Add(this.rulerLabel);
-            this.TextPanel.Controls.Add(this.mouseLabel);
-            this.TextPanel.Location = new System.Drawing.Point(1, 442);
-            this.TextPanel.Name = "TextPanel";
-            this.TextPanel.Size = new System.Drawing.Size(265, 77);
-            this.TextPanel.TabIndex = 14;
             // 
             // Vector_Drawing_Application
             // 
@@ -620,6 +620,6 @@
         private System.Windows.Forms.Panel TextPanel;
         private System.Windows.Forms.Button DecryptionButton;
         private System.Windows.Forms.Button EncryptionButton;
-        private System.Windows.Forms.Button CaptureButton;
+        private System.Windows.Forms.Button WebViewerButton;
     }
 }

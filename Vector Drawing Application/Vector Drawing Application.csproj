@@ -8,12 +8,13 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Vector_Drawing_Application</RootNamespace>
     <AssemblyName>Vector Drawing Application</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +37,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>vector_drawing_application_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -148,6 +152,14 @@
     <Content Include="obj\obj\Debug\Vector Drawing Application.csproj.FileListAbsolute.txt" />
     <Content Include="obj\obj\Debug\Vector Drawing Application.exe" />
     <Content Include="obj\obj\Debug\Vector Drawing Application.pdb" />
+    <None Include="Resources\web_icon_40x40.jpg" />
+    <None Include="Resources\web_icon_40x40_32x32.jpg" />
+    <None Include="Resources\vector_drawing_application_version_18.2.jpg" />
+    <Content Include="vector_drawing_application_icon.ico" />
+    <Content Include="WebViewer\img\myBitmap.png" />
+    <Content Include="WebViewer\index.html" />
+    <Content Include="WebViewer\script.js" />
+    <Content Include="WebViewer\style.css" />
     <None Include="Resources\stretch_icon_5_32x321.png" />
     <None Include="Resources\rectangle_icon_48x32.png" />
     <None Include="Resources\square_icon_44x48.png" />

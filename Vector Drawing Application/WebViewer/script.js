@@ -1,0 +1,1 @@
+yourImage.src = "http://localhost/myBitmap.png?" + new Date().getTime();

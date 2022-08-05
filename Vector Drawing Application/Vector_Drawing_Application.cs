@@ -13,6 +13,7 @@ using System.Drawing.Drawing2D;
 using System.Security.Cryptography;
 using System.Diagnostics;
 using System.Drawing.Imaging;
+using System.Net;
 
 namespace Vector_Drawing_Application
 {
@@ -209,6 +210,8 @@ namespace Vector_Drawing_Application
                 CaptureScreen();
             }
         }
+        float MoveX, MoveY;
+        int jindex;
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             mouseLabel.Text = e.Location.ToString();
@@ -359,8 +362,6 @@ namespace Vector_Drawing_Application
         public List<PointF> polygonPoints = new List<PointF>();
         public List<GraphCurve> Curves = new List<GraphCurve>();   // main Curves list
         public List<PointF> curvePoints = new List<PointF>();
-        float MoveX, MoveY;
-        int jindex;
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             if (drawPolygon.Value == true)
@@ -1816,7 +1817,7 @@ namespace Vector_Drawing_Application
             if (e.Control && e.KeyCode == Keys.O)
                 LoadButton.PerformClick();
             if (e.KeyCode == Keys.F5)
-                CaptureButton.PerformClick();
+                WebViewerButton.PerformClick();
             if (e.KeyCode == Keys.F6)
                 EncryptionButton.PerformClick();
             if (e.KeyCode == Keys.F7)
@@ -2346,14 +2347,12 @@ namespace Vector_Drawing_Application
             {
                 this.DrawToBitmap(bmp, new Rectangle(Point.Empty, bmp.Size));
                 Bitmap bit = bmp;
-                RemoveMenu(ref bit, cropToY, cropFromY);
-                rulerLabel.Text = "Screen Captured";
+                RemovePerimeter(ref bit, cropToY, cropFromY);
+                SaveBMP(ref bit, cropToY, cropFromY);                
             }
         }
-        private static void RemoveMenu(ref Bitmap bp, int cropToY, int cropFromY)
+        private static void RemovePerimeter(ref Bitmap bp, int cropToY, int cropFromY)
         {
-            var destination = new Bitmap(bp.Width, bp.Height - (cropToY - cropFromY), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
             for (int i = 8; i < bp.Width - 8; i++)
             {
                 for (int j = 1; j < 104; j++)
@@ -2361,7 +2360,34 @@ namespace Vector_Drawing_Application
                     Color c = bp.GetPixel(i, j);
                     bp.SetPixel(i, j, Color.FromArgb(255, 255, 255));
                 }
+
+                for (int j = bp.Height-8; j < bp.Height; j++)
+                {
+                    Color c = bp.GetPixel(i, j);
+                    bp.SetPixel(i, j, Color.FromArgb(255, 255, 255));
+                }
             }
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 1; j < bp.Height; j++)
+                {
+                    Color c = bp.GetPixel(i, j);
+                    bp.SetPixel(i, j, Color.FromArgb(255, 255, 255));
+                }
+            }
+            for (int i = bp.Width-8; i < bp.Width; i++)
+            {
+                for (int j = 1; j < bp.Height; j++)
+                {
+                    Color c = bp.GetPixel(i, j);
+                    bp.SetPixel(i, j, Color.FromArgb(255, 255, 255));
+                }
+            }
+        }
+        private static void SaveBMP(ref Bitmap bp, int cropToY, int cropFromY)
+        {
+            Bitmap destination = new Bitmap(bp.Width, bp.Height - (cropToY - cropFromY), PixelFormat.Format32bppArgb);
+
             using (Graphics gSource = Graphics.FromImage(bp))
             {
                 using (Graphics gDestination = Graphics.FromImage(destination))
@@ -2374,19 +2400,19 @@ namespace Vector_Drawing_Application
 
                     gDestination.CompositingMode = CompositingMode.SourceOver;
                     gDestination.DrawImageUnscaled(bp, 0, -(cropToY - cropFromY));
-                    
-                    string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    string path2 = "\\NETCAD\\WebViewer\\img";
-                    string fullPath = path + path2;
-                    destination.Save($@"{fullPath}\\myBitmap.png", ImageFormat.Png);
+
+                    string filePath = Path.GetFullPath(@"..\..\");
+                    string bmpPath = "\\WebViewer\\img";
+                    destination.Save($@"{filePath + bmpPath}\\myBitmap.png", ImageFormat.Png);
                 }
             }
         }
-        private void CaptureButton_Click(object sender, EventArgs e)
+        private void WebViewerButton_Click(object sender, EventArgs e)
         {
-            rulerLabel.Text = "Capture";
+            rulerLabel.Text = "Screen Captured";
             this.Cursor = Cursors.Arrow;
             CaptureScreen();
+            Process.Start("http://localhost:5500/");
         }
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2417,22 +2443,23 @@ namespace Vector_Drawing_Application
         }
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (lastFilePath != null)
+            Vector_Drawing_Application.ActiveForm.Close();
+        }
+        private void CheckSave(int shapeCount)
+        {
+            Console.WriteLine("checksave");
+            if (shapeCount != Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count + Curves.Count)
             {
-                OpenFileDialog file = new OpenFileDialog();
-                string[] alines = File.ReadAllLines(lastFilePath);
-                int shapeCount = alines.Count() - 6; //need to increase when new shapelists are added
-
-                if (shapeCount != Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count + Curves.Count)
-                {
-                    if (MessageBox.Show("Do you want to save your changes?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        SaveButton.PerformClick();
-                        this.Close();
-                    }
-                }
+                MessageCheck();
             }
-            this.Close();
+        }
+        private void MessageCheck()
+        {
+            Console.WriteLine("messagecheck");
+            if (MessageBox.Show("Do you want to save your changes?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                SaveButton.PerformClick();
+            }
         }
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2446,15 +2473,11 @@ namespace Vector_Drawing_Application
                 OpenFileDialog file = new OpenFileDialog();
                 string[] alines = File.ReadAllLines(lastFilePath);
                 int shapeCount = alines.Count() - 6; //need to increase when new shapelists are added
-
-                if (shapeCount != Rects.Count + Squares.Count + Circles.Count + Lines.Count + Polygons.Count + Curves.Count)
-                {
-                    if (MessageBox.Show("Do you want to save your changes?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        e.Cancel = true;
-                        SaveButton.PerformClick();
-                    }
-                }
+                CheckSave(shapeCount);
+            }
+            else if (lastFilePath == null)
+            {
+                MessageCheck();
             }
         }
     }

@@ -19,7 +19,7 @@ namespace Vector_Drawing_Application.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -266,6 +266,36 @@ namespace Vector_Drawing_Application.Properties {
         internal static System.Drawing.Bitmap vector_drawing_application_version_18_1 {
             get {
                 object obj = ResourceManager.GetObject("vector_drawing_application_version_18.1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap vector_drawing_application_version_18_2 {
+            get {
+                object obj = ResourceManager.GetObject("vector_drawing_application_version_18.2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap web_icon_40x40 {
+            get {
+                object obj = ResourceManager.GetObject("web_icon_40x40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap web_icon_40x40_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("web_icon_40x40_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

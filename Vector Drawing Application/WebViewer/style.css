@@ -1,0 +1,15 @@
+* {
+    margin : 0;
+    padding : 0;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 1000px
+}
+
+.img-myBitmap {
+    width: 929px;
+    height: 548px;
+    background-image: url(img/myBitmap.png);   
+}

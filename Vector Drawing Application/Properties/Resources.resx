@@ -124,6 +124,9 @@
   <data name="square_icon_44x48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\square_icon_44x48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="web_icon_40x40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\web_icon_40x40.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="eraser_icon_1_48x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\eraser_icon_1_48x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -132,6 +135,12 @@
   </data>
   <data name="ruler_icon_1_40x40" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ruler_icon_1_40x40.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stretch_icon_5_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stretch_icon_5_32x321.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="web_icon_40x40_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\web_icon_40x40_32x32.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="load_icon_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\load_icon_32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -178,7 +187,7 @@
   <data name="line_icon_v2_24x24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\line_icon_v2_24x24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="stretch_icon_5_32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stretch_icon_5_32x321.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="vector_drawing_application_version_18.2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\vector_drawing_application_version_18.2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

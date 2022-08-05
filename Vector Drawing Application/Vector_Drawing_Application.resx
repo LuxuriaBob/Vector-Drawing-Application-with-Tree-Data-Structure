@@ -121,7 +121,7 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CaptureButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="WebViewerButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAABGdBTUEAALGPC/xhBQAAADNQTFRF////
         h4eHeHh4ampqXFxcUVFRVlZWjIyMKioqc3NzREREg4ODZmZmCAgIMDAwNjY2Pz8/EpEYBwAAAWxJREFU
@@ -205,7 +205,7 @@
   <data name="StretchButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAMZJREFUSEvtlEEOwyAMBHlIjv3/z/IGasGmohtjW0DpoR1xIJjdqYTUlGOcx4MW
+        wAAADsABataJCQAAAMZJREFUSEvtlEEOwyAMBHlIjv3/z/IGasGmohtjW0DpoR1xIJjdqYTUlGOcx4MW
         Bh4/IkgpUbssOcTYxLkkLRVql4WBp7HGobx3pztzky/sm8qgBgR8B0BAi/BR714ENcuvN9xekTgX0jcu
         TkCFf8EdKsSTlvefet6Wtm2XQFgrwI4ESxzUs1EgrBJgV2DBpOPesFcgzAuwu1AEww41u10gzAiwa9AF
         A45e6u2I/ghxGsAIWoL6oyJQEHWFrwpwGsAIfliQ8xNtQt4U0a82NQAAAABJRU5ErkJggg==
@@ -432,7 +432,7 @@
   <data name="rotate90DegressToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAgCAYAAABgrToAAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        xAAADsQBlSsOGwAAAMtJREFUWEftjwsKxCAMBXv/S7sU+mAqiY2/tcs68DAk2kyP9HKWCR5HbPV0wVOE
+        wQAADsEBuJFr7QAAAMtJREFUWEftjwsKxCAMBXv/S7sU+mAqiY2/tcs68DAk2kyP9HKWCR5HbPV0wVOE
         YS/CNEFPQv2lgt5yyi0TjC6O8jXBVvHhgh4/IdgiuQWF5Golt6CgWI3kFhS5VFTyvwUpYQlFJKcInosV
         8QpBiimCNfH6YogghfII1sTriy5BingRrHOKs+usggJPEaxzirPrDMHF0QjWFt48JMiFtRGsLbx58RUX
         tUaw9rDumK+4oDeCtYd159bhh0dFWDMv5Pm3FrMFe9mCfaT0Aa3VuDcbuzrzAAAAAElFTkSuQmCC
