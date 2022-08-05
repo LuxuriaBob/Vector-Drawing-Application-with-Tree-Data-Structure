@@ -54,7 +54,7 @@
             this.label2.Size = new System.Drawing.Size(112, 169);
             this.label2.TabIndex = 1;
             this.label2.Text = "Select tools with keys:\r\nS - Select\r\nM - Move\r\nE - Delete\r\nC - Clear\r\nG - Stretch" +
-    "\r\nR - Ruler\r\nF - Color\r\nCtrl + S - Save\r\nCtrl + Z - Undo\r\nF5 - Capture Screen\r\nF" +
+    "\r\nR - Ruler\r\nF - Color\r\nCtrl + S - Save\r\nCtrl + Z - Undo\r\nF5 - View on Web\r\nF" +
     "6 - Encrypt File\r\nF7 - Decrypt File";
             // 
             // label3
