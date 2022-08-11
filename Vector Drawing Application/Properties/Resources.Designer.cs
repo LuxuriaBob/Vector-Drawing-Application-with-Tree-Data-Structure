@@ -163,9 +163,29 @@ namespace Vector_Drawing_Application.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap minus_icon_40x40 {
+            get {
+                object obj = ResourceManager.GetObject("minus_icon_40x40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap move_icon {
             get {
                 object obj = ResourceManager.GetObject("move_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap plus_icon_3_40x40 {
+            get {
+                object obj = ResourceManager.GetObject("plus_icon_3_40x40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -276,6 +296,26 @@ namespace Vector_Drawing_Application.Properties {
         internal static System.Drawing.Bitmap vector_drawing_application_version_18_2 {
             get {
                 object obj = ResourceManager.GetObject("vector_drawing_application_version_18.2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap vector_drawing_application_version_18_3 {
+            get {
+                object obj = ResourceManager.GetObject("vector_drawing_application_version_18.3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap vector_drawing_application_version_181 {
+            get {
+                object obj = ResourceManager.GetObject("vector_drawing_application_version_181", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

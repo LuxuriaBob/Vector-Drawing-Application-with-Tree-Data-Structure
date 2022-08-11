@@ -44,6 +44,7 @@ namespace Vector_Drawing_Application
         GraphLine SelectedLine = null;
         GraphPolygon SelectedPolygon = null;
         GraphCurve SelectedCurve = null;
+
         private void Vector_Drawing_Application_Load(object sender, EventArgs e)
         {
             boolVariablesList.Add(drawRect);
@@ -56,6 +57,10 @@ namespace Vector_Drawing_Application
             boolVariablesList.Add(move);
             boolVariablesList.Add(stretch);
             KeyCreate();
+
+            this.DoubleBuffered = true;
+
+            ZoomPictureBox.Visible = false;
         }
 
         RectMoveInfo RectMoving = null; //move info for selected rect
@@ -207,11 +212,13 @@ namespace Vector_Drawing_Application
                 RefreshCurveSelection(e.Location);
 
                 Refresh();
-                CaptureScreen();
+                SaveBitmap();
             }
         }
+
         float MoveX, MoveY;
         int jindex;
+
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             mouseLabel.Text = e.Location.ToString();
@@ -282,6 +289,7 @@ namespace Vector_Drawing_Application
                 RefreshCurveSelection(e.Location);
             }
         }
+
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             if (drawRect.Value == true)
@@ -290,7 +298,7 @@ namespace Vector_Drawing_Application
                 drawRect.Value = false;
                 CreateRectangle(startlocation, endlocation);
                 Refresh();
-                CaptureScreen();
+                SaveBitmap();
             }
             else if (drawSquare.Value == true)
             {
@@ -298,7 +306,7 @@ namespace Vector_Drawing_Application
                 drawSquare.Value = false;
                 CreateSquare(startlocation, endlocation);
                 Refresh();
-                CaptureScreen();
+                SaveBitmap();
             }
             else if (drawCircle.Value == true)
             {
@@ -306,7 +314,7 @@ namespace Vector_Drawing_Application
                 drawCircle.Value = false;
                 CreateCircle(startlocation, endlocation);
                 Refresh();
-                CaptureScreen();
+                SaveBitmap();
             }
             else if (drawLine.Value == true)
             {
@@ -314,7 +322,7 @@ namespace Vector_Drawing_Application
                 drawLine.Value = false;
                 CreateLine(startlocation, endlocation);
                 Refresh();
-                CaptureScreen();
+                SaveBitmap();
             }
             else if (move.Value == true)
             {
@@ -354,7 +362,7 @@ namespace Vector_Drawing_Application
                 RefreshLineSelection(e.Location);
                 RefreshPolygonSelection(e.Location);
                 RefreshCurveSelection(e.Location);
-                CaptureScreen();
+                SaveBitmap();
             }
         }
 
@@ -362,6 +370,7 @@ namespace Vector_Drawing_Application
         public List<PointF> polygonPoints = new List<PointF>();
         public List<GraphCurve> Curves = new List<GraphCurve>();   // main Curves list
         public List<PointF> curvePoints = new List<PointF>();
+
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             if (drawPolygon.Value == true)
@@ -399,7 +408,7 @@ namespace Vector_Drawing_Application
                             drawPolygon.Value = false;
                             polygonPoints.Clear();
                             Refresh();
-                            CaptureScreen();
+                            SaveBitmap();
                         }
                         break;
                 }
@@ -433,7 +442,7 @@ namespace Vector_Drawing_Application
                             drawCurve.Value = false;
                             curvePoints.Clear();
                             Refresh();
-                            CaptureScreen();
+                            SaveBitmap();
                         }
                         break;
                 }
@@ -652,9 +661,10 @@ namespace Vector_Drawing_Application
                         break;
                 }
                 Refresh();
-                CaptureScreen();
+                SaveBitmap();
             }
         }
+
         private void DrawLine(PointF p1, PointF p2)
         {
             using (Graphics G = this.CreateGraphics())
@@ -670,6 +680,7 @@ namespace Vector_Drawing_Application
             }
         }
         ColorDialog colorPicker = new ColorDialog();
+
         private void ColorPickerButton_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Arrow;
@@ -700,9 +711,11 @@ namespace Vector_Drawing_Application
                 SelectedCircle.SetColour(colorPicker.Color);
             }
             Refresh();
-            CaptureScreen();
+            SaveBitmap();
         }
+
         public List<GraphRect> Rects = new List<GraphRect>();   // main Rects list
+
         private void CreateRectangle(Point startlocation, Point endlocation)
         {
             //determines x coordinate of top left corner by determining which is smaller
@@ -727,7 +740,9 @@ namespace Vector_Drawing_Application
                 Rects.Add(rectangle);   //adds to Rects list
             }
         }
+
         public List<GraphSquare> Squares = new List<GraphSquare>();   // main Squares list
+
         private void CreateSquare(Point startlocation, Point endlocation)
         {
             //determines x coordinate of top left corner by determining which is smaller
@@ -751,7 +766,9 @@ namespace Vector_Drawing_Application
                 Squares.Add(square);   //adds to Rects list
             }
         }
+
         public List<GraphCircle> Circles = new List<GraphCircle>();   // main Circles list
+
         private void CreateCircle(Point startlocation, Point endlocation)
         {
             int CenterX = startlocation.X;
@@ -775,7 +792,9 @@ namespace Vector_Drawing_Application
                 Circles.Add(circle);   //adds to Circles list
             }
         }
+
         public List<GraphLine> Lines = new List<GraphLine>();   // main Lines list
+
         private void CreateLine(Point startlocation, Point endlocation)
         {
             int StartPositionX = startlocation.X;
@@ -787,6 +806,7 @@ namespace Vector_Drawing_Application
                 EndPositionY, Convert.ToInt32(numericUpDown1.Value), colorPicker.Color);
             Lines.Add(line);   //adds to Lines list
         }
+
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.InterpolationMode = InterpolationMode.High; //determines how intermediate values between two endpoints are calculated.
@@ -966,15 +986,7 @@ namespace Vector_Drawing_Application
                 }
             }
         }
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            base.OnPaintBackground(e);
-            if (myimage != null)
-            {
-                var rc = new Rectangle(0, 73, myimage.Width, myimage.Height);
-                e.Graphics.DrawImage(myimage, rc);
-            }
-        }
+
         private GraphRect RectangleHitTest(List<GraphRect> rects, Point p)
         {
             var size = 10;
@@ -993,6 +1005,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphSquare SquareHitTest(List<GraphSquare> squares, Point p)
         {
             var size = 10;
@@ -1011,6 +1024,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphCircle CircleHitTest(List<GraphCircle> circles, Point p)
         {
             var size = 10;
@@ -1030,6 +1044,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphLine LineHitTest(List<GraphLine> lines, Point p)
         {
             var size = 10;
@@ -1049,6 +1064,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphPolygon PolygonHitTest(List<GraphPolygon> polygons, Point p)
         {
             var size = 10;
@@ -1074,6 +1090,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphCurve CurveHitTest(List<GraphCurve> curves, Point p)
         {
             var size = 10;
@@ -1101,6 +1118,7 @@ namespace Vector_Drawing_Application
             return null;
         }
         GraphRect LastSelectedRect = null;
+
         private void RefreshRectSelection(Point point)
         {
             if (select.Value == true)
@@ -1118,6 +1136,7 @@ namespace Vector_Drawing_Application
             this.Invalidate();
         }
         GraphSquare LastSelectedSquare = null;
+
         private void RefreshSquareSelection(Point point)
         {
             if (select.Value == true)
@@ -1135,6 +1154,7 @@ namespace Vector_Drawing_Application
             this.Invalidate();
         }
         GraphCircle LastSelectedCircle = null;
+
         private void RefreshCircleSelection(Point point)
         {
             if (select.Value == true)
@@ -1152,6 +1172,7 @@ namespace Vector_Drawing_Application
             this.Invalidate();
         }
         GraphLine LastSelectedLine = null;
+
         private void RefreshLineSelection(Point point)
         {
             if (select.Value == true)
@@ -1169,6 +1190,7 @@ namespace Vector_Drawing_Application
             this.Invalidate();
         }
         GraphPolygon LastSelectedPolygon = null;
+
         private void RefreshPolygonSelection(Point point)
         {
             if (select.Value == true)
@@ -1186,6 +1208,7 @@ namespace Vector_Drawing_Application
             this.Invalidate();
         }
         GraphCurve LastSelectedCurve = null;
+
         private void RefreshCurveSelection(Point point)
         {
             if (select.Value == true)
@@ -1203,17 +1226,21 @@ namespace Vector_Drawing_Application
             this.Invalidate();
         }
         string lastButton = null;   //stores last pressed button
+
         private void MakeAllFalse(params BoolWrapper[] listBools)
         {
             for (int i = 0; i < listBools.Length; i++)
             {
                 listBools[i].Value = false;
             }
+            ZoomPicturePanel.Visible = false;
         }
+
         private void MakeTrue(params BoolWrapper[] listBools)
         {
             listBools[0].Value = true;
         }
+
         private void MakeSelectionNull()
         {
             this.SelectedRect = null;
@@ -1223,6 +1250,7 @@ namespace Vector_Drawing_Application
             this.SelectedPolygon = null;
             this.SelectedCurve = null;
         }
+
         private void MakeMovingNull()
         {
             this.RectMoving = null;
@@ -1232,6 +1260,7 @@ namespace Vector_Drawing_Application
             this.PolygonMoving = null;
             this.CurveMoving = null;
         }
+
         private void MakeListsEmpty()
         {
             this.Rects.Clear();
@@ -1241,6 +1270,7 @@ namespace Vector_Drawing_Application
             this.Polygons.Clear();
             this.Curves.Clear();
         }
+
         private void RectButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawRect";
@@ -1249,6 +1279,7 @@ namespace Vector_Drawing_Application
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(drawRect);
         }
+
         private void SquareButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawSquare";
@@ -1257,6 +1288,7 @@ namespace Vector_Drawing_Application
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(drawSquare);
         }
+
         private void CircleButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawCircle";
@@ -1265,6 +1297,7 @@ namespace Vector_Drawing_Application
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(drawCircle);
         }
+
         private void LineButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawLine";
@@ -1273,6 +1306,7 @@ namespace Vector_Drawing_Application
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(drawLine);
         }
+
         private void PolygonButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawPolygon";
@@ -1281,6 +1315,7 @@ namespace Vector_Drawing_Application
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(drawPolygon);
         }
+
         private void CurveButton_Click(object sender, EventArgs e)
         {
             lastButton = "drawCurve";
@@ -1289,6 +1324,7 @@ namespace Vector_Drawing_Application
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(drawCurve);
         }
+
         private void SelectButton_Click(object sender, EventArgs e)
         {
             lastButton = "select";
@@ -1297,6 +1333,7 @@ namespace Vector_Drawing_Application
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(select);
         }
+
         private void MoveButton_Click(object sender, EventArgs e)
         {
             lastButton = "move";
@@ -1306,6 +1343,7 @@ namespace Vector_Drawing_Application
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(move);
         }
+
         private void StretchButton_Click(object sender, EventArgs e)
         {
             lastButton = "stretch";
@@ -1314,6 +1352,7 @@ namespace Vector_Drawing_Application
             MakeAllFalse(boolVariablesList.ToArray());
             MakeTrue(stretch);
         }
+
         private void RulerButton_Click(object sender, EventArgs e)
         {
             rulerLabel.Text = "Ruler";
@@ -1342,8 +1381,9 @@ namespace Vector_Drawing_Application
                 rulerLabel.Text += "\nPolygon's length is " + SelectedPolygon.GetLength().ToString("0.00") + "u" + "\n" +
                     "Polygon's area is " + SelectedPolygon.GetArea().ToString("0.00") + "u²";
             }
-            CaptureScreen();
+            SaveBitmap();
         }
+
         private void Rotate90DegressToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lastButton = "rotateRight";
@@ -1356,8 +1396,9 @@ namespace Vector_Drawing_Application
                 SelectedRect.RotateClockWise();
             }
             Refresh();
-            CaptureScreen();
+            SaveBitmap();
         }
+
         private void RotateHorizontallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lastButton = "rotateHorizontally";
@@ -1380,8 +1421,9 @@ namespace Vector_Drawing_Application
                 }
             }
             Refresh();
-            CaptureScreen();
+            SaveBitmap();
         }
+
         private void RotateVerticallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lastButton = "rotateVertically";
@@ -1404,8 +1446,9 @@ namespace Vector_Drawing_Application
                 }
             }
             Refresh();
-            CaptureScreen();
+            SaveBitmap();
         }
+
         #region Test
 
         public List<GraphRect> tempRects = new List<GraphRect>();   //temporary rects list for undo-draw method
@@ -1416,6 +1459,7 @@ namespace Vector_Drawing_Application
         public List<GraphCurve> tempCurves = new List<GraphCurve>();  //temporary Curves list for undo-draw method
 
         #endregion
+
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             lastButton = "delete";
@@ -1479,8 +1523,9 @@ namespace Vector_Drawing_Application
                 }
             }
             Refresh();
-            CaptureScreen();
+            SaveBitmap();
         }
+
         private void ClearButton_Click(object sender, EventArgs e)
         {
             lastButton = "clear";
@@ -1492,7 +1537,7 @@ namespace Vector_Drawing_Application
             MakeListsEmpty();
             this.Capture = false;
             Refresh();
-            CaptureScreen();
+            SaveBitmap();
         }
 
         Graphics K = null;
@@ -1510,7 +1555,7 @@ namespace Vector_Drawing_Application
                         Rects.RemoveAt(Rects.Count - 1);    //removes last drawn rect in Rects list
                     }
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "drawSquare":
                     if (Squares.Count > 0)
@@ -1518,7 +1563,7 @@ namespace Vector_Drawing_Application
                         Squares.RemoveAt(Squares.Count - 1);    //removes last drawn square in Squares list
                     }
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "drawCircle":
                     if (Circles.Count > 0)
@@ -1526,7 +1571,7 @@ namespace Vector_Drawing_Application
                         Circles.RemoveAt(Circles.Count - 1);    //removes last drawn circle in Circles list
                     }
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "drawLine":
                     if (Lines.Count > 0)
@@ -1534,7 +1579,7 @@ namespace Vector_Drawing_Application
                         Lines.RemoveAt(Lines.Count - 1);    //removes last drawn line in Lines list
                     }
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "drawPolygon":
                     if (Polygons.Count > 0)
@@ -1542,7 +1587,7 @@ namespace Vector_Drawing_Application
                         Polygons.RemoveAt(Polygons.Count - 1);    //removes last drawn polygon in Polygons list
                     }
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "drawCurve":
                     if (Curves.Count > 0)
@@ -1550,7 +1595,7 @@ namespace Vector_Drawing_Application
                         Curves.RemoveAt(Curves.Count - 1);    //removes last drawn Curve in Curves list
                     }
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "select":
                     using (K = this.CreateGraphics())
@@ -1604,7 +1649,7 @@ namespace Vector_Drawing_Application
                             RectSecondMoving.StartRectPoint.Y - secondRectE.Y);
                         RectSecondMoving = null;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (SquareSecondMoving != null)
                     {
@@ -1616,7 +1661,7 @@ namespace Vector_Drawing_Application
                             SquareSecondMoving.StartSquarePoint.Y - secondSquareE.Y);
                         SquareSecondMoving = null;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (CircleSecondMoving != null)
                     {
@@ -1628,7 +1673,7 @@ namespace Vector_Drawing_Application
                             CircleSecondMoving.StartCirclePoint.Y - secondCircleE.Y);
                         CircleSecondMoving = null;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (LineSecondMoving != null)
                     {
@@ -1646,7 +1691,7 @@ namespace Vector_Drawing_Application
                             LineSecondMoving.EndLinePoint.Y - secondLineE.Y);
                         LineSecondMoving = null;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (PolygonSecondMoving != null)
                     {
@@ -1657,7 +1702,7 @@ namespace Vector_Drawing_Application
                         cornerlocation = SecondCornerLocation;
                         PolygonSecondMoving = null;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (CurveSecondMoving != null)
                     {
@@ -1668,7 +1713,7 @@ namespace Vector_Drawing_Application
                         cornerlocation = SecondCornerLocation;
                         CurveSecondMoving = null;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     break;
                 case "stretch":
@@ -1677,41 +1722,41 @@ namespace Vector_Drawing_Application
                         SelectedLine.Stretch(SecondCornerLocation, cornerlocation);
                         cornerlocation = SecondCornerLocation;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (SelectedPolygon != null)
                     {
                         SelectedPolygon.Stretch(SecondCornerLocation, jindex);
                         cornerlocation = SecondCornerLocation;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (SelectedCurve != null)
                     {
                         SelectedCurve.Stretch(SecondCornerLocation, jindex);
                         cornerlocation = SecondCornerLocation;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (SelectedRect != null)
                     {
                         SelectedRect.Stretch(cornerlocation, SecondCornerLocation);
                         cornerlocation = SecondCornerLocation;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (SelectedSquare != null)
                     {
                         SelectedSquare.Stretch(cornerlocation, SecondCornerLocation);
                         cornerlocation = SecondCornerLocation;
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     else if (SelectedCircle != null)
                     {
                         SelectedCircle.Stretch(SecondCornerLocation);
                         Refresh();
-                        CaptureScreen();
+                        SaveBitmap();
                     }
                     break;
                 case "rotateRight":
@@ -1724,7 +1769,7 @@ namespace Vector_Drawing_Application
                         LastSelectedLine.RotateClockWise(90);
                     }
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "rotateHorizontally":
                     if (LastSelectedLine != null)
@@ -1740,7 +1785,7 @@ namespace Vector_Drawing_Application
                         LastSelectedCurve.HorizontalSymmetry(cornerlocation);
                     }
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "rotateVertically":
                     if (LastSelectedLine != null)
@@ -1756,7 +1801,7 @@ namespace Vector_Drawing_Application
                         LastSelectedCurve.VerticalSymmetry(cornerlocation);
                     }
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "delete":
                     Rects = tempRects.ToList(); //sends all tempRects elements to Rects list
@@ -1766,7 +1811,7 @@ namespace Vector_Drawing_Application
                     Polygons = tempPolygons.ToList();//sends all tempPolygons elements to Polygons list
                     Curves = tempCurves.ToList();//sends all tempCurves elements to Curves list
                     Refresh();
-                    CaptureScreen();
+                    SaveBitmap();
                     break;
                 case "clear":
                     Console.WriteLine("unexpected error - undo-clear"); // undo-clear method is not implemented
@@ -1776,12 +1821,14 @@ namespace Vector_Drawing_Application
                     break;
             }
         }
+
         private void Help_Button_Click(object sender, EventArgs e)
         {
             rulerLabel.Text = "Help";
             Help helpForm = new Help();
             helpForm.Show();
         }
+
         private void Form1_KeyUp(object sender, KeyEventArgs e) //using keys are easier than pressing buttons
         {
             if (e.KeyValue == 49)   // 1 in keyboard
@@ -1822,7 +1869,12 @@ namespace Vector_Drawing_Application
                 EncryptionButton.PerformClick();
             if (e.KeyCode == Keys.F7)
                 DecryptionButton.PerformClick();
+            if (e.Control && e.KeyValue == 109)
+                ZoomOutButton.PerformClick();
+            if (e.Control && e.KeyValue == 107)
+                ZoomInButton.PerformClick();
         }
+
         private void WriteToText()
         {
             SaveFileDialog save = new SaveFileDialog
@@ -1920,12 +1972,14 @@ namespace Vector_Drawing_Application
                 writer.Close();
             }
         }
+
         private void SaveButton_Click(object sender, EventArgs e)
         {
             rulerLabel.Text = "Save";
             this.Cursor = Cursors.Arrow;
             WriteToText();
         }
+
         private GraphRect GetRectParent(int p)
         {
             for (int i = 0; i < Rects.Count; i++)
@@ -1935,6 +1989,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphSquare GetSquareParent(int p)
         {
             for (int i = 0; i < Squares.Count; i++)
@@ -1944,6 +1999,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphCircle GetCircleParent(int p)
         {
             for (int i = 0; i < Circles.Count; i++)
@@ -1953,6 +2009,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphLine GetLineParent(int p)
         {
             for (int i = 0; i < Lines.Count; i++)
@@ -1962,6 +2019,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphPolygon GetPolygonParent(int p)
         {
             for (int i = 0; i < Polygons.Count; i++)
@@ -1971,6 +2029,7 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         private GraphCurve GetCurveParent(int p)
         {
             for (int i = 0; i < Curves.Count; i++)
@@ -1980,8 +2039,10 @@ namespace Vector_Drawing_Application
             }
             return null;
         }
+
         string lastFilePath;
         int k, l, m, n, o;
+
         private void ReadFromText()
         {
             OpenFileDialog file = new OpenFileDialog
@@ -2175,13 +2236,14 @@ namespace Vector_Drawing_Application
                 }
             }
         }
+
         private void LoadButton_Click(object sender, EventArgs e)
         {
             rulerLabel.Text = "Load";
             this.Cursor = Cursors.Arrow;
             ReadFromText();
             Refresh();
-            CaptureScreen();
+            SaveBitmap();
         }
 
         private string key;
@@ -2193,6 +2255,7 @@ namespace Vector_Drawing_Application
         private string key6 = "2ea2";
         private string key7 = "315a";
         private string key8 = "1917";
+
         public void KeyCreate()
         {
             char[] charArray2 = key2.ToCharArray();
@@ -2209,6 +2272,7 @@ namespace Vector_Drawing_Application
             key8 = new string(charArray8);
             key = key4 + key3 + key2 + key1 + key8 + key7 + key6 + key5;
         }
+
         public static string EncryptString(string key, string plainText)
         {
             byte[] iv = new byte[16];
@@ -2235,6 +2299,7 @@ namespace Vector_Drawing_Application
             }
             return Convert.ToBase64String(array);
         }
+
         public static string DecryptString(string key, string cipherText)
         {
             byte[] iv = new byte[16];
@@ -2258,6 +2323,7 @@ namespace Vector_Drawing_Application
                 }
             }
         }
+
         private void EncryptionButton_Click(object sender, EventArgs e)
         {
             var save = new SaveFileDialog
@@ -2290,6 +2356,7 @@ namespace Vector_Drawing_Application
                 File.WriteAllLines(save.FileName, lines);
             }
         }
+
         private void DecryptionButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog save = new SaveFileDialog
@@ -2321,6 +2388,7 @@ namespace Vector_Drawing_Application
                 File.WriteAllLines(save.FileName, lines);
             }
         }
+
         Image myimage;
         private void LoadBackgroundImage()
         {
@@ -2338,113 +2406,143 @@ namespace Vector_Drawing_Application
                 myimage = new Bitmap(@path);
             }
         }
-        private void CaptureScreen()
+
+        public static Bitmap TakeScreenshot(Form window)
         {
-            int cropFromY = 0;
-            int cropToY = 104;
+            var b = new Bitmap(window.Width, window.Height);
+            window.DrawToBitmap(b, new Rectangle(0, 0, window.Width, window.Height));
 
-            using (Bitmap bmp = new Bitmap(this.Width, this.Height))
+            Point p = window.PointToScreen(Point.Empty);
+            Point x = new Point(0, 96);
+
+            Bitmap target = new Bitmap(window.ClientSize.Width, window.ClientSize.Height);
+            using (Graphics g = Graphics.FromImage(target))
             {
-                this.DrawToBitmap(bmp, new Rectangle(Point.Empty, bmp.Size));
-                Bitmap bit = bmp;
-                RemovePerimeter(ref bit, cropToY, cropFromY);
-                SaveBMP(ref bit, cropToY, cropFromY);                
+                g.DrawImage(b, 0, 0, new Rectangle(x.X - window.Location.X, x.Y - window.Location.Y,
+                    target.Width, target.Height), GraphicsUnit.Pixel);
             }
+            b.Dispose();
+            return target;
         }
-        private static void RemovePerimeter(ref Bitmap bp, int cropToY, int cropFromY)
+
+        private static Bitmap RemovePanels(Bitmap bp)
         {
-            for (int i = 8; i < bp.Width - 8; i++)
+            //text panel
+            for (int i = 0; i < 274; i++)
             {
-                for (int j = 1; j < 104; j++)
-                {
-                    Color c = bp.GetPixel(i, j);
-                    bp.SetPixel(i, j, Color.FromArgb(255, 255, 255));
-                }
-
-                for (int j = bp.Height-8; j < bp.Height; j++)
+                for (int j = bp.Height - 155; j < bp.Height - 73; j++)
                 {
                     Color c = bp.GetPixel(i, j);
                     bp.SetPixel(i, j, Color.FromArgb(255, 255, 255));
                 }
             }
-            for (int i = 0; i < 8; i++)
+            //zoom panel
+            for (int i = bp.Width - 84; i < bp.Width; i++)
             {
-                for (int j = 1; j < bp.Height; j++)
+                for (int j = bp.Height - 120; j < bp.Height - 73; j++)
                 {
                     Color c = bp.GetPixel(i, j);
                     bp.SetPixel(i, j, Color.FromArgb(255, 255, 255));
                 }
             }
-            for (int i = bp.Width-8; i < bp.Width; i++)
-            {
-                for (int j = 1; j < bp.Height; j++)
-                {
-                    Color c = bp.GetPixel(i, j);
-                    bp.SetPixel(i, j, Color.FromArgb(255, 255, 255));
-                }
-            }
+            return bp;
         }
-        private static void SaveBMP(ref Bitmap bp, int cropToY, int cropFromY)
+
+        string filePath = Path.GetFullPath(@"..\..\");
+        string bmpPath = "\\WebViewer\\img\\myBitmap.png";
+        
+        private void SaveBitmap()
         {
-            Bitmap destination = new Bitmap(bp.Width, bp.Height - (cropToY - cropFromY), PixelFormat.Format32bppArgb);
-
-            using (Graphics gSource = Graphics.FromImage(bp))
-            {
-                using (Graphics gDestination = Graphics.FromImage(destination))
-                {
-                    gDestination.CompositingMode = CompositingMode.SourceCopy;
-                    gDestination.DrawImageUnscaled(bp, 0, 0);
-
-                    gSource.CompositingMode = CompositingMode.SourceCopy;
-                    gSource.FillRectangle(Brushes.Transparent, new Rectangle(0, 0, bp.Width, cropToY));
-
-                    gDestination.CompositingMode = CompositingMode.SourceOver;
-                    gDestination.DrawImageUnscaled(bp, 0, -(cropToY - cropFromY));
-
-                    string filePath = Path.GetFullPath(@"..\..\");
-                    string bmpPath = "\\WebViewer\\img";
-                    destination.Save($@"{filePath + bmpPath}\\myBitmap.png", ImageFormat.Png);
-                }
-            }
+            Bitmap bit = TakeScreenshot(this);
+            Bitmap bp = RemovePanels(bit);
+            string fullPath = filePath + bmpPath;
+            bp.Save($@"{fullPath}", ImageFormat.Png);
         }
+
         private void WebViewerButton_Click(object sender, EventArgs e)
         {
             rulerLabel.Text = "Screen Captured";
             this.Cursor = Cursors.Arrow;
-            CaptureScreen();
+            SaveBitmap();
             Process.Start("http://localhost:5500/");
         }
+
+        Image ZoomPictureOut(Image img, float value)
+        {
+            Bitmap bm = new Bitmap(img, Convert.ToInt32(img.Width / value),
+                Convert.ToInt32(img.Height / value));
+            Graphics gpu = Graphics.FromImage(bm);
+            gpu.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            return bm;
+        }
+        Image ZoomPictureIn(Image img, float value)
+        {
+            Bitmap bm = new Bitmap(img, Convert.ToInt32(img.Width * value),
+                Convert.ToInt32(img.Height * value));
+            Graphics gpu = Graphics.FromImage(bm);
+            gpu.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            return bm;
+        }
+
+        PictureBox org;
+
+        /*
+        private string ZoomButtonLabel()
+        {
+
+        }
+        */
+
+        private void ZoomOutButton_Click(object sender, EventArgs e)
+        {
+            string fullPath = filePath + bmpPath;
+            org = new PictureBox();
+            org.Load(@fullPath);
+            ZoomPictureBox.Load(@fullPath);
+            Console.WriteLine("zoom out");
+        }
+
+        private void ZoomInButton_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("zoom in");
+        }
+
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Vector_Drawing_Application Vector_Drawing_Form2 = new Vector_Drawing_Application();
             Vector_Drawing_Form2.Show();
             this.Hide();
         }
+
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             rulerLabel.Text = "Save";
             this.Cursor = Cursors.Arrow;
             WriteToText();
         }
+
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Arrow;
             ReadFromText();
             Refresh();
-            CaptureScreen();
+            SaveBitmap();
         }
+
         private void LoadBackgroundImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             rulerLabel.Text = "Load Background";
             this.Cursor = Cursors.Arrow;
             LoadBackgroundImage();
             Refresh();
-            CaptureScreen();
+            SaveBitmap();
         }
+
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Vector_Drawing_Application.ActiveForm.Close();
         }
+
         private void CheckSave(int shapeCount)
         {
             Console.WriteLine("checksave");
@@ -2453,19 +2551,21 @@ namespace Vector_Drawing_Application
                 MessageCheck();
             }
         }
+
         private void MessageCheck()
         {
-            Console.WriteLine("messagecheck");
             if (MessageBox.Show("Do you want to save your changes?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 SaveButton.PerformClick();
             }
         }
+
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Help helpForm = new Help();
             helpForm.Show();
         }
+
         private void Vector_Drawing_Application_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (lastFilePath != null)

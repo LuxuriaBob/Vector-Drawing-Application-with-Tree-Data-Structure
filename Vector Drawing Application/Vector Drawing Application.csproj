@@ -39,7 +39,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>vector_drawing_application_icon.ico</ApplicationIcon>
+    <ApplicationIcon>vector_drawing_application_icon2.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -155,7 +155,11 @@
     <None Include="Resources\web_icon_40x40.jpg" />
     <None Include="Resources\web_icon_40x40_32x32.jpg" />
     <None Include="Resources\vector_drawing_application_version_18.2.jpg" />
+    <None Include="Resources\minus_icon_40x40.png" />
+    <None Include="Resources\plus_icon_3_40x40.jpg" />
+    <None Include="Resources\vector_drawing_application_version_18.3.jpg" />
     <Content Include="vector_drawing_application_icon.ico" />
+    <Content Include="vector_drawing_application_icon2.ico" />
     <Content Include="WebViewer\img\myBitmap.png" />
     <Content Include="WebViewer\index.html" />
     <Content Include="WebViewer\script.js" />

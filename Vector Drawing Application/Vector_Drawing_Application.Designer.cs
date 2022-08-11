@@ -43,6 +43,11 @@
             this.mouseLabel = new System.Windows.Forms.Label();
             this.rulerLabel = new System.Windows.Forms.Label();
             this.TextPanel = new System.Windows.Forms.Panel();
+            this.ZoomPicturePanel = new System.Windows.Forms.Panel();
+            this.ZoomPanel = new System.Windows.Forms.Panel();
+            this.ZoomLabel = new System.Windows.Forms.Label();
+            this.ZoomInButton = new System.Windows.Forms.Button();
+            this.ZoomOutButton = new System.Windows.Forms.Button();
             this.WebViewerButton = new System.Windows.Forms.Button();
             this.DecryptionButton = new System.Windows.Forms.Button();
             this.CurveButton = new System.Windows.Forms.Button();
@@ -70,10 +75,14 @@
             this.rotate90DegressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateHorizontallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ZoomPictureBox = new System.Windows.Forms.PictureBox();
             this.toolPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.TextPanel.SuspendLayout();
+            this.ZoomPicturePanel.SuspendLayout();
+            this.ZoomPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ZoomPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // FillColorCheckBox
@@ -90,6 +99,8 @@
             // 
             this.toolPanel.AutoSize = true;
             this.toolPanel.BackColor = System.Drawing.Color.DarkOrange;
+            this.toolPanel.Controls.Add(this.ZoomInButton);
+            this.toolPanel.Controls.Add(this.ZoomOutButton);
             this.toolPanel.Controls.Add(this.WebViewerButton);
             this.toolPanel.Controls.Add(this.DecryptionButton);
             this.toolPanel.Controls.Add(this.CurveButton);
@@ -115,7 +126,7 @@
             this.toolPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.toolPanel.Location = new System.Drawing.Point(0, 24);
             this.toolPanel.Name = "toolPanel";
-            this.toolPanel.Size = new System.Drawing.Size(969, 49);
+            this.toolPanel.Size = new System.Drawing.Size(1135, 49);
             this.toolPanel.TabIndex = 10;
             // 
             // numericUpDown1
@@ -145,7 +156,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.menuStrip1.Size = new System.Drawing.Size(969, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1135, 24);
             this.menuStrip1.TabIndex = 11;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -221,6 +232,61 @@
             this.TextPanel.Name = "TextPanel";
             this.TextPanel.Size = new System.Drawing.Size(265, 77);
             this.TextPanel.TabIndex = 14;
+            // 
+            // ZoomPicturePanel
+            // 
+            this.ZoomPicturePanel.AutoScroll = true;
+            this.ZoomPicturePanel.Controls.Add(this.ZoomPictureBox);
+            this.ZoomPicturePanel.Location = new System.Drawing.Point(1, 76);
+            this.ZoomPicturePanel.Name = "ZoomPicturePanel";
+            this.ZoomPicturePanel.Size = new System.Drawing.Size(1840, 974);
+            this.ZoomPicturePanel.TabIndex = 16;
+            // 
+            // ZoomPanel
+            // 
+            this.ZoomPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ZoomPanel.AutoSize = true;
+            this.ZoomPanel.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.ZoomPanel.Controls.Add(this.ZoomLabel);
+            this.ZoomPanel.Location = new System.Drawing.Point(1061, 479);
+            this.ZoomPanel.Name = "ZoomPanel";
+            this.ZoomPanel.Size = new System.Drawing.Size(74, 40);
+            this.ZoomPanel.TabIndex = 16;
+            // 
+            // ZoomLabel
+            // 
+            this.ZoomLabel.AutoSize = true;
+            this.ZoomLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.ZoomLabel.Location = new System.Drawing.Point(5, 3);
+            this.ZoomLabel.Name = "ZoomLabel";
+            this.ZoomLabel.Padding = new System.Windows.Forms.Padding(5, 0, 0, 5);
+            this.ZoomLabel.Size = new System.Drawing.Size(66, 27);
+            this.ZoomLabel.TabIndex = 13;
+            this.ZoomLabel.Text = "100% ";
+            // 
+            // ZoomInButton
+            // 
+            this.ZoomInButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ZoomInButton.BackgroundImage")));
+            this.ZoomInButton.Image = global::Vector_Drawing_Application.Properties.Resources.plus_icon_3_40x40;
+            this.ZoomInButton.Location = new System.Drawing.Point(1008, 1);
+            this.ZoomInButton.Name = "ZoomInButton";
+            this.ZoomInButton.Size = new System.Drawing.Size(45, 45);
+            this.ZoomInButton.TabIndex = 29;
+            this.toolTip1.SetToolTip(this.ZoomInButton, "Zoom In");
+            this.ZoomInButton.UseVisualStyleBackColor = true;
+            this.ZoomInButton.Click += new System.EventHandler(this.ZoomInButton_Click);
+            // 
+            // ZoomOutButton
+            // 
+            this.ZoomOutButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ZoomOutButton.BackgroundImage")));
+            this.ZoomOutButton.Image = global::Vector_Drawing_Application.Properties.Resources.minus_icon_40x40;
+            this.ZoomOutButton.Location = new System.Drawing.Point(964, 1);
+            this.ZoomOutButton.Name = "ZoomOutButton";
+            this.ZoomOutButton.Size = new System.Drawing.Size(45, 45);
+            this.ZoomOutButton.TabIndex = 28;
+            this.toolTip1.SetToolTip(this.ZoomOutButton, "Zoom Out");
+            this.ZoomOutButton.UseVisualStyleBackColor = true;
+            this.ZoomOutButton.Click += new System.EventHandler(this.ZoomOutButton_Click);
             // 
             // WebViewerButton
             // 
@@ -539,21 +605,33 @@
             this.rotateVerticallyToolStripMenuItem.Text = "Rotate Vertically";
             this.rotateVerticallyToolStripMenuItem.Click += new System.EventHandler(this.RotateVerticallyToolStripMenuItem_Click);
             // 
+            // ZoomPictureBox
+            // 
+            this.ZoomPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("ZoomPictureBox.Image")));
+            this.ZoomPictureBox.Location = new System.Drawing.Point(22, 18);
+            this.ZoomPictureBox.Name = "ZoomPictureBox";
+            this.ZoomPictureBox.Size = new System.Drawing.Size(1858, 992);
+            this.ZoomPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.ZoomPictureBox.TabIndex = 15;
+            this.ZoomPictureBox.TabStop = false;
+            // 
             // Vector_Drawing_Application
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(969, 520);
+            this.ClientSize = new System.Drawing.Size(1135, 520);
+            this.Controls.Add(this.ZoomPanel);
             this.Controls.Add(this.TextPanel);
             this.Controls.Add(this.toolPanel);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.ZoomPicturePanel);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(0, 45);
-            this.MinimumSize = new System.Drawing.Size(851, 212);
+            this.MinimumSize = new System.Drawing.Size(1025, 212);
             this.Name = "Vector_Drawing_Application";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -575,6 +653,11 @@
             this.menuStrip1.PerformLayout();
             this.TextPanel.ResumeLayout(false);
             this.TextPanel.PerformLayout();
+            this.ZoomPicturePanel.ResumeLayout(false);
+            this.ZoomPicturePanel.PerformLayout();
+            this.ZoomPanel.ResumeLayout(false);
+            this.ZoomPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ZoomPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -621,5 +704,11 @@
         private System.Windows.Forms.Button DecryptionButton;
         private System.Windows.Forms.Button EncryptionButton;
         private System.Windows.Forms.Button WebViewerButton;
+        private System.Windows.Forms.PictureBox ZoomPictureBox;
+        private System.Windows.Forms.Panel ZoomPicturePanel;
+        private System.Windows.Forms.Panel ZoomPanel;
+        private System.Windows.Forms.Label ZoomLabel;
+        private System.Windows.Forms.Button ZoomInButton;
+        private System.Windows.Forms.Button ZoomOutButton;
     }
 }
